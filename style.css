@@ -1,0 +1,116 @@
+html, body 
+{
+	margin:		0px;
+	padding:	0px;
+	font:		100% georgia, sans-serif;
+	color:		#555753;
+}
+
+#container
+{
+	margin:		0px 50px;
+	background:	url("patt_03.jpg");
+	height:		100%;
+	padding:	0px 30px;
+	border:		1px solid #adadae;
+}
+
+#head
+{
+	background:	white;
+	height:		100px;
+}
+
+/*------------------Горизонтальное меню-------------------*/
+.gmenu
+{
+	width:		100%;
+	background:	white;
+	text-align:	center;
+	overflow:	hidden;
+	position:	relative;
+}
+
+.gmenucont
+{
+	float: 		left;
+	left:		50%;
+	position:	relative;
+	text-align:	center;
+}
+
+.wrpr
+{
+	position:	relative;
+	left:		-50%;
+	float:		left;
+	list-style:	none;
+	margin:		0px; 
+	padding:	0px;
+}
+
+.gmenu li
+{
+	float:		  left;
+	background:	  black;
+	opacity:	  .5;
+	filter:		  alpha(opacity=50);
+	margin:		  0px 2px;
+}
+
+.gmenu li a
+{
+	
+	color:		  white;
+	text-decoration:  none;
+	padding:	  0px 10px;
+}
+
+/*--------------------------------------------------------*/
+#separator
+{
+	margin:		0px;
+	padding:	0px;
+	height:		5px;
+	width:		100%;
+	background:	#adadae;
+	position:	relative;
+}
+#vmenu
+{	float:		left;
+	width:		24%;
+	background:	#b9defd;
+	height:		70%;
+	border: 	1px solid #adadae;
+	margin:		10px auto;
+	opacity:	.7;
+	filter:		alpha(opacity=70);
+	color:		#003b72;
+}
+
+#main
+{
+	float:		right;
+	width:		75%;
+	background:	white;
+	height:		70%;
+	border:		1px solid #adadae;
+	margin:		10px auto;
+}
+
+/*-----------------Параграфы и заголовки------------------*/
+#head h1
+{
+	margin:		 0px auto auto 20px;
+	font:		 italic bold 180% georgia, sans-serif;
+	padding:	 30px;
+	text-align:	 center;
+	position:	 relative;
+}
+
+#head h6
+{
+	margin:		0px 0px;
+	padding:	5px 0px 0px 5px;
+	text-align:	left;
+}
