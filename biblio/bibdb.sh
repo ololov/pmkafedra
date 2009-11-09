@@ -6,7 +6,7 @@
 
 function dummytable() {
 cat << eND
-USE clerisu_kafedrapm;
+USE clericsu_kafedrapm;
 CREATE TABLE biblio(id int);
 eND
 }
