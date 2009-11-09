@@ -2,10 +2,11 @@
 require_once('mylib.php');
 require_once('logins.php'); /* don't upload this file to svn!!! */
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Главная страница</title>
-		<meta content ="charset = utf-8">
+		<meta http-equiv="Content-Type" content ="text/html; charset = UTF-8">
 		<link rel = "stylesheet" type = "text/css" href = "../style.css" />
 	</head>
 	<body>
