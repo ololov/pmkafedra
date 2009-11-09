@@ -1,0 +1,155 @@
+html, body 
+{
+	margin:		0px;
+	padding:	0px;
+	font:		100% palatino, serif;
+	color:		#555753;
+}
+
+#container
+{
+	margin:		0px 50px;
+	background:	url("images/patt_03.jpg");
+	padding:	0px 30px;
+	border:		1px solid #adadae;
+	height:		100%;
+}
+
+#head
+{
+	background:	white;
+	height:		20%;
+}
+/*------------------Горизонтальное меню-------------------*/
+.gmenu
+{
+	width:		100%;
+	background:	white;
+	text-align:	center;
+	overflow:	hidden;
+	position:	relative;
+}
+
+.gmenucont
+{
+	float: 		left;
+	left:		50%;
+	position:	relative;
+	text-align:	center;
+}
+
+.wrpr
+{
+	position:	relative;
+	left:		-50%;
+	float:		left;
+	list-style:	none;
+	margin:		0px; 
+	padding:	0px;
+}
+
+.gmenu li
+{
+	float:		  left;
+	background:	  black;
+	opacity:	  .5;
+	filter:		  alpha(opacity=50);
+	margin:		  0px 2px;
+}
+
+.gmenu li a
+{
+	
+	color:		  white;
+	text-decoration:  none;
+	padding:	  0px 10px;
+}
+
+/*--------------------------------------------------------*/
+#separator
+{
+	margin:		0px;
+	padding:	0px;
+	height:		5px;
+	width:		100%;font:		80% palatino, serif;	
+	
+	background:	#adadae;
+	position:	relative;
+}
+#vmenu
+{	float:		left;
+	width:		24%;
+	background:	#b9defd;
+	height:		70%;
+	border: 	1px solid #adadae;
+	margin:		10px auto;
+	opacity:	.7;
+	filter:		alpha(opacity=70);
+	color:		#003b72;
+}
+
+#main
+{
+	float:		right;
+	width:		75%;
+	background:	white;
+	border:		1px solid #adadae;
+	margin:		10px auto;
+	overflow:	scroll;
+	height:		70%;
+}
+
+/*-----------------Параграфы и заголовки------------------*/
+#head .logo
+{
+	float:		left;
+	margin:		10px 10px 0px 40px;
+}
+#head p
+{
+	margin:		0px 0px;
+	padding:	20px 0px;	
+}
+
+span.cfd
+{
+	font:		120% palatino, serif;	
+}
+
+span.app
+{
+	font:		bold 180% palatino, serif;
+	border-bottom:	3px double #b9defd;	
+}
+/*---------------Библиотека----------------------*/
+.book {
+	font:		80% palatino, serif;	
+	margin:		5px 5px 5px 5px;
+	padding:	5px 5px 5px 5px;
+	height:		300px;
+	border:		1px solid gray;
+}
+
+.bookface {
+	margin-top:	10px;
+	margin-left:	10px;
+	float:		left;
+	height:		140px;
+	border:		1px solid gray;
+	max-width:	90px;
+}
+
+.bookdesc {	
+	margin-left:	5px;
+	height:		200px;
+	clear:		both;
+}
+
+.bookinfo {	
+	float:		right;
+}
+
+.bookinfo table {
+	font:		100% palatino, serif;
+}
+
