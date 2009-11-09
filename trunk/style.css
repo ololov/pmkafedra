@@ -2,25 +2,24 @@ html, body
 {
 	margin:		0px;
 	padding:	0px;
-	font:		100% georgia, sans-serif;
+	font:		100% palatino, serif;
 	color:		#555753;
 }
 
 #container
 {
 	margin:		0px 50px;
-	background:	url("patt_03.jpg");
-	height:		100%;
+	background:	url("images/patt_03.jpg");
 	padding:	0px 30px;
 	border:		1px solid #adadae;
+	height:		100%;
 }
 
 #head
 {
 	background:	white;
-	height:		100px;
+	height:		20%;
 }
-
 /*------------------Горизонтальное меню-------------------*/
 .gmenu
 {
@@ -72,7 +71,8 @@ html, body
 	margin:		0px;
 	padding:	0px;
 	height:		5px;
-	width:		100%;
+	width:		100%;font:		80% palatino, serif;	
+	
 	background:	#adadae;
 	position:	relative;
 }
@@ -93,56 +93,63 @@ html, body
 	float:		right;
 	width:		75%;
 	background:	white;
-	height:		70%;
 	border:		1px solid #adadae;
 	margin:		10px auto;
+	overflow:	scroll;
+	height:		70%;
 }
 
 /*-----------------Параграфы и заголовки------------------*/
-#head h1
+#head .logo
 {
-	margin:		 0px auto auto 20px;
-	font:		 italic bold 180% georgia, sans-serif;
-	padding:	 30px;
-	text-align:	 center;
-	position:	 relative;
+	float:		left;
+	margin:		10px 10px 0px 40px;
 }
-
-#head h6
+#head p
 {
 	margin:		0px 0px;
-	padding:	5px 0px 0px 5px;
-	text-align:	left;
+	padding:	20px 0px;	
 }
 
+span.cfd
+{
+	font:		120% palatino, serif;	
+}
+
+span.app
+{
+	font:		bold 180% palatino, serif;
+	border-bottom:	3px double #b9defd;	
+}
 /*---------------Библиотека----------------------*/
-div.book {
+.book {
+	font:		80% palatino, serif;	
 	margin:		5px 5px 5px 5px;
 	padding:	5px 5px 5px 5px;
-	height:		400px;
-	border-size:	1px;
-	border-style:	solid;
-	border-color:	gray;
+	height:		300px;
+	border:		1px solid gray;
 }
 
-img.bookface {
+.bookface {
 	margin-top:	10px;
 	margin-left:	10px;
 	float:		left;
 	height:		140px;
-	border-style:	solid;
-	border-color:	gray;
-	border-size:	1px;
+	border:		1px solid gray;
 	max-width:	90px;
 }
 
-div.bookdesc {
+.bookdesc {	
 	margin-left:	5px;
 	height:		200px;
 	clear:		both;
 }
 
-div.bookinfo {
+.bookinfo {	
 	float:		right;
+}
+
+.bookinfo table {
+	font:		100% palatino, serif;
 }
 
