@@ -30,6 +30,7 @@ if (!isset($_GET['page']) || ($_GET['page'] == "")) {
 	switch ($_GET['page']) {
 	case "pmlib":
 		include('biblio/pmlib.php');
+		break;
 	default:
 		include('main.php');
 	}
