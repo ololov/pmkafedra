@@ -6,7 +6,7 @@ require_once('logins.php'); /* don't upload this file to svn!!! */
 	<head>
 		<title>Главная страница</title>
 		<meta content ="charset = utf-8">
-		<link rel = "stylesheet" type = "text/css" href = "style.css" />
+		<link rel = "stylesheet" type = "text/css" href = "../style.css" />
 	</head>
 	<body>
 		<div id = "container">
@@ -16,13 +16,13 @@ require_once('logins.php'); /* don't upload this file to svn!!! */
 			<div class = "gmenu">
 				<div class = "gmenucont">
 					<ul  class = "wrpr">
-						<li><a href = "index.html">Информация о кафедре</a></li>
-						<li><a href = "index.html">Студенту</a></li>
-						<li><a href = "index.html">Научная работа</a></li>
-						<li><a href = "index.html">Новости и события</a></li>
+						<li><a href = "..">Информация о кафедре</a></li>
+						<li><a href = "..">Студенту</a></li>
+						<li><a href = "..">Научная работа</a></li>
+						<li><a href = "..">Новости и события</a></li>
 						<li><a href = "#">Библиотека</a></li> 
-						<li><a href = "index.html">Форум</a></li>
-						<li><a href = "index.html">Галерея</a></li>
+						<li><a href = "..">Форум</a></li>
+						<li><a href = "..">Галерея</a></li>
 					</ul>
 				</div>
 			</div>
