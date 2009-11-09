@@ -114,3 +114,35 @@ html, body
 	padding:	5px 0px 0px 5px;
 	text-align:	left;
 }
+
+/*---------------Библиотека----------------------*/
+div.book {
+	margin:		5px 5px 5px 5px;
+	padding:	5px 5px 5px 5px;
+	height:		400px;
+	border-size:	1px;
+	border-style:	solid;
+	border-color:	gray;
+}
+
+img.bookface {
+	margin-top:	10px;
+	margin-left:	10px;
+	float:		left;
+	height:		140px;
+	border-style:	solid;
+	border-color:	gray;
+	border-size:	1px;
+	max-width:	90px;
+}
+
+div.bookdesc {
+	margin-left:	5px;
+	height:		200px;
+	clear:		both;
+}
+
+div.bookinfo {
+	float:		right;
+}
+
