@@ -146,7 +146,9 @@ span.app
 }
 
 .bookinfo {	
-	float:		right;
+	margin-top:	10px;
+	margin-left:	10px;
+	float:		left;
 }
 
 .bookinfo table {
