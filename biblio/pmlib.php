@@ -18,7 +18,13 @@ if (!$link)
 if (!mysql_select_db(dbname, $link))
 	die('Could not select db: ' . mysql_error());
 
-$query = "SELECT * from biblio;";
+/*
+$query = sprintf("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from biblio;",
+		title, author, publish, volume, year, isbn, descr,
+		posted, imgpath, size, pages, who);
+ */
+$query = "SELECT * FROM biblio;";
+
 $resource = mysql_query($query);
 
 if (!$resource) {

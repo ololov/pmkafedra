@@ -137,7 +137,7 @@ function make_book_pyi($book)
 	$out .= table_row("Кем выложено: ", $book[who]);
 
 	if (isset($book[size]))
-		$out .= table_row("Размер: ", book_size($book[size]));
+		$out .= table_row("Размер: ", book_size($book));
 	if (isset($book[pages]))
 		$out .= table_row("Страниц: ", $book[pages]);
 
@@ -164,6 +164,7 @@ function book_size($book)
 		$out = "байт";
 	}
 
+	$sz = ((int)($sz * 100) / 100);
 	return "$sz $out";
 }
 
@@ -190,9 +191,11 @@ function make_book_authors($book)
 	for ($i = 0; $i < count($alist); $i++)
 		$str .= $alist[$i] . ", ";
 	$str = trim($str, ", ");
-
+/*
 	return sprintf("<tr><td>%s</td><td>%s</td></tr>",
 			$author, $str);
+ */
+	return table_row($author, $str);
 }
 
 /*
