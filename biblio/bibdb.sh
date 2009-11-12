@@ -52,7 +52,7 @@ if [[ $1 == "" ]]; then
 fi
 
 echo -n 'Enter password: '
-read -s pass;
+read -s  pass;
 echo
 
 # To be sure that table bibio is exist
