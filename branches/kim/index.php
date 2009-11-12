@@ -15,7 +15,7 @@
 				<div class = "gmenucont">
 					<ul  class = "wrpr">
 						<li><a href = "?page=info">Информация о кафедре</a></li>
-						<li><a href = "?page=stud">Студенту</a></li>
+						<li><a href = "">Студенту</a></li>
 						<li><a href = "?page=science">Научная работа</a></li>
 						<li><a href = "?page=news">Новости и события</a></li>
 						<li><a href = "?page=pmlib">Библиотека</a></li> 
@@ -25,17 +25,18 @@
 				</div>
 			</div>
 <?php
-if (!isset($_GET['page']) || ($_GET['page'] == "")) {
-	include('main.php');
-} else {
-	switch ($_GET['page']) {
-	case "pmlib":
-		include('biblio/pmlib.php');
-		break;
-	default:
-		include('main.php');
-	}
-}
+/*
+ * $scripts - Хранит имена файлов соответствующие запрощенной страницы.
+ * 		А именно то что передается из $_GET['page'] явл-ся ключом, а значение это имя файла(скрипта).
+ */
+$scripts = array('pmlib' => 'biblio/pmlib.php');
+$page = $_GET['page'];
+
+if (isset($page) && array_key_exists($page, $scripts))
+	include_once($scripts[$page]);
+else
+	include_once("main.php");
+
 ?>
 		</div>
 	</body>

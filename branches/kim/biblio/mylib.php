@@ -124,16 +124,18 @@ function make_book_pyi($book)
 {
 	$out = "";
 
+	if (isset($book[volume]))
+		$out = table_row("Том: ", $book[volume]);
 	if (isset($book[publish]))
-		$out = table_row("Издательство:", $book[publish]);
+		$out .= table_row("Издательство:", $book[publish]);
 	if (isset($book[year]))
 		$out .= table_row("Год выпуска: ", (string)$book[year]);
 	if (isset($book[isbn]))
 		$out .= table_row("ISBN: ", $book[isbn]);
-	if (isset($book[posted]))
-		$out .= table_row("Выложено: ", (string)$book[posted]);
 
-	/* who не может быть нулевым */
+
+	/* не могут быть нулевыми */
+	$out .= table_row("Выложено: ", convert_dateformat($book[posted]));
 	$out .= table_row("Кем выложено: ", $book[who]);
 
 	if (isset($book[size]))
@@ -142,6 +144,11 @@ function make_book_pyi($book)
 		$out .= table_row("Страниц: ", $book[pages]);
 
 	return $out;
+}
+
+function convert_dateformat($mysqltime)
+{
+	return $mysqltime;
 }
 
 /*
