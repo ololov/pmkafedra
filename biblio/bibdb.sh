@@ -4,17 +4,16 @@
 #
 #
 
-function dummytable() {
+function removetable() {
 cat << eND
 USE clericsu_kafedrapm;
-CREATE TABLE biblio(id int);
+DROP TABLE biblio;
 eND
 }
 
 function cmdlist() {
 cat << eND
 USE clericsu_kafedrapm;
-DROP TABLE biblio;
 CREATE TABLE biblio(
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
@@ -64,9 +63,10 @@ echo -n 'Enter password: '
 read -s pass;
 echo
 
-# To be sure that table bibio is exist
-# Do you have a better solution?
-dummytable | mysql -u "$1" --password="$pass" 1> /dev/null 2>/dev/null;
+#
+# Remove old table
+#
+removetable | mysql -u "$1" --password="$pass" 1> /dev/null 2>/dev/null;
 
 # main work 
 cmdlist | mysql -u "$1" --password="$pass" && echo 'Success!!!' || echo 'Failed'

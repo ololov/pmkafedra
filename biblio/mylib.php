@@ -1,6 +1,9 @@
 <?php
 
 /*
+ * translit:
+ * 	Переводит кириллицу в латиницу.
+ *
  * Мягкий и твердый знак просьба не трогать.
  */
 function translit($str)
@@ -30,6 +33,9 @@ function translit($str)
 	return strtr($str, $trans);
 }
 
+/*
+ * то же что и translit только переводит все буквы в нижний регистр
+ */
 function low_translit($str)
 {
 	return strtolower(translit($str));
