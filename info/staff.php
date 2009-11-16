@@ -1,12 +1,12 @@
 <?php
 	if (isset($_GET['id_pr'])) {
-		include_once('info/prepod.php');
+		include_once('prepod.php');
 		exit;
 	}
 ?>
 
 <div id = "separator"></div>
-<?php include_once("info/sidebar.php"); ?>
+<?php include_once("sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit">Преподаватели и сотрудники кафедры</p>
 	<table>
