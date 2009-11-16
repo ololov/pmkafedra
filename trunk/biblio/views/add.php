@@ -27,8 +27,11 @@ require_once('biblio/mylib.php');
 		<legend>Загрузить книгу</legend>
 		<input type="file" name="<?php echo book_file; ?>" />
 	</fieldset>
-	<p><textarea><input name="<?php echo book_desc; ?>" rows=20 cols=60></textarea></p>
-
+	<fieldset>
+	<p><b>Описание книги:</b></p>
+	<p><textarea name="<?php echo book_desc;?>" cols=50 rows=10></textarea></p>
+	</fieldset>
+	<p><input type="submit" name="Загрузить" /></p>
 </form>
 
 
