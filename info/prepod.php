@@ -1,10 +1,11 @@
 <?php
 	include_once('db.class.php');
+	require_once('include/logins.php');
 	
 	$db = new Db_Mysql();
 
 	//!!! вставьте свой логин и пароль
-	$link = mysql_connect('localhost', '','') or die("Could not connect: ".mysql_error());
+	$link = mysql_connect('localhost', dbuser,dbpassword) or die("Could not connect: ".mysql_error());
 	mysql_select_db('clericsu_kafedrapm',$link);
 
 	if (isset($_GET['id_pr']))

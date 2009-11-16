@@ -1,6 +1,6 @@
 <?php
 
-require_once('logins.php');
+require_once('include/logins.php');
 
 /* параметры в теге <form> ... </form> */
 define('book_title', 'user_book_title', true);
@@ -18,7 +18,6 @@ define('book_face', 'user_book_face', true);
 /*
  * Database defenitions
  */
-define("dbname", "clericsu_kafedrapm", true);
 
 /*
  * Column names from database tables
