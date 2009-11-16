@@ -9,7 +9,8 @@
 <div id = "main">
 <?php
 $scripts = array("list" => "biblio/views/list.php",
-		 "desc" => "biblio/views/desc.php");
+		 "desc" => "biblio/views/desc.php",
+		 "add"  => "biblio/views/add.php");
 
 $view = $_GET['view'];
 if (isset($view) && array_key_exists($view, $scripts))

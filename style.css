@@ -208,7 +208,36 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 .bookinfo table {
 	font:		100% palatino, serif;
 }
+/*---Оформление формы---*/
 
+form 
+{
+	padding:	10px;
+	border:		1px solid #ccc;
+	background:	#e4f4fc;
+}
+
+fieldset
+{
+	margin:		10px auto;
+	border:		1px dotted #888;
+	background:	#f5fbff;
+}
+
+legend
+{
+	font-size:	100%;
+	font-weight:	bold;
+	color:		#025391;
+	background:	#b9defd;
+	padding:	5px;
+	border:		1px solid #888;	
+}
+
+input
+{
+	width:		70%;
+}
 /*---------------Информация о кафедре---------------*/
 /*---Расположение фотографий---*/
 .leftimg
