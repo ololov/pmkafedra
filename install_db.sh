@@ -34,9 +34,10 @@ shift 2
 remove_tables $@
 
 for sqlfile in `find -name '*.sql' -perm -04 | sort`; do
+	echo -n Runinig file $sqlfile ... > `tty`
 	(echo "USE $DB_NAME;"; cat $sqlfile) |
 	mysql -u "$USER" --password="$pass" &&
-	echo Runinig file $sqlfile 'Success!!!' ||
+	echo 'Success!!!' ||
        	echo 'Failed'
 done;
 
