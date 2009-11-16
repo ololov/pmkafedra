@@ -22,6 +22,7 @@ define('book_face', 'user_book_face', true);
 /*
  * Column names from database tables
  */
+define("db_id", "id", true);
 define("db_title", "name", true);
 define("db_volume", "volume", true);
 define("db_author", "author", true);
