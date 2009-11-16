@@ -1,12 +1,8 @@
 <?php
-require_once('mylib.php');
+require_once('biblio/mylib.php');
 ?>
-<?php 
-include_once("sidebar.php");
-?>
-<div id = "main">
-	<p class="tit">Все книги</p>
-	<table>
+<p class="tit">Все книги</p>
+<table>
 <?php
 /*
  * Если тебе Юля что-то нужно изменить то меняй здесь!
@@ -53,6 +49,4 @@ while ($row = mysql_fetch_assoc($resource)) {
 }
 
 ?>
-	</table>
-</div>
-
+</table>

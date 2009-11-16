@@ -1,9 +1,7 @@
 <?php
-require_once('logins.php'); /* don't upload this file to svn!!! */
-require_once('mylib.php');
+require_once('biblio/logins.php'); /* don't upload this file to svn!!! */
+require_once('biblio/mylib.php');
 ?>
-<div id = "vmenu">Дополнительное меню</div>
-<div id = "main" >
 <?php
 
 $link = libdb_connect();
@@ -32,4 +30,3 @@ while ($row = mysql_fetch_assoc($resource))
 	echo make_bookdiv($row);
 
 ?>
-</div>
