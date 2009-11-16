@@ -1,5 +1,7 @@
 <?php
 
+require_once('logins.php');
+
 /* параметры в теге <form> ... </form> */
 define('book_title', 'user_book_title', true);
 define('book_author', 'user_book_authors', true);
@@ -29,6 +31,7 @@ define("db_year", "year", true);
 define("db_isbn", "isbn", true);
 define("db_descr", "description", true);
 define("db_posted", "posted", true);
+define("db_path", "bookpath", true);
 define("db_imgpath", "imgpath", true);
 define("db_size", "size", true);
 define("db_pages", "pages", true);

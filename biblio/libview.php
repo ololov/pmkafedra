@@ -8,6 +8,8 @@ define("imgclass", "bookface", true);
 define("descclass", "bookdesc", true);
 define("bookinfo", "bookinfo", true);
 
+define("books_table_row", "odd", true);
+define("books_table", 'tit', true);
 /*
  * Default values
  */
@@ -18,6 +20,18 @@ define("max_desc_len", 1000, true); /* Максимальная длина оп�
 /*
  * Наверное Юля, за следующие функции ты меня возненавидишь.
  */
+
+function make_book_list_entry($book, $class)
+{
+	if($class != "") {
+		$class = "class=\"$class\"";
+	}
+	return sprintf("<tr $class>%s%s%s</tr>",
+			"<td>" . $book[db_author] . "</td>",
+			"<td>" . $book[db_title] . "</td>",
+			"<td><a href=\"" . $book[db_path] .
+				"\">Скачать</a></td>");
+}
 
 /*
  * make_bookdiv - generate book block in <div> tag.
