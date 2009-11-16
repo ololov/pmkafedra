@@ -1,12 +1,12 @@
 <?php
-require_once('mylib.php');
 require_once('logins.php'); /* don't upload this file to svn!!! */
+require_once('mylib.php');
 ?>
-<div id = "separator"></div>
 <div id = "vmenu">Дополнительное меню</div>
 <div id = "main" >
 <?php
-$link = mysql_connect("localhost", dbuser, dbpassword);
+
+$link = libdb_connect();
 
 /*
  * Не стоит это конечно показывать пользователю, но
@@ -14,9 +14,6 @@ $link = mysql_connect("localhost", dbuser, dbpassword);
  */
 if (!$link)
 	die('Could not connect: ' . mysql_error());
-
-if (!mysql_select_db(dbname, $link))
-	die('Could not select db: ' . mysql_error());
 
 /*
 $query = sprintf("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from biblio;",

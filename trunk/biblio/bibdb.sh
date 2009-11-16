@@ -28,7 +28,7 @@ CREATE TABLE biblio(
 	bookpath VARCHAR(255) NOT NULL,
 	imgpath VARCHAR(255),
 	size INT UNSIGNED NOT NULL,
-	pages INT UNSIGNED NOT NULL,
+	pages INT UNSIGNED,
 	PRIMARY KEY(id)) DEFAULT CHARSET utf8;
 
 INSERT INTO biblio (name, author, description, publish, year,
