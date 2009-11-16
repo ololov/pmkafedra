@@ -11,6 +11,7 @@
 				<img src = "images/logo.jpg" class = "logo">
 				<p><span class = "cfd">КАФЕДРА</span><br><span class = "app">ПРИКЛАДНОЙ МАТЕМАТИКИ</span></p>
 			</div>
+	
 			<div class = "gmenu">
 				<div class = "gmenucont">
 					<ul  class = "wrpr">
@@ -25,6 +26,7 @@
 				</div>
 			</div>
 			<div id = "separator"></div>
+		</div>
 <?php
 /*
  * $scripts - Хранит имена файлов соответствующие запрощенной страницы.
@@ -40,6 +42,6 @@ else
 	include_once("main.php");
 
 ?>
-		</div>
+	
 	</body>
 </html>
