@@ -52,10 +52,18 @@ $query = sprintf("SELECT * FROM biblio WHERE id = %d", $book_id);
 $resource = mysql_query($query);
 
 if (!$resource) {
-	echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";
-} else {
-	$row = mysql_fetch_assoc($resource);
-	echo make_bookdiv($row);
+	echo "<p><b>Извините, ошибка на стороне сервера.</b></p>";
+	exit;
 }
+
+$row = mysql_fetch_assoc($resource);
+/*
+ * Подскажите если кто знает лучший способ проверить
+ * на пустой результат
+ */
+if ($row[id] == $book_id) 
+	echo make_bookdiv($row);
+else
+	echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";
 
 ?>
