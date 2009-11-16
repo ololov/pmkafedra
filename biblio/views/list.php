@@ -1,5 +1,23 @@
 <?php
 require_once('biblio/mylib.php');
+
+/*
+ * Local functions
+ */
+define('desc_path', '?page=pmlib&view=desc&book_id=', true);
+
+function make_book_list_entry($book, $class)
+{
+	if($class != "") {
+		$class = "class=\"$class\"";
+	}
+	return sprintf("<tr $class>%s%s%s</tr>",
+			table_field($book[db_author]),
+			table_field(tag_href(desc_path . $book[db_id],
+				    $book[db_title])),
+			table_field(tag_href($book[db_path], "Скачать")));
+}
+
 ?>
 <p class="tit">Все книги</p>
 <table>

@@ -21,35 +21,23 @@ define("max_desc_len", 1000, true); /* Максимальная длина оп�
  * Наверное Юля, за следующие функции ты меня возненавидишь.
  */
 
-function make_book_list_entry($book, $class)
-{
-	if($class != "") {
-		$class = "class=\"$class\"";
-	}
-	return sprintf("<tr $class>%s%s%s</tr>",
-			"<td>" . $book[db_author] . "</td>",
-			"<td>" . $book[db_title] . "</td>",
-			"<td><a href=\"" . $book[db_path] .
-				"\">Скачать</a></td>");
-}
 
 /*
- * make_bookdiv - generate book block in <div> tag.
- *
- * tag:
- * 	<div class=bookclass>
- * 	<image>
- * 	<book info>
- * 	<book description>
- * 	</div>
+ * Tags functions
  */
-function make_bookdiv($book)
+function tag_href($ref, $label)
 {
-	return sprintf("<div class=\"%s\">%s%s%s</div>",
-			bookclass,
-			make_bookimg($book),
-			make_bookinfo($book),
-			make_bookdesc($book));
+	return "<a href=\"$ref\">$label</a>";
+}
+
+function table_field($val)
+{
+	return "<td>$val</td>";
+}
+
+function table_row($row)
+{
+	return "<tr>$row</tr>";
 }
 
 /*
@@ -72,9 +60,9 @@ function make_bookinfo($book)
 			make_book_pyi($book));
 }
 
-function table_row($name, $value)
+function make_row($name, $value)
 {
-	return "<tr><td>$name</td><td>$value</td></tr>";
+	return table_row(table_field($name) . table_field($value));
 }
 
 /*
@@ -85,23 +73,23 @@ function make_book_pyi($book)
 	$out = "";
 
 	if (isset($book[db_volume]))
-		$out = table_row("Том: ", $book[db_volume]);
+		$out = make_row("Том: ", $book[db_volume]);
 	if (isset($book[db_publish]))
-		$out .= table_row("Издательство:", $book[db_publish]);
+		$out .= make_row("Издательство:", $book[db_publish]);
 	if (isset($book[db_year]))
-		$out .= table_row("Год выпуска: ", (string)$book[db_year]);
+		$out .= make_row("Год выпуска: ", (string)$book[db_year]);
 	if (isset($book[db_isbn]))
-		$out .= table_row("ISBN: ", $book[db_isbn]);
+		$out .= make_row("ISBN: ", $book[db_isbn]);
 
 
 	/* не могут быть нулевыми */
-	$out .= table_row("Выложено: ", convert_dateformat($book[db_posted]));
-	$out .= table_row("Кем выложено: ", $book[db_who]);
+	$out .= make_row("Выложено: ", convert_dateformat($book[db_posted]));
+	$out .= make_row("Кем выложено: ", $book[db_who]);
 
 	if (isset($book[db_size]))
-		$out .= table_row("Размер: ", book_size($book));
+		$out .= make_row("Размер: ", book_size($book));
 	if (isset($book[db_pages]))
-		$out .= table_row("Страниц: ", $book[db_pages]);
+		$out .= make_row("Страниц: ", $book[db_pages]);
 
 	return $out;
 }
@@ -158,17 +146,14 @@ function make_book_authors($book)
 	for ($i = 0; $i < count($alist); $i++)
 		$str .= $alist[$i] . ", ";
 	$str = trim($str, ", ");
-/*
-	return sprintf("<tr><td>%s</td><td>%s</td></tr>",
-			$author, $str);
- */
-	return table_row($author, $str);
+
+	return make_row($author, $str);
 }
 
 /*
  * make_bookdesc - описание книги в теге div.
  */
-function make_bookdesc($book)
+function make_bookdesc($book, $maxlen)
 {
 	$desc = $book[db_descr];
 
@@ -177,7 +162,7 @@ function make_bookdesc($book)
 	} else {
 		$len = mb_strlen($desc, 'utf8');
 		
-		if ($len > max_desc_len) {
+		if (isset($maxlen) && ($len > $maxlen)) {
 			$desc = mb_strcut($desc, 0, max_desc_len, 'utf8');
 			$desc .= "...";
 		}
