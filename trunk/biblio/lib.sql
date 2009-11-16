@@ -1,19 +1,4 @@
-#!/bin/sh
-#
-# $1 - username
-#
-#
 
-function removetable() {
-cat << eND
-USE clericsu_kafedrapm;
-DROP TABLE biblio;
-eND
-}
-
-function cmdlist() {
-cat << eND
-USE clericsu_kafedrapm;
 CREATE TABLE biblio(
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
@@ -51,30 +36,4 @@ INSERT INTO biblio (name, author, description, publish, year,
 		'somewhere/in/trash/book4.pdf',
 		'somewhere/in/galary/trash/book4.png',
 		1000000, 10200, 'admin');
-eND
-}
-
-if [[ $1 == "" ]]; then
-	echo 'You must define username!';
-	exit 1;
-fi
-
-echo -n 'Enter password: '
-read -s pass;
-echo
-
-#
-# Remove old table
-#
-removetable | mysql -u "$1" --password="$pass" 1> /dev/null 2>/dev/null;
-
-# main work 
-cmdlist | mysql -u "$1" --password="$pass" && echo 'Success!!!' || echo 'Failed'
-
-#
-# For correct work of library, it's need file logins.php
-# So please run this script into root directory of library
-#
-echo "<?php define(dbuser, \"$1\", true);" \
-     "define(dbpassword, \"$pass\", true); ?>" > logins.php;
 

@@ -1,5 +1,4 @@
 <?php
-require_once('biblio/logins.php'); /* don't upload this file to svn!!! */
 require_once('biblio/mylib.php');
 ?>
 <?php
