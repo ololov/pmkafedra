@@ -5,7 +5,6 @@
 	}
 ?>
 
-<div id = "separator"></div>
 <?php include_once("sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit">Преподаватели и сотрудники кафедры</p>

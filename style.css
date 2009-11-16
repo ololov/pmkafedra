@@ -6,20 +6,17 @@ html
 
 body 
 {
-	margin:		0px;
-	padding:	0px 50px;
+	margin:		0px 70px;
 	font:		100% palatino, serif;
 	color:		#555753;
+	background:	url("images/patt_03.jpg");
 }
 
 body #container
 {
-	margin:		0px;
-	background:	url("images/patt_03.jpg");
+	background:	white;
 	padding:	0px 30px;
 	border:		1px solid #adadae;
-	position:	relative;
-	height:		900px;
 }
 
 #head
@@ -92,7 +89,7 @@ body #container
 	padding:	0px;
 	opacity:	.7;
 	width:		18%;
-	height:		83%;
+	height:		300px;
 	position:	relative;
 }
 
@@ -135,14 +132,14 @@ body #container
 {
 	float:		right;
 	width:		76%;
-	height:		81%;
+	min-height:	600px;
 	background:	white;
 	border:		1px solid #adadae;
 	margin:		10px auto;
 	padding:	10px 30px;
 	font:		90% palatino, serif;
 	text-align:	justify;
-	position: 	relative;
+	position:	relative;
 }
 
 /*-----------------Параграфы и заголовки------------------*/
@@ -182,7 +179,6 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 	font:		80% palatino, serif;	
 	margin:		5px 5px 5px 5px;
 	padding:	5px 5px 5px 5px;
-	height:		300px;
 	border:		1px solid gray;
 }
 

@@ -1,4 +1,3 @@
-<div id = "separator"></div>
 <?php include_once("info/sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit"> Кафедра Прикладной Математики</p>
