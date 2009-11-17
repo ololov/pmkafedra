@@ -1,5 +1,5 @@
 <?php
-require_once('biblio/mylib.php');
+require_once('biblio/dbconst.php');
 ?>
 <p class="tit">Добавить книгу</p>
 <form action="?page=pmlib&uploadfile=1" method="post">
