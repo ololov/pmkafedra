@@ -1,10 +1,29 @@
 <?php
-require_once('biblio/mylib.php');
+require_once('biblio/dbconst.php');
 
 /*
  * Local functions
  */
 define('desc_path', '?page=pmlib&view=desc&book_id=', true);
+
+/*
+ * Tags functions
+ */
+function tag_href($ref, $label)
+{
+	return "<a href=\"$ref\">$label</a>";
+}
+
+function table_field($val)
+{
+	return "<td>$val</td>";
+}
+
+function table_row($row)
+{
+	return "<tr>$row</tr>";
+}
+
 
 function make_book_list_entry($book, $class)
 {
