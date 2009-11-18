@@ -16,6 +16,8 @@
 -- Структура таблицы `prepod`
 -- 
 
+DROP TABLE IF EXISTS prepod;
+
 CREATE TABLE `prepod` (
   `id` int(11) NOT NULL auto_increment,
   `name` text NOT NULL,

@@ -1,10 +1,11 @@
 <?php
 require_once('biblio/dbconst.php');
 
+define('desc_path', '?page=pmlib&view=desc&book_id=', true);
+define('books_table_row', 'odd', true);
 /*
  * Local functions
  */
-define('desc_path', '?page=pmlib&view=desc&book_id=', true);
 
 /*
  * Tags functions
@@ -37,10 +38,6 @@ function make_book_list_entry($book, $class)
 			table_field(tag_href($book[db_path], "Скачать")));
 }
 
-?>
-<p class="tit">Все книги</p>
-<table>
-<?php
 /*
  * Если тебе Юля что-то нужно изменить то меняй здесь!
  *
@@ -70,13 +67,21 @@ $link = libdb_connect();
 if (!$link)
 	die('Could not connect: ' . mysql_error());
 
-$query = "SELECT * FROM biblio;";
+$query = 'CALL ' . proc_book_list . '();';
 
 $resource = mysql_query($query);
 if (!$resource) {
 	die('Invalid query: ' . mysql_error());
 }
 
+
+
+?>
+
+<p class="tit">Все книги</p>
+<table>
+
+<?php
 $i = 0;
 $classes = array(books_table_row, "");
 

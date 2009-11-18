@@ -73,24 +73,24 @@ function make_book_pyi($book)
 {
 	$out = "";
 
-	if (isset($book[db_volume]))
-		$out = make_row("Том: ", $book[db_volume]);
-	if (isset($book[db_publish]))
-		$out .= make_row("Издательство:", $book[db_publish]);
-	if (isset($book[db_year]))
-		$out .= make_row("Год выпуска: ", (string)$book[db_year]);
-	if (isset($book[db_isbn]))
-		$out .= make_row("ISBN: ", $book[db_isbn]);
+	if (isset($book[syn_db_volume]))
+		$out = make_row("Том: ", $book[syn_db_volume]);
+	if (isset($book[syn_db_publish]))
+		$out .= make_row("Издательство:", $book[syn_db_publish]);
+	if (isset($book[syn_db_year]))
+		$out .= make_row("Год выпуска: ", (string)$book[syn_db_year]);
+	if (isset($book[syn_db_isbn]))
+		$out .= make_row("ISBN: ", $book[syn_db_isbn]);
 
 
 	/* не могут быть нулевыми */
-	$out .= make_row("Выложено: ", convert_dateformat($book[db_posted]));
-	$out .= make_row("Кем выложено: ", $book[db_who]);
+	$out .= make_row("Выложено: ", convert_dateformat($book[syn_db_posted]));
+	$out .= make_row("Кем выложено: ", $book[syn_db_who]);
 
-	if (isset($book[db_size]))
+	if (isset($book[syn_db_size]))
 		$out .= make_row("Размер: ", book_size($book));
-	if (isset($book[db_pages]))
-		$out .= make_row("Страниц: ", $book[db_pages]);
+	if (isset($book[syn_db_pages]))
+		$out .= make_row("Страниц: ", $book[syn_db_pages]);
 
 	return $out;
 }
@@ -135,20 +135,20 @@ function make_book_title($book)
 function make_book_authors($book)
 {
 	$str = "";
-	$author = "Автор";
+	$label = "Автор";
+	$authors = $book[db_author];
 
-	$alist = explode(',', $book[author]);
 	
-	if (count($alist) == 1)
-		$author .= ": ";
+	if (count($authors) == 1)
+		$label .= ": ";
 	else
-		$author .= "ы: ";
+		$label .= "ы: ";
 
 	for ($i = 0; $i < count($alist); $i++)
-		$str .= $alist[$i] . ", ";
+		$str .= $authors[$i] . ", ";
 	$str = trim($str, ", ");
 
-	return make_row($author, $str);
+	return make_row($label, $str);
 }
 
 /*
@@ -210,7 +210,6 @@ function make_bookdiv($book)
 			make_bookdesc($book));
 }
 
-
 ?>
 <?php
 
@@ -223,22 +222,20 @@ $link = libdb_connect();
 if (!$link)
 	die('Could not connect: ' . mysql_error());
 
-/*
-$query = sprintf("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s from biblio;",
-		title, author, publish, volume, year, isbn, descr,
-		posted, imgpath, size, pages, who);
- */
 if (isset($_GET['book_id']))
-	$book_id = mysql_real_escape_string($_GET['book_id']);
+	$book_id = mysql_real_escape_string($_GET['book_id'], $link);
 else
 	$book_id = -1;
 
-$query = sprintf("SELECT * FROM biblio WHERE id = %d", $book_id);
+$query = sprintf("CALL %s(%d);", proc_book_info, $book_id);
 
 $resource = mysql_query($query);
 
 if (!$resource) {
+	/*
 	echo "<p><b>Извините, ошибка на стороне сервера.</b></p>";
+	 */
+	die('Error : ' . mysql_error());
 	exit;
 }
 
