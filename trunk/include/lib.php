@@ -12,8 +12,7 @@ function libdb_connect()
 	if (!$link)
 		return $link;
 
-	$enc = mysql_client_encoding($link);
-	if (mysql_set_charset($enc, $link) && mysql_select_db(dbname, $link))
+	if (mysql_set_charset('utf8', $link) && mysql_select_db(dbname, $link))
 		return $link;
 
 	mysql_close($link);
