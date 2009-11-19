@@ -45,8 +45,10 @@ done;
 #
 # Common login file
 #
+loginfile=include/logins.php
+
 echo Generate logins.php file ...
-echo "<?php define('dbuser', \"$USER\", true);" \
-     "define('dbpassword', \"$pass\", true);" \
-     "define('dbname',\"$DB_NAME\", true); ?>" > include/logins.php;
+echo -n "<?php define('dbuser', \"$USER\", true); define('dbpassword', \"" > $loginfile
+echo -n $pass | sed "s/\([$\"&]\)/\\\\\\1/g" >> $loginfile
+echo "\", true); define('dbname',\"$DB_NAME\", true); ?>" >> $loginfile
 
