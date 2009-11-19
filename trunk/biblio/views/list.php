@@ -1,7 +1,7 @@
 <?php
 require_once('biblio/dbconst.php');
 
-define('desc_path', '?page=pmlib&view=desc&book_id=', true);
+define('desc_path', '?page=pmlib&amp;view=desc&amp;book_id=', true);
 define('books_table_row', 'odd', true);
 /*
  * Local functions
