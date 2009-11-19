@@ -32,7 +32,7 @@ function make_book_list_entry($book, $class)
 		$class = "class=\"$class\"";
 	}
 	return sprintf("<tr $class>%s%s%s</tr>",
-			table_field($book[db_author]),
+			table_field($book[db_authors]),
 			table_field(tag_href(desc_path . $book[db_id],
 				    $book[db_title])),
 			table_field(tag_href($book[db_path], "Скачать")));
@@ -67,14 +67,12 @@ $link = libdb_connect();
 if (!$link)
 	die('Could not connect: ' . mysql_error());
 
-$query = 'CALL ' . proc_book_list . '();';
+$query = get_sql_book_list_query();
 
 $resource = mysql_query($query);
 if (!$resource) {
 	die('Invalid query: ' . mysql_error());
 }
-
-
 
 ?>
 
