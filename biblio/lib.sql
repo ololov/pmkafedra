@@ -52,7 +52,7 @@ BEGIN
 	FROM bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr 
 	WHERE tb.id = tr.id_book AND tr.id_author = ta.id GROUP BY tb.id;
 
-END
+END //
 
 
 DELIMITER ;
