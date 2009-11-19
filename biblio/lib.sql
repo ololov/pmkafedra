@@ -1,61 +1,7 @@
 
-DELIMITER //
+DROP PROCEDURE IF EXISTS get_book_info; 
 
-DROP PROCEDURE IF EXISTS get_book_info //
-
-
-CREATE PROCEDURE get_book_info(IN book_id INT UNSIGNED)
-BEGIN
-	SELECT
-	tb.id AS book_id,
-	tb.name AS book_name,
-	tb.volume AS book_volume,
-	tb.description AS book_desc,
-	tb.publish AS book_publish,
-	tb.year AS book_year,
-	tb.isbn AS book_isbn,
-	tb.posted AS book_posted,
-	tb.who AS book_who,
-	tb.bookpath AS book_path,
-	tb.imgpath AS book_face_path,
-	tb.sz AS book_size,
-	tb.pages AS book_pages,
-	tb.department AS book_department,
-	GROUP_CONCAT(ta.full_name) AS book_authors_name,
-	GROUP_CONCAT(ta.id) AS book_authors_id
-	FROM bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr 
-	WHERE tb.id = tr.id_book AND tr.id_author = ta.id AND tb.id = book_id;
-
-END //
-
-DROP PROCEDURE IF EXISTS get_book_list //
-
-CREATE PROCEDURE get_book_list()
-BEGIN
-	SELECT
-	tb.id AS book_id,
-	tb.name AS book_name,
-	tb.volume AS book_volume,
---	tb.description AS book_desc,
---	tb.publish AS book_publish,
---	tb.year AS book_year,
---	tb.isbn AS book_isbn,
---	tb.posted AS book_posted,
---	tb.who AS book_who,
-	tb.bookpath AS book_path,
---	tb.imgpath AS book_face_path,
---	tb.sz AS book_size,
---	tb.pages AS book_pages,
-	tb.department AS book_department,
-	GROUP_CONCAT(ta.full_name) AS book_authors_name,
-	GROUP_CONCAT(ta.id) AS book_authors_id
-	FROM bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr 
-	WHERE tb.id = tr.id_book AND tr.id_author = ta.id GROUP BY tb.id;
-
-END //
-
-
-DELIMITER ;
+DROP PROCEDURE IF EXISTS get_book_list;
 
 DROP TABLE IF EXISTS bib_books;
 

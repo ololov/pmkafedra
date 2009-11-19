@@ -73,24 +73,24 @@ function make_book_pyi($book)
 {
 	$out = "";
 
-	if (isset($book[syn_db_volume]))
-		$out = make_row("Том: ", $book[syn_db_volume]);
-	if (isset($book[syn_db_publish]))
-		$out .= make_row("Издательство:", $book[syn_db_publish]);
-	if (isset($book[syn_db_year]))
-		$out .= make_row("Год выпуска: ", (string)$book[syn_db_year]);
-	if (isset($book[syn_db_isbn]))
-		$out .= make_row("ISBN: ", $book[syn_db_isbn]);
+	if (isset($book[db_volume]))
+		$out = make_row("Том: ", $book[db_volume]);
+	if (isset($book[db_publish]))
+		$out .= make_row("Издательство:", $book[db_publish]);
+	if (isset($book[db_year]))
+		$out .= make_row("Год выпуска: ", (string)$book[db_year]);
+	if (isset($book[db_isbn]))
+		$out .= make_row("ISBN: ", $book[db_isbn]);
 
 
 	/* не могут быть нулевыми */
-	$out .= make_row("Выложено: ", convert_dateformat($book[syn_db_posted]));
-	$out .= make_row("Кем выложено: ", $book[syn_db_who]);
+	$out .= make_row("Выложено: ", convert_dateformat($book[db_posted]));
+	$out .= make_row("Кем выложено: ", $book[db_who]);
 
-	if (isset($book[syn_db_size]))
+	if (isset($book[db_size]))
 		$out .= make_row("Размер: ", book_size($book));
-	if (isset($book[syn_db_pages]))
-		$out .= make_row("Страниц: ", $book[syn_db_pages]);
+	if (isset($book[db_pages]))
+		$out .= make_row("Страниц: ", $book[db_pages]);
 
 	return $out;
 }
@@ -136,16 +136,18 @@ function make_book_authors($book)
 {
 	$str = "";
 	$label = "Автор";
-	$authors = $book[db_author];
+	$authors = $book[db_authors];
+	$authors_id = $book[db_authors_id];
 
-	
-	if (count($authors) == 1)
+	$alist = explode(',', $authors);
+	$idlist = explode(',', $authors_id);
+	if (count($alist) == 1)
 		$label .= ": ";
 	else
 		$label .= "ы: ";
 
 	for ($i = 0; $i < count($alist); $i++)
-		$str .= $authors[$i] . ", ";
+		$str .= $alist[$i] . ", ";
 	$str = trim($str, ", ");
 
 	return make_row($label, $str);
@@ -227,8 +229,7 @@ if (isset($_GET['book_id']))
 else
 	$book_id = -1;
 
-$query = sprintf("CALL %s(%d);", proc_book_info, $book_id);
-
+$query = get_sql_book_info_query($book_id);
 $resource = mysql_query($query);
 
 if (!$resource) {
@@ -244,9 +245,10 @@ $row = mysql_fetch_assoc($resource);
  * Подскажите если кто знает лучший способ проверить
  * на пустой результат
  */
-if ($row[id] == $book_id) 
+if ($row[db_id] == $book_id) 
 	echo make_bookdiv($row);
 else
 	echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";
 
+mysql_free_result($row);
 ?>
