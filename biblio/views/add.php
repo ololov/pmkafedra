@@ -2,7 +2,7 @@
 require_once('biblio/dbconst.php');
 ?>
 <p class="tit">Добавить книгу</p>
-<form action="?page=pmlib&uploadfile=1" method="post">
+<form action="?page=pmlib&amp;uploadfile=1" method="post">
 	<fieldset>
 		<legend>Информация о книге</legend>
 		<p>Название книги<br>
