@@ -4,7 +4,7 @@
 # $2 - db
 #
 
-function remove_tables() {
+remove_tables() {
 	while [[ $1 != "" ]]; do
 		echo DROP TABLE "$1" |
 		mysql -u "$USER" --password="$pass" "$DB_NAME";
