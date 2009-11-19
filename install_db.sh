@@ -34,10 +34,12 @@ echo
 
 remove_tables $@
 
+mysqlopt=--default-character-set=utf8
+
 for sqlfile in `find -name '*.sql' -perm -04 | sort`; do
 	echo -n Runinig file $sqlfile ... 
 	(echo "USE $DB_NAME;"; cat $sqlfile) |
-	mysql -u "$USER" --password="$pass" &&
+	mysql -u "$USER" --password="$pass" $mysqlopt &&
 	echo 'Success!!!' ||
        	echo 'Failed'
 done;
