@@ -12,8 +12,7 @@ $scripts = array("list" => "biblio/views/list.php",
 		 "desc" => "biblio/views/desc.php",
 		 "add"  => "biblio/views/add.php");
 
-$view = $_GET['view'];
-if (isset($view) && array_key_exists($view, $scripts))
+if (isset($_GET['view']) && array_key_exists(($view = $_GET['view']), $scripts))
 	include_once($scripts[$view]);
 else
 	include_once($scripts['list']);
