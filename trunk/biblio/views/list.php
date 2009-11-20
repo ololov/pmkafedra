@@ -31,9 +31,6 @@ if (isset($_GET['a_id']) && is_numeric($a_id = $_GET['a_id']))
 else 
 	$query = getq_book_list();
 
-
-echo $query;
-
 $resource = mysql_query($query);
 if (!$resource) {
 	die('Invalid query: ' . mysql_error());
