@@ -1,16 +1,7 @@
 <?php
 require_once('biblio/dbconst.php');
+require_once('biblio/libview.php');
 
-/*
- * Style sheets
- */
-define("bookclass", "book", true);
-define("imgclass", "bookface", true);
-define("descclass", "bookdesc", true);
-define("bookinfo", "bookinfo", true);
-
-define("books_table_row", "odd", true);
-define("books_table", 'tit', true);
 /*
  * Default values
  */
@@ -22,25 +13,6 @@ define("max_desc_len", 1000, true); /* Максимальная длина оп�
 /*
  * Local functions
  */
-/*
- * Tags functions
- */
-function tag_href($ref, $label)
-{
-	return "<a href=\"$ref\">$label</a>";
-}
-
-function table_field($val)
-{
-	return "<td>$val</td>";
-}
-
-function table_row($row)
-{
-	return "<tr>$row</tr>";
-}
-
-
 /*
  * make_bookinfo - параметры книги (название, автор, издание, ...)
  * tag:
@@ -66,6 +38,28 @@ function make_row($name, $value)
 	return table_row(table_field($name) . table_field($value));
 }
 
+function make_book_authors($book)
+{
+	$str = "";
+	$label = "Автор";
+	$authors = $book[db_authors];
+	$authors_id = $book[db_authors_id];
+
+	$alist = explode(',', $authors);
+	$idlist = explode(',', $authors_id);
+	if (count($alist) == 1)
+		$label .= ": ";
+	else
+		$label .= "ы: ";
+/*
+	for ($i = 0; $i < count($alist); $i++)
+		$str .= $alist[$i] . ", ";
+	$str = trim($str, ", ");
+ */
+	$str = make_href(list_path,
+			$alist, $idlist);
+	return make_row($label, $str);
+}
 /*
  * make_book_pyi 
  */
@@ -95,9 +89,26 @@ function make_book_pyi($book)
 	return $out;
 }
 
-function convert_dateformat($mysqltime)
+/*
+ * make_bookdesc - описание книги в теге div.
+ */
+function make_bookdesc($book, $maxlen)
 {
-	return $mysqltime;
+	$desc = $book[db_descr];
+
+	if (!isset($desc)) {
+		$desc = "Нет описания.";
+	} else {
+		$len = mb_strlen($desc, 'utf8');
+		
+		if (isset($maxlen) && ($len > $maxlen)) {
+			$desc = mb_strcut($desc, 0, max_desc_len, 'utf8');
+			$desc .= "...";
+		}
+	}
+
+	return sprintf("<div class=\"%s\"><b>Описание:</b><p>%s</div>",
+			descclass, $desc);
 }
 
 /*
@@ -132,48 +143,7 @@ function make_book_title($book)
 			$title);
 }
 
-function make_book_authors($book)
-{
-	$str = "";
-	$label = "Автор";
-	$authors = $book[db_authors];
-	$authors_id = $book[db_authors_id];
 
-	$alist = explode(',', $authors);
-	$idlist = explode(',', $authors_id);
-	if (count($alist) == 1)
-		$label .= ": ";
-	else
-		$label .= "ы: ";
-
-	for ($i = 0; $i < count($alist); $i++)
-		$str .= $alist[$i] . ", ";
-	$str = trim($str, ", ");
-
-	return make_row($label, $str);
-}
-
-/*
- * make_bookdesc - описание книги в теге div.
- */
-function make_bookdesc($book, $maxlen)
-{
-	$desc = $book[db_descr];
-
-	if (!isset($desc)) {
-		$desc = "Нет описания.";
-	} else {
-		$len = mb_strlen($desc, 'utf8');
-		
-		if (isset($maxlen) && ($len > $maxlen)) {
-			$desc = mb_strcut($desc, 0, max_desc_len, 'utf8');
-			$desc .= "...";
-		}
-	}
-
-	return sprintf("<div class=\"%s\"><b>Описание:</b><p>%s</div>",
-			descclass, $desc);
-}
 
 /*
  * make_bookimg - тег img.
@@ -209,7 +179,7 @@ function make_bookdiv($book)
 			bookclass,
 			make_bookimg($book),
 			make_bookinfo($book),
-			make_bookdesc($book));
+			make_bookdesc($book, NULL));
 }
 
 ?>
@@ -229,7 +199,7 @@ if (isset($_GET['book_id']))
 else
 	$book_id = -1;
 
-$query = get_sql_book_info_query($book_id);
+$query = getq_book_info($book_id);
 $resource = mysql_query($query);
 
 if (!$resource) {
@@ -250,5 +220,4 @@ if ($row[db_id] == $book_id)
 else
 	echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";
 
-mysql_free_result($row);
 ?>
