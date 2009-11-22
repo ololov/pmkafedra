@@ -1,12 +1,12 @@
 
 
 <div id = "vmenu"> 
-	<form method="POST" action = "auth/auth.php">
+	<form method="POST" action = "auth/auth.php" id="enter">
 		Логин:<br>
 		<input type="text" name="login" />
-		Пароль:<br> 
-		<input type="text" name="pwd" /><br>
-		<input type="submit" name="submit" value="Вход">
+		Пароль:<br>
+		<input type="text" name="pwd" /><br><br>
+		<input type="submit" name="submit" value="Вход" class = "buttonSubmit">
 	</form>
 </div>
 

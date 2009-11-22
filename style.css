@@ -200,19 +200,32 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 	font:		100% palatino, serif;
 }
 /*---Оформление формы---*/
-
 form 
 {
 	padding:	10px;
 	border:		1px solid #ccc;
 	background:	#e4f4fc;
+	text-align:	center;
+}
+
+#book_info_main
+{
+	float:		left;
+	width:		50%;
+}
+
+#book_info_dop
+{
+	margin-left:	51%;
 }
 
 fieldset
 {
-	margin:		10px auto;
+	margin:		5px auto;
 	border:		1px dotted #888;
 	background:	#f5fbff;
+	height:		470px;
+	text-align:	left;
 }
 
 legend
@@ -225,9 +238,23 @@ legend
 	border:		1px solid #888;	
 }
 
-input
+input, textarea
 {
-	width:		70%;
+	width:		90%;
+}
+
+.buttonSubmit
+{
+	font:		bold 100% palatino, serif;
+	color:		#025391;
+	background:	#b9defd;
+	border:		1px solid #025391;
+	padding:	4px;
+	opacity:	.9;
+}
+.buttonSubmit:hover
+{
+	background:	#cfe8fd;
 }
 /*---------------Информация о кафедре---------------*/
 /*---Расположение фотографий---*/
@@ -293,3 +320,17 @@ td a
 	color:			#025391;
 }
 /*------*/
+/*-------------Форма входа-----------------------*/
+#enter
+{
+	height:		80%;
+	border:		1px dotted #adadae;
+	margin:		5px;
+	background:	#e4f4fc;
+	font:		bold 100% palatino, serif;
+}
+
+#enter input
+{
+	font:		80% palatino, serif;
+}
