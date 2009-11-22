@@ -3,13 +3,20 @@ require_once('biblio/dbconst.php');
 ?>
 <p class="tit">Добавить книгу</p>
 <form action="?page=pmlib&amp;uploadfile=1" method="post">
+	<div id = "book_info_main">
 	<fieldset>
 		<legend>Информация о книге</legend>
 		<p>Название книги<br>
 	    	<input type="text" name="<?php echo book_title; ?>" />
 		<p>Авторы книги<br> 
 		<input type="text" name="<?php echo book_author; ?>" />
+		<p>Описание книги<br>
+		<textarea name="<?php echo book_desc;?>" cols=50 rows=10></textarea>
+		<p>Загрузить книгу<br>
+		<input type="file" name="<?php echo book_file; ?>" />
 	</fieldset>
+	</div>
+	<div id = "book_info_dop">
 	<fieldset>
 		<legend>Дополнительная информация о книге</legend>
 		<p>Номер тома книги<br>
@@ -23,15 +30,8 @@ require_once('biblio/dbconst.php');
 		<p>Количество страниц<br>
 		<input type="text" name="<?php echo book_pages; ?>" />
 	</fieldset>
-	<fieldset>
-		<legend>Загрузить книгу</legend>
-		<input type="file" name="<?php echo book_file; ?>" />
-	</fieldset>
-	<fieldset>
-	<p><b>Описание книги:</b></p>
-	<p><textarea name="<?php echo book_desc;?>" cols=50 rows=10></textarea></p>
-	</fieldset>
-	<p><input type="submit" name="Загрузить" /></p>
+	</div>
+	<p><input type="submit" name="Загрузить" value="Загрузить" class="buttonSubmit" /></p>
 </form>
 
 

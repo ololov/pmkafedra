@@ -1,8 +1,7 @@
 <?php
-
 	include_once("auth/authlib.php");
 	
-	$no_login_needed = array('/index.php?page=login');
+	$no_login_needed = array('/pmkafedra/?page=login');
 	if (!in_array($_SERVER['REQUEST_URI'], $no_login_needed))
 	{
 		Validator::redirect();
@@ -28,7 +27,7 @@
 				<div class = "gmenucont">
 					<ul  class = "wrpr">
 						<li><a href = "?page=info">Информация о кафедре</a></li>
-						<li><a href = "">Студенту</a></li>
+						<li><a href = "?page=stud">Студенту</a></li>
 						<li><a href = "?page=science">Научная работа</a></li>
 						<li><a href = "?page=news">Новости и события</a></li>
 						<li><a href = "?page=pmlib">Библиотека</a></li> 
@@ -51,7 +50,8 @@
 					 'contact' => 'info/contact.php', 
 					 'list' => 'biblio/list.php', 
 					 'upload' => 'biblio/upload_form.php',
-					 'login' => 'login.php');
+					 'login' => 'login.php',
+					 'stud'  => 'students/discipl.php');
 	$page = $_GET['page'];
 
 	if (isset($page) && array_key_exists($page, $scripts))
