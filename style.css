@@ -334,3 +334,66 @@ td a
 {
 	font:		80% palatino, serif;
 }
+/*-------------------Форум-----------------------*/
+#forum_main
+{
+	min-height:	600px;
+	background:	white;
+	border:		1px solid #adadae;
+	padding:	10px 30px;
+	font:		80% palatino, serif;
+}
+
+/*--Таблица--*/
+#forum
+{
+	border:		1px solid #ccc;
+}
+
+/*-Заголовок-*/
+#forum .head_forum
+{
+	background:	#c7dade;
+	opacity:	.6;
+}
+
+.head_forum td
+{
+	padding:	0px 20px;
+	text-align:	left;
+	font:		bold 100% palatino, serif;
+}
+
+.head_forum .first
+{
+	width:		90%;
+}
+
+/*-Основные строки-*/
+#forum td
+{
+	padding-left:	20px;
+}
+
+#forum .team
+{
+	font:		bold 130% palatino, serif;
+	color:		#025391;
+}
+
+#forum .team:hover
+{
+	color:		#0582e1;
+}
+
+#forum .note
+{
+	font-style:	italic;
+}
+
+/*-Картинки-*/
+.img_forum
+{
+	float:		left;
+	margin-right:	10px;
+}

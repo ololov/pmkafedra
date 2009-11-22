@@ -51,7 +51,8 @@
 					 'list' => 'biblio/list.php', 
 					 'upload' => 'biblio/upload_form.php',
 					 'login' => 'login.php',
-					 'stud'  => 'students/discipl.php');
+					 'stud'  => 'students/discipl.php',
+					 'forum' => 'forum/forum.php');
 	$page = $_GET['page'];
 
 	if (isset($page) && array_key_exists($page, $scripts))
