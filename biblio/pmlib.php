@@ -1,10 +1,15 @@
 <div id = "vmenu">
+<div>
 	<p>Навигация</p>
 	<ul>	
 		<li><a href="?page=pmlib&amp;view=list">Список книг</a></li>
 		<li><a href="?page=pmlib&amp;view=search">Поиск книги</a></li>
 		<li><a href="?page=pmlib&amp;view=add">Добавить книгу</a></li>
 	</ul>
+</div>
+<?php
+include_once('logform.php');
+?>
 </div>
 <div id = "main">
 <?php

@@ -1,12 +1,15 @@
 <?php
 	include_once("auth/authlib.php");
-	
+/*	
 	$no_login_needed = array('/pmkafedra/?page=login');
 	if (!in_array($_SERVER['REQUEST_URI'], $no_login_needed))
 	{
 		Validator::redirect();
 	}
-	
+ */	
+session_start();
+Validator::checkSession();
+
 ?>
 
 <!DOCTYPE html>
@@ -50,16 +53,17 @@
 					 'contact' => 'info/contact.php', 
 					 'list' => 'biblio/list.php', 
 					 'upload' => 'biblio/upload_form.php',
-					 'login' => 'login.php',
 					 'stud'  => 'students/discipl.php',
 					 'forum' => 'forum/forum.php');
 	$page = $_GET['page'];
 
-	if (isset($page) && array_key_exists($page, $scripts))
+	if (isset($page) && array_key_exists($page, $scripts)) {
 		include_once($scripts[$page]);
-	else
-		include_once("main.php");
-
+	} else {
+		echo "<div id = \"vmenu\">";
+		include_once("logform.php");
+		echo "</div><div id = \"main\">Content</div>";
+	}
 ?>
 	
 	</body>

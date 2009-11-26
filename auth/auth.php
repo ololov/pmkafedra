@@ -9,6 +9,6 @@
 		$tmp->login($_POST['login'], $_POST['pwd']);
 	}
 	
-	header("Location: /index.php?page=info");
+	header("Location: http://". $_SERVER['HTTP_HOST'] ."/". $_SERVER['REQUEST_URI']);
 
 ?>
