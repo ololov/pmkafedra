@@ -1,0 +1,399 @@
+html
+{
+	margin:		0px; 
+	padding:	0px;
+}
+
+body 
+{
+	margin:		0px 70px;
+	font:		100% palatino, serif;
+	color:		#555753;
+	background:	url("images/patt_03.jpg");
+}
+
+body #container
+{
+	background:	white;
+	padding:	0px 30px;
+	border:		1px solid #adadae;
+	margin-bottom:	10px;
+}
+
+#head
+{
+	background:	white;
+}
+/*------------------Горизонтальное меню-------------------*/
+.gmenu
+{
+	background:	white;
+	text-align:	center;
+	overflow:	hidden;
+	position:	relative;
+}
+
+.gmenucont
+{
+	float: 		left;
+	left:		50%;
+	position:	relative;
+	text-align:	center;
+}
+
+.wrpr
+{
+	position:	relative;
+	left:		-50%;
+	float:		left;
+	list-style:	none;
+	margin:		0px; 
+	padding:	0px;
+}
+
+.gmenu li
+{
+	float:		  left;
+	background:	  black;
+	opacity:	  .5;
+/*	filter:		  alpha(opacity=50);*/
+	margin:		  0px 2px;
+}
+
+.gmenu li a
+{
+	
+	color:		  white;
+	text-decoration:  none;
+	padding:	  0px 10px;
+}
+
+/*--------------------------------------------------------*/
+#separator
+{
+	margin:		0px;
+	padding:	0px;
+	height:		5px;
+	width:		100%;
+	font:		80% palatino, serif;	
+	background:	#adadae;
+	position:	relative;
+}
+/*---------------------------Sidebar----------------------*/
+#vmenu
+{
+	background:	#b9defd;
+	border: 	1px solid #adadae;
+	padding:	0px;
+	opacity:	.7;
+	width:		18%;
+	height:		300px;
+	float:		left;
+}
+
+#vmenu p
+{
+	display:	none;
+}
+
+#vmenu ul
+{
+	list-style:	none;
+	padding:	0px;
+	margin:		0px;
+}
+
+#vmenu ul li
+{
+	border-bottom:	1px dotted #025391;
+	margin:		0px;
+}
+
+#vmenu ul li a
+{
+	display:	 block;
+	text-decoration: none;
+	font-size:	 82%;
+	font-weight:	 bold;
+	color:		 #025391;
+	width:		 100%;
+	padding:	 5px 0px 5px 5px;
+}
+
+#vmenu ul li a:hover
+{
+	background: 	#cfe8fd;
+	padding:	5px 0px 5px 0px;
+}
+/*----------------------------------------------------------*/
+#main
+{
+	min-height:	600px;
+	background:	white;
+	border:		1px solid #adadae;
+	padding:	10px 30px;
+	font:		90% palatino, serif;
+	text-align:	justify;
+	margin-left:	19%;
+}
+
+/*-----------------Параграфы и заголовки------------------*/
+/*Эмблема*/
+#head .logo
+{
+	float:		left;
+	margin:		10px 10px 0px 40px;
+}
+/*---Заголовок сайта---*/
+#head p
+{
+	margin:		0px 0px;
+	padding:	20px 0px;	
+}
+
+span.cfd { font: 120% palatino, serif; }
+span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
+/*------*/
+
+/*Заголовок страницы*/
+.tit
+{
+	color:		#cb8276;
+	text-align:	center;
+	font-size:	120%;
+	font-weight:	bolder;
+}
+/*Подзаголовок*/
+.subtit
+{
+	color:		#025391;
+	font-weight:	bolder;
+}
+/*---------------Библиотека----------------------*/
+.book {
+	font:		80% palatino, serif;	
+	margin:		5px 5px 5px 5px;
+	padding:	5px 5px 5px 5px;
+	border:		1px solid gray;
+}
+
+.bookface {
+	margin-top:	10px;
+	margin-left:	10px;
+	float:		left;
+	height:		140px;
+	border:		1px solid gray;
+	max-width:	90px;
+}
+
+.bookdesc {	
+	margin-left:	5px;
+	height:		200px;
+	clear:		both;
+}
+
+.bookinfo {	
+	float:		left;
+}
+
+.bookinfo table {
+	font:		100% palatino, serif;
+}
+/*---Оформление формы---*/
+form 
+{
+	padding:	10px;
+	border:		1px solid #ccc;
+	background:	#e4f4fc;
+	text-align:	center;
+}
+
+#book_info_main
+{
+	float:		left;
+	width:		50%;
+}
+
+#book_info_dop
+{
+	margin-left:	51%;
+}
+
+fieldset
+{
+	margin:		5px auto;
+	border:		1px dotted #888;
+	background:	#f5fbff;
+	height:		470px;
+	text-align:	left;
+}
+
+legend
+{
+	font-size:	100%;
+	font-weight:	bold;
+	color:		#025391;
+	background:	#b9defd;
+	padding:	5px;
+	border:		1px solid #888;	
+}
+
+input, textarea
+{
+	width:		90%;
+}
+
+.buttonSubmit
+{
+	font:		bold 100% palatino, serif;
+	color:		#025391;
+	background:	#b9defd;
+	border:		1px solid #025391;
+	padding:	4px;
+	opacity:	.9;
+}
+.buttonSubmit:hover
+{
+	background:	#cfe8fd;
+}
+/*---------------Информация о кафедре---------------*/
+/*---Расположение фотографий---*/
+.leftimg
+{
+	float:		left;
+	margin:		0px 10px 5px 0px;
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+}
+.rightimg
+{
+	float:		right;
+	margin: 	0px 0px 5px 10px;	
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+
+}
+.prep_photo
+{
+	float:		left;
+	margin:		20px 20px 0px 0px;	
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+
+}
+/*------*/
+.stuff
+{
+	font-weight:	bolder;
+	text-align:	center;
+	color:		#0170a3;
+} 
+.name
+{
+	font-weight:	bolder;
+	font-size:	180%;
+	text-align:	center;
+	color:		#cb8276;
+}
+/*---Оформление таблицы---*/
+tr 
+{
+	background-color:	#e4f4fc;
+}
+
+tr.odd 
+{
+	background-color:	#a5d7e3;
+}
+
+td
+{
+	width:			50%;
+}
+
+td a
+{
+	text-decoration:	none;
+	color:			#025391;
+}
+/*------*/
+/*-------------Форма входа-----------------------*/
+#enter
+{
+	height:		80%;
+	border:		1px dotted #adadae;
+	margin:		5px;
+	background:	#e4f4fc;
+	font:		bold 100% palatino, serif;
+}
+
+#enter input
+{
+	font:		80% palatino, serif;
+}
+/*-------------------Форум-----------------------*/
+#forum_main
+{
+	min-height:	600px;
+	background:	white;
+	border:		1px solid #adadae;
+	padding:	10px 30px;
+	font:		80% palatino, serif;
+}
+
+/*--Таблица--*/
+#forum
+{
+	border:		1px solid #ccc;
+}
+
+/*-Заголовок-*/
+#forum .head_forum
+{
+	background:	#c7dade;
+	opacity:	.6;
+}
+
+.head_forum td
+{
+	padding:	0px 20px;
+	text-align:	left;
+	font:		bold 100% palatino, serif;
+}
+
+.head_forum .first
+{
+	width:		90%;
+}
+
+/*-Основные строки-*/
+#forum td
+{
+	padding-left:	20px;
+}
+
+#forum .team
+{
+	font:		bold 130% palatino, serif;
+	color:		#025391;
+}
+
+#forum .team:hover
+{
+	color:		#0582e1;
+}
+
+#forum .note
+{
+	font-style:	italic;
+}
+
+/*-Картинки-*/
+.img_forum
+{
+	float:		left;
+	margin-right:	10px;
+}
