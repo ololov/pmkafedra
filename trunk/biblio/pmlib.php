@@ -8,6 +8,10 @@
 </div>
 <div id = "main">
 <?php
+if (isset($_GET['uploadfile']) && $_GET['uploadfile'] == 1) {
+	include("upload.php");
+}
+
 $scripts = array("list" => "biblio/views/list.php",
 		 "desc" => "biblio/views/desc.php",
 		 "add"  => "biblio/views/add.php");

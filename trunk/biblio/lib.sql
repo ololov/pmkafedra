@@ -119,25 +119,30 @@ $$ LANGUAGE plPGSQL;
 
 DROP FUNCTION IF EXISTS ADDBOOK(IN books.name%TYPE,
 				IN VARCHAR[],
+				IN books.volume%TYPE,
 				IN books.description%TYPE,
 				IN books.publish%TYPE,
 				IN books.year%TYPE,
 				IN books.isbn%TYPE,
 				IN books.who%TYPE,
 				IN books.bookpath%TYPE,
-				IN books.department%TYPE);
+				IN books.department%TYPE,
+				IN books.sz%TYPE);
 
 CREATE FUNCTION ADDBOOK(IN books.name%TYPE,
 			IN VARCHAR[],
+			IN books.volume%TYPE,
 			IN books.description%TYPE,
 			IN books.publish%TYPE,
 			IN books.year%TYPE,
 			IN books.isbn%TYPE,
 			IN books.who%TYPE,
 			IN books.bookpath%TYPE,
-			IN books.department%TYPE)
+			IN books.department%TYPE,
+			IN books.sz%TYPE)
 RETURNS void AS $$
 DECLARE bname	books.name%TYPE;
+	bvol	books.volume%TYPE;
 	bdescr	books.description%TYPE;
 	byear	books.year%TYPE;
 	bpub	books.publish%TYPE;
@@ -152,39 +157,43 @@ BEGIN
 	PERFORM ADDAUTHORS($2);
 
 	bname := TRIM(BOTH ' ' FROM $1);
-        IF name = '' THEN
+        IF bname = '' THEN
 		RAISE EXCEPTION 'Название книги не может быть пустым';
 	END IF;
-	bdescr := TRIM(BOTH ' ' FROM $3);
+	bvol := $3;
+	IF bvol = 0 THEN
+		bvol := NULL;
+	END IF;
+	bdescr := TRIM(BOTH ' ' FROM $4);
 	IF bdescr = '' THEN
 		bdescr := NULL;
 	END IF;
-	bpub := TRIM(BOTH ' ' FROM $4);
+	bpub := TRIM(BOTH ' ' FROM $5);
 	IF bpub = '' THEN
 		bpub := NULL;
 	END IF;
-	byear := $5;
+	byear := $6;
 	IF byear = 0 THEN
 		byear := NULL;
 	END IF;
-	bisbn := TRIM(BOTH ' ' FROM $6);
+	bisbn := TRIM(BOTH ' ' FROM $7);
 	IF bisbn = '' THEN
 		bisbn := NULL;
 	END IF;
-	bwho := TRIM(BOTH ' ' FROM $7);
+	bwho := TRIM(BOTH ' ' FROM $8);
 	IF bwho = '' THEN
 		RAISE EXCEPTION 'Поле who не может быть пустым';
 	END IF;
-	bpath := TRIM(BOTH ' ' FROM $8);
+	bpath := TRIM(BOTH ' ' FROM $9);
 	IF bpath = '' THEN
 		RAISE EXCEPTION 'Путь не может быть пустым';
 	END IF;
-	bdep := TRIM(BOTH ' ' FROM $9);
+	bdep := TRIM(BOTH ' ' FROM $10);
 	if bdep = '' THEN
 		bdep := NULL;
 	END IF;
-	INSERT INTO books(name, description, publish, year, isbn, who, bookpath, department, posted)
-	VALUES (bname, bdescr, bpub, byear, bisbn, bwho, bpath, bdep, current_timestamp)
+	INSERT INTO books(name, volume, description, publish, year, isbn, who, bookpath, department, posted, sz)
+	VALUES (bname, bvol, bdescr, bpub, byear, bisbn, bwho, bpath, bdep, current_timestamp, $11)
 	RETURNING id INTO bid;
 
 	SELECT ARRAY(SELECT id FROM authors WHERE full_name = ANY($2)) INTO aids;
