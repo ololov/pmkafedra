@@ -4,18 +4,18 @@
 	require_once('include/lib.php');
 	
 	//!!! вставьте свой логин и пароль
-	$link = libdb_connect(dbuser, dbpassword) or die("Could not connect: ".mysql_error());
+	$link = db_connect() or die(pg_last_error());
 
-	if (isset($_GET['id_pr']))
+	if (isset($_GET['id_pr']) && is_numeric($_GET['id_pr']))
 	{
-		$id_prep = mysql_escape_string($_GET['id_pr']);
-		$resource = mysql_query('SELECT * FROM prepod WHERE id='.$id_prep);
+		$id_prep = $_GET['id_pr'];
+		$resource = pg_query('SELECT * FROM prepod WHERE id='.$id_prep);
 		if (!$resource) {
 			echo "<p><b> Извините, ошибка на стороне сервера. Зайдите позже.</b><p>";
 			echo "</div>";
 			exit;
 		} else {
-			$prep = mysql_fetch_assoc($resource);
+			$prep = pg_fetch_assoc($resource);
 			if ($prep['id'] != $_GET['id_pr']) {
 				echo "<p><b> Такого преподавателя не существует.</b></p>";
 				echo "</div>";

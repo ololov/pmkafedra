@@ -29,7 +29,7 @@ function make_bookinfo($book)
 	$alist = explode(',', clean_string($book['author_names']));
 	$ilist = explode(',', clean_string($book['author_ids']));
 
-	return sprintf($template, bookinfo,
+	return sprintf($template, 'bookinfo',
 			make_book_title($book),
 			make_row("Автор(ы)", make_href(list_path, $alist, $ilist)),
 			make_book_pyi($book));
@@ -87,7 +87,7 @@ function make_bookdesc($book, $maxlen)
 	}
 
 	return sprintf("<div class=\"%s\"><b>Описание:</b><p>%s</div>",
-			descclass, $desc);
+			'bookdesc', $desc);
 }
 
 /*
@@ -140,7 +140,7 @@ function make_bookimg($book)
 	}
 
 	return sprintf("<img class=\"%s\" alt=\"%s\" src=\"%s\">",
-	       		imgclass, $alt, $src);	
+	       		'bookface', $alt, $src);	
 }
 /*
  * make_bookdiv - generate book block in <div> tag.
@@ -155,7 +155,7 @@ function make_bookimg($book)
 function make_bookdiv($book)
 {
 	return sprintf("<div class=\"%s\">%s%s%s</div>",
-			bookclass,
+			'book',
 			make_bookimg($book),
 			make_bookinfo($book),
 			make_bookdesc($book, NULL));
@@ -187,7 +187,6 @@ if (!$resource || pg_num_rows($resource) == 0) {
 $row = pg_fetch_assoc($resource);
 echo make_bookdiv($row);
 
-echo "<HR>" . print_r($row);
 /*echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";*/
 
 ?>
