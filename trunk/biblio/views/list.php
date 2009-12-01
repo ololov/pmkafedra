@@ -6,49 +6,40 @@ require_once('biblio/libview.php');
  * Local functions
  */
 
-function make_book_list_entry($book, $class)
+function row_template()
 {
-	if($class != "") {
-		$class = "class=\"$class\"";
-	}
-	
-	$alist = explode(',', $book[db_authors]);
-	$idlist= explode(',', $book[db_authors_id]);
-
-	return sprintf("<tr $class>%s%s%s</tr>",
-			table_field(make_href(list_path, $alist, $idlist)),
-			table_field(tag_href(desc_path . $book[db_id],
-				    $book[db_title])),
-			table_field(tag_href($book[db_path], "Скачать")));
+	return <<<EOF
+<tr class=%s>
+<td>%s</td><td>%s</td><td><a href="%s">Скачать</a></td>
+</tr>
+EOF;
 }
 
-$link = libdb_connect();
-if (!$link)
-	die('Could not connect: ' . mysql_error());
+$link = db_connect() or die(pg_last_error());
 
-if (isset($_GET['a_id']) && is_numeric($a_id = $_GET['a_id']))
-	$query = getq_book_list_a($a_id);
-else 
-	$query = getq_book_list();
+if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id']))
+	$query = get_query_list_by_author(0, 'ALL', $aid);
+else
+	$query = get_query_list(0, 'ALL');
 
-$resource = mysql_query($query);
-if (!$resource) {
-	die('Invalid query: ' . mysql_error());
-}
-
+$res = pg_query($link, $query) or die(pg_last_error());
 ?>
 
 <p class="tit">Все книги</p>
 <table>
-
 <?php
 $i = 0;
-$classes = array(books_table_row, "");
+$class = array(books_table_row, '');
+$fmt = row_template();
 
-while ($row = mysql_fetch_assoc($resource)) {
-	echo make_book_list_entry($row, $classes[$i % 2]);
-	++$i;
+while ($row = pg_fetch_assoc($res)) {
+	$alist = explode(',', clean_string($row[author_names]));
+	$ilist = explode(',', clean_string($row[author_ids]));
+
+	printf($fmt, $class[($i++) % 2],
+		make_href(list_path, $alist, $ilist),
+		tag_href(desc_path . $row[book_id], $row[book_name]),
+		$row[book_path]);
 }
-
 ?>
 </table>
