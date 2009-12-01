@@ -22,7 +22,7 @@ CREATE TABLE books (
 	pages INT ,
 	department VARCHAR(255),
 	CHECK(sz > 0),
-	CHECK(year > 1000),
+	CHECK(year > 1000 OR year IS NULL),
 	CHECK(pages > 0 OR pages IS NULL)
 );
 
