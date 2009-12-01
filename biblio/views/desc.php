@@ -26,10 +26,12 @@ function make_bookinfo($book)
 {
 	$template =
 		"<div class=\"%s\"><table>%s%s%s</table></div>";
+	$alist = explode(',', clean_string($book['author_names']));
+	$ilist = explode(',', clean_string($book['author_ids']));
 
 	return sprintf($template, bookinfo,
 			make_book_title($book),
-			make_book_authors($book),
+			make_row("Автор(ы)", make_href(list_path, $alist, $ilist)),
 			make_book_pyi($book));
 }
 
@@ -38,28 +40,6 @@ function make_row($name, $value)
 	return table_row(table_field($name) . table_field($value));
 }
 
-function make_book_authors($book)
-{
-	$str = "";
-	$label = "Автор";
-	$authors = $book[db_authors];
-	$authors_id = $book[db_authors_id];
-
-	$alist = explode(',', $authors);
-	$idlist = explode(',', $authors_id);
-	if (count($alist) == 1)
-		$label .= ": ";
-	else
-		$label .= "ы: ";
-/*
-	for ($i = 0; $i < count($alist); $i++)
-		$str .= $alist[$i] . ", ";
-	$str = trim($str, ", ");
- */
-	$str = make_href(list_path,
-			$alist, $idlist);
-	return make_row($label, $str);
-}
 /*
  * make_book_pyi 
  */
@@ -67,24 +47,24 @@ function make_book_pyi($book)
 {
 	$out = "";
 
-	if (isset($book[db_volume]))
-		$out = make_row("Том: ", $book[db_volume]);
-	if (isset($book[db_publish]))
-		$out .= make_row("Издательство:", $book[db_publish]);
-	if (isset($book[db_year]))
-		$out .= make_row("Год выпуска: ", (string)$book[db_year]);
-	if (isset($book[db_isbn]))
-		$out .= make_row("ISBN: ", $book[db_isbn]);
+	if (isset($book[book_volume]))
+		$out = make_row("Том: ", $book[book_volume]);
+	if (isset($book[book_pub]))
+		$out .= make_row("Издательство:", $book[book_pub]);
+	if (isset($book[book_year]))
+		$out .= make_row("Год выпуска: ", (string)$book[book_year]);
+	if (isset($book[book_isbn]))
+		$out .= make_row("ISBN: ", $book[book_isbn]);
 
 
 	/* не могут быть нулевыми */
-	$out .= make_row("Выложено: ", convert_dateformat($book[db_posted]));
-	$out .= make_row("Кем выложено: ", $book[db_who]);
+	$out .= make_row("Выложено: ", convert_dateformat($book[book_posted]));
+	$out .= make_row("Кем выложено: ", $book[book_who]);
 
-	if (isset($book[db_size]))
+	if (isset($book[book_sz]))
 		$out .= make_row("Размер: ", book_size($book));
-	if (isset($book[db_pages]))
-		$out .= make_row("Страниц: ", $book[db_pages]);
+	if (isset($book[book_pages]))
+		$out .= make_row("Страниц: ", $book[book_pages]);
 
 	return $out;
 }
@@ -94,11 +74,10 @@ function make_book_pyi($book)
  */
 function make_bookdesc($book, $maxlen)
 {
-	$desc = $book[db_descr];
-
-	if (!isset($desc)) {
+	if (!isset($book[book_desc])) {
 		$desc = "Нет описания.";
 	} else {
+		$desc = $book[book_desc];
 		$len = mb_strlen($desc, 'utf8');
 		
 		if (isset($maxlen) && ($len > $maxlen)) {
@@ -117,7 +96,7 @@ function make_bookdesc($book, $maxlen)
 function book_size($book)
 {
 	$out = "";
-	$bytes = $book[db_size];
+	$bytes = $book[book_sz];
 
 	/* размер исчисляется в мегабайтах? */
 	if (($sz = $bytes / 1048576) >= 1) {
@@ -137,7 +116,7 @@ function book_size($book)
 
 function make_book_title($book)
 {
-	$title = $book[db_title];
+	$title = $book[book_name];
 
 	return sprintf("<tr><td>Название: </td><td><b>%s</b></td></tr>",
 			$title);
@@ -151,7 +130,7 @@ function make_book_title($book)
 function make_bookimg($book)
 {
 	$alt = "";
-	$src = $book[db_imgpath];
+	$src = $book[book_face];
 
 	if (isset($src) && file_exists($src)) {
 		$alt = "Обложка";
@@ -185,39 +164,30 @@ function make_bookdiv($book)
 ?>
 <?php
 
-$link = libdb_connect();
-
 /*
  * Не стоит это конечно показывать пользователю, но
  * пока об этом думать рано, не так ли?
  */
-if (!$link)
-	die('Could not connect: ' . mysql_error());
+$link = db_connect() or die(pg_last_error());
 
-if (isset($_GET['book_id']))
-	$book_id = mysql_real_escape_string($_GET['book_id'], $link);
-else
+if (!(isset($_GET['book_id']) && is_numeric($book_id = $_GET['book_id'])))
 	$book_id = -1;
 
-$query = getq_book_info($book_id);
-$resource = mysql_query($query);
+$query = get_book_info($book_id);
+$resource = pg_query($link, $query);
 
-if (!$resource) {
+if (!$resource || pg_num_rows($resource) == 0) {
 	/*
 	echo "<p><b>Извините, ошибка на стороне сервера.</b></p>";
-	 */
-	die('Error : ' . mysql_error());
 	exit;
+	 */
+	die('Error : ' . pg_last_error());
 }
 
-$row = mysql_fetch_assoc($resource);
-/*
- * Подскажите если кто знает лучший способ проверить
- * на пустой результат
- */
-if ($row[db_id] == $book_id) 
-	echo make_bookdiv($row);
-else
-	echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";
+$row = pg_fetch_assoc($resource);
+echo make_bookdiv($row);
+
+echo "<HR>" . print_r($row);
+/*echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";*/
 
 ?>

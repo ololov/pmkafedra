@@ -1,4 +1,5 @@
 <?php
+/*
 	include_once("auth/authlib.php");
 	
 	$no_login_needed = array('/pmkafedra/?page=login');
@@ -6,7 +7,7 @@
 	{
 		Validator::redirect();
 	}
-	
+ */	
 ?>
 
 <!DOCTYPE html>

@@ -19,28 +19,31 @@ define('book_face', 'user_book_face', true);
 /*
  * Database defenitions and
  * Column names from database tables
+define('db_books', 'books_tb');
+define('db_authors', 'authors_tb');
+define('db_ab', 'ab_tb');
  */
-
 /*
  * Синонимы полей таблиц в БД
+ *
  */
-define('db_id', 'book_id', true);
-define('db_title', 'book_name', true);
-define('db_authors', 'book_authors_name', true);
-define('db_authors_id', 'book_authors_id', true);
-define('db_volume', 'book_volume', true);
-define('db_publish', 'book_publish', true);
-define('db_year', 'book_year', true);
-define('db_isbn', 'book_isbn', true);
-define('db_descr', 'book_desc', true);
-define('db_posted', 'book_posted', true);
-define('db_path', 'book_path', true);
-define('db_imgpath', 'book_face_path', true);
-define('db_size', 'book_size', true);
-define('db_pages', 'book_pages', true);
-define('db_who', 'book_who', true);
-define('db_depart', 'book_department', true);
+define('book_id', 'book_id', true);
+define('book_name', 'book_name', true);
+define('book_vol', 'book_volume', true);
+define('book_pub', 'book_publish', true);
+define('book_year', 'book_year', true);
+define('book_isbn', 'book_isbn', true);
+define('book_desc', 'book_desc', true);
+define('book_post', 'book_posted', true);
+define('book_path', 'book_path', true);
+define('book_face', 'book_face', true);
+define('book_sz', 'book_size', true);
+define('book_page', 'book_pages', true);
+define('book_who', 'book_who', true);
+define('book_dep', 'book_dep', true);
 
+define('author_id', 'author_id');
+define('author_name', 'author_name');
 /*
  * Имя хранимой процедуры, которая возвращает
  * полную информацию о книги.
@@ -59,70 +62,62 @@ define('proc_book_list', 'get_book_list', true);
 /*
  * Пока другого выхода я не вижу.
  */
-function getq_book_info($book_id)
+function get_book_info($book_id)
+{
+	$fmt = <<<EOF
+SELECT
+	*,
+	ARRAY(SELECT author_id FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_ids,
+	ARRAY(SELECT author_name FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_names
+FROM
+	books_tb
+WHERE
+	book_id = %d;
+EOF;
+	return sprintf($fmt, $book_id);
+}
+
+function get_query_list($from, $count)
 {
 	$query = <<<EOF
 SELECT
-tb.id AS book_id,
-tb.name AS book_name,
-tb.volume AS book_volume,
-tb.description AS book_desc,
-tb.publish AS book_publish,
-tb.year AS book_year,
-tb.isbn AS book_isbn,
-tb.posted AS book_posted,
-tb.who AS book_who,
-tb.bookpath AS book_path,
-tb.imgpath AS book_face_path,
-tb.sz AS book_size,
-tb.pages AS book_pages,
-tb.department AS book_department,
-GROUP_CONCAT(ta.full_name SEPARATOR ", ") AS book_authors_name,
-GROUP_CONCAT(ta.id SEPARATOR ", ") AS book_authors_id
-FROM bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr 
-WHERE tb.id = tr.id_book AND tr.id_author = ta.id AND tb.id =
+	book_id,
+	book_name,
+	array_agg(author_id) AS author_ids,
+	array_agg(author_name) AS author_names,
+	(SELECT book_path FROM books_tb WHERE books_tb.book_id = ab_tb.book_id) AS book_path
+FROM
+	ab_tb
+GROUP BY
+	book_id, book_name
+ORDER BY
+	book_name
 EOF;
-	return $query . sprintf(" %d;", $book_id);
+	return "$query LIMIT $count OFFSET $from;";
 }
 
-function getq_book_list()
+function get_query_list_by_author($from, $count, $aid)
 {
-	return <<<EOF
+	$query = <<<EOF
 SELECT
-tb.id AS book_id,
-tb.name AS book_name,
-tb.volume AS book_volume,
-tb.bookpath AS book_path,
-tb.imgpath AS book_face_path,
-tb.department AS book_department,
-GROUP_CONCAT(ta.full_name SEPARATOR ", ") AS book_authors_name,
-GROUP_CONCAT(ta.id SEPARATOR ", ") AS book_authors_id
-FROM bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr 
-WHERE tb.id = tr.id_book AND tr.id_author = ta.id GROUP BY tb.id;
+	book_id,
+	book_name,
+	array_agg(author_id) AS author_ids,
+	array_agg(author_name) AS author_names,
+	(SELECT book_path FROM books_tb WHERE books_tb.book_id = ab_tb.book_id) AS book_path
+FROM
+	ab_tb
+GROUP BY
+	book_id, book_name
+HAVING
+	%d = ANY(array_agg(author_id))
+ORDER BY
+	book_name
+LIMIT %s OFFSET %d;
 EOF;
+	return sprintf($query, $aid, $count, $from);
 }
 
-function getq_book_list_a($author_id)
-{
-	$sel_expr = <<<EOF
-tb.id AS book_id,
-tb.name AS book_name,
-tb.volume AS book_volume,
-tb.bookpath AS book_path,
-tb.imgpath AS book_face_path,
-tb.department AS book_department,
-GROUP_CONCAT(ta.full_name SEPARATOR ", ") AS book_authors_name,
-GROUP_CONCAT(ta.id SEPARATOR ", ") AS book_authors_id
-EOF;
-	$sel_tbl_ref = <<<EOF
-bib_books AS tb, bib_authors AS ta, bib_ab_relation AS tr
-EOF;
-	$sel_cond = <<<EOF
-IN (SELECT tg.id_author FROM bib_ab_relation AS tg WHERE tb.id = tg.id_book)
-AND tb.id = tr.id_book AND tr.id_author = ta.id GROUP BY tb.name
-EOF;
-	return sprintf("SELECT %s FROM %s WHERE %d %s ;",
-			$sel_expr, $sel_tbl_ref, $author_id, $sel_cond);
-}
+
 
 ?>

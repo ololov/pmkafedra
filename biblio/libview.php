@@ -58,4 +58,12 @@ function make_href($ref_prefix, $name_list, $param_val_list)
 	return $str;
 }
 
+/*
+ *
+ */
+function clean_string($str)
+{
+	return str_replace(array('"', '{', '}'), '', $str);
+}
+
 ?>
