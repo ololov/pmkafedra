@@ -53,7 +53,9 @@
 					 'upload' => 'biblio/upload_form.php',
 					 'login' => 'login.php',
 					 'stud'  => 'students/discipl.php',
-					 'forum' => 'forum/forum.php');
+					 'forum' => 'forum/forum.php',
+					 'news'  => 'news/news.php',
+					 'schedule' => 'schedule/schedule.php');
 	$page = $_GET['page'];
 
 	if (isset($page) && array_key_exists($page, $scripts))
