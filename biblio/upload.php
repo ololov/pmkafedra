@@ -82,22 +82,21 @@ function make_array($str)
 /*
  *
  */
-if (!(isset($_POST['book_title']) && isset($_POST['book_author']) &&
-	isset($_POST['book_desc']) && isset($_POST['book_volume']) &&
-	isset($_POST['book_publish']) && isset($_POST['book_year']) &&
-	isset($_POST['book_isbn'])))
+$params = array('book_title', 'book_author', 'book_desc',
+		'book_volume', 'book_publish', 'book_year',
+		'book_isbn', 'book_dep');
+
+for ($i = 0; $i < count($params); ++$i)
+	if (!isset($_POST[$params[$i]]))
 		die("No parameters");
 
 $link = db_connect() or die(pg_last_error());
 
-$name = pg_escape_string($link, $_POST['book_title']);
-$authors = pg_escape_string($link, $_POST['book_author']);
-$desc = pg_escape_string($link, $_POST['book_desc']);
-$volume = pg_escape_string($link, $_POST['book_volume']);
-$publish = pg_escape_string($link, $_POST['book_publish']);
-$year = pg_escape_string($link, $_POST['book_year']);
-$isbn = pg_escape_string($link, $_POST['book_isbn']);
+$val = array();
+for ($i = 0; $i < count($params); ++$i)
+	$val[] = trim(pg_escape_string($link, $_POST[$params[$i]]));
 
+$name = $val[0];
 /*
  * Пробуем вытащить расширение файлов
  */
@@ -117,8 +116,8 @@ for ($i = 1; file_exists($path); ++$i)
 	$path = "$pathdir$lname($i)$ext";
 
 $query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
-		$name, make_array($authors), $volume, $desc, $publish, $year,
-		$isbn, 'admin', $path, 'unknown', $sz);
+		$name, make_array($val[1]), $val[3], $val[2], $val[4], $val[5],
+		$val[6], 'admin', $path, $val[7], $sz);
 /* Заносим данные в БД */
 $res = pg_query($link, $query) or die(pg_last_error());
 
