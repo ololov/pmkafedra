@@ -3,6 +3,10 @@
 		include_once('teams.php');
 		exit;
 	}
+	if (isset($_GET['mes'])) {
+		include_once('mes.php');
+		exit;
+	}
 ?>
 <div id = forum_main>
 	<table id = "forum">
