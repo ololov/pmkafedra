@@ -39,5 +39,5 @@ echo Generate logins.php file ...
 #echo -n $pass | sed "s/\([$\"&]\)/\\\\\\1/g" >> $loginfile
 #echo "\", true); define('dbname',\"$DB_NAME\", true); ?>" >> $loginfile
 #
-echo -n "<?php define('dbparam', 'username=$USER password=$pass dbname=$DBNAME'); ?>" > $loginfile
+echo -n "<?php define('dbparam', 'user=$USER password=$pass dbname=$DBNAME'); ?>" > $loginfile
 

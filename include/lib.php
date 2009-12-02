@@ -7,7 +7,7 @@ require_once('include/logins.php');
  */
 function db_connect()
 {
-	$link = pg_connect(db_param);
+	$link = pg_connect(dbparam);
 
 	if ($link)
 		return $link;
