@@ -399,6 +399,74 @@ td a
 	margin-right:	10px;
 }
 
+/*-Таблица для вывода сообщения-*/
+#forum_mes
+{
+	width:			100%;
+}
+
+#forum_a
+{
+	min-height:		150px;
+	min-width:		150px;
+	border:			1px solid #ccc;
+	margin:			5px;
+	text-align:		center;
+}
+
+/*-Заголовок сообщения-*/
+#forum_time, #forum_numb
+{
+	background:		#c7dade;
+	font-weight:		bold;
+}
+
+#forum_auth
+{
+	width:			10%;
+}
+
+#forum_text
+{
+	width:			80%;
+}
+/*-Содержание сообщения-*/
+#forum_cont
+{
+	margin:			5px;
+	border:			1px solid #ccc;
+	background:		white;
+	padding:		0px 5px;
+	min-height:		140px;
+}
+
+/*-Подпись-*/
+.forum_subm
+{
+	border-top:		4px double #ccc;
+	font-style:		italic;
+	color:			#4791b7;
+	font-weight:		bolder;
+	padding-top:		3px;
+}
+
+/*-Аватар-*/
+.forum_avatar
+{
+	background:		white;
+	padding:		5px;
+	border:			1px solid #ccc;
+	margin:			20px;
+}
+
+/*-Имя автора сообщения-*/
+.forum_name
+{
+	color:			#025391;
+	font-weight:	bold;
+	font-size:		120%;
+	border-top:		1px dotted #ccc;	
+}
 /*---------------------------Новости----------------------------*/
 #add_news
 {
@@ -505,7 +573,7 @@ td a
 
 #schedule .prep
 {
-	text-align:	left;
+	text-align:	right;
 	font-style:	italic;
 	color:		#555753;
 }

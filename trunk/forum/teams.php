@@ -1,3 +1,4 @@
+
 <div id = forum_main>
 	<table id = "forum">
 		<tr class = "head_forum">
@@ -9,7 +10,7 @@
 		<tr>
 			<td>
 				<img src = "images/topic1.png" class = "img_forum">
-				<a href = "" class = "team">Тема 1</a>
+				<a href = "?page=forum&mes=1" class = "team">Тема 1</a>
 			</td>
 			<td>Ifght</td>
 			<td>63</td>
