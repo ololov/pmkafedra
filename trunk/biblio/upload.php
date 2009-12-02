@@ -2,29 +2,6 @@
 require_once('include/lib.php');
 
 /* -------------------Функции для загрузки книги -------------------- */
-/*
- * get_book_path - Возварщает путь где книга может быть сохранена.
- * name - имя должно содержать только цифры и латиницу.
- */
-define('book_path_prefix', 'biblio/books/', true);
-
-function get_book_path($name)
-{
-	/*
-	 * Для того, чтобы книги не сваливать в одну кучу(читай директорию) 
-	 * создадим промежуточные директории имя которых будет равно первым
-	 * двум буквам имени
-	 * Пока других идей нету.
-	 */
-	$dir = "";
-	if (!ctype_alnum($name[0]))
-		$name[0] = '_';
-	if (!ctype_alnum($name[1]))
-		$name[1] = '_';
-	$dir = substr(strtolower($name), 0, 2) . '/';
-	return book_path_prefix . "$dir$name";
-}
-
 /****************************************************************/
 
 /*
@@ -59,6 +36,29 @@ function translit($str)
 			'ю' => 'yu',	'я' => 'ya');
 	return strtr($str, $trans);
 }
+/*
+ * get_book_path - Возварщает путь где книга может быть сохранена.
+ * name - имя должно содержать только цифры и латиницу.
+ */
+define('book_path_prefix', 'biblio/books/', true);
+
+function get_book_path($name)
+{
+	/*
+	 * Для того, чтобы книги не сваливать в одну кучу(читай директорию) 
+	 * создадим промежуточные директории имя которых будет равно первым
+	 * двум буквам имени
+	 * Пока других идей нету.
+	 */
+	$dir = "";
+	if (!ctype_alnum($name[0]))
+		$name[0] = '_';
+	if (!ctype_alnum($name[1]))
+		$name[1] = '_';
+	$dir = substr(strtolower($name), 0, 2) . '/';
+	return book_path_prefix . "$dir";
+}
+
 
 /*
  * то же что и translit только переводит все буквы в нижний регистр
@@ -110,13 +110,19 @@ else
 /* Размер загруженного файла */
 $sz = $_FILES['book_file']['size'];
 /* Путь к файлу */
-$path = get_book_path($name) . $ext;
+$pathdir = get_book_path($name);
+$path = $pathdir . strtolower($name) . $ext;
 
 $query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
 		$name, make_array($authors), $volume, $desc, $publish, $year,
 		$isbn, 'admin', $path, 'unknown', $sz);
 echo $query;
 $res = pg_query($link, $query) or die(pg_last_error());
+
+/* Создаем директорию если ее нету */
+mkdir($pathdir, 0777, true);
+/* Переносим загруженный файл в библиотеку */
+move_uploaded_file($_FILES['book_file']['tmp_name'], $path);
 
 pg_close($link);
 ?>

@@ -173,6 +173,9 @@ BEGIN
 		bpub := NULL;
 	END IF;
 	byear := $6;
+	IF byear > EXTRACT(year FROM NOW()) THEN
+		RAISE EXCEPTION 'Год выпуска не может превышать текущий';
+	END IF;
 	IF byear = 0 THEN
 		byear := NULL;
 	END IF;
@@ -193,7 +196,7 @@ BEGIN
 		bdep := NULL;
 	END IF;
 	INSERT INTO books(name, volume, description, publish, year, isbn, who, bookpath, department, posted, sz)
-	VALUES (bname, bvol, bdescr, bpub, byear, bisbn, bwho, bpath, bdep, current_timestamp, $11)
+	VALUES (bname, bvol, bdescr, bpub, byear, bisbn, bwho, bpath, bdep, NOW(), $11)
 	RETURNING id INTO bid;
 
 	SELECT ARRAY(SELECT id FROM authors WHERE full_name = ANY($2)) INTO aids;
