@@ -22,7 +22,7 @@ function get_book_path($name)
 	if (!ctype_alnum($name[1]))
 		$name[1] = '_';
 	$dir = substr(strtolower($name), 0, 2) . '/';
-	return book_path_prefix . $dir;
+	return book_path_prefix . "$dir$name";
 }
 
 /****************************************************************/
@@ -74,7 +74,7 @@ function make_array($str)
 	$res = '';
 
 	for ($i = 0; $i < count($list); ++$i)
-		$res .= "'$list[$i]',";
+		$res .= sprintf("'%s',", trim($list[$i]));
 	$res = trim($res, ',');
 	return "ARRAY[$res]";
 }
@@ -98,13 +98,23 @@ $publish = pg_escape_string($link, $_POST['book_publish']);
 $year = pg_escape_string($link, $_POST['book_year']);
 $isbn = pg_escape_string($link, $_POST['book_isbn']);
 
+/*
+ * Пробуем вытащить расширение файлов
+ */
+$or_name = basename(pg_escape_string($link, $_FILES['book_file']['name']));
+$pos = mb_strrpos($or_name, '.', -1, 'utf8');
+if ($pos === FALSE || mb_strlen($pos, 'utf8') > 4)
+	$ext = '';
+else
+	$ext = mb_substr($or_name, $pos);
+/* Размер загруженного файла */
 $sz = $_FILES['book_file']['size'];
-
-print_r($_FILES);
+/* Путь к файлу */
+$path = get_book_path($name) . $ext;
 
 $query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
 		$name, make_array($authors), $volume, $desc, $publish, $year,
-		$isbn, 'admin', get_book_path($name), 'unknown', $sz);
+		$isbn, 'admin', $path, 'unknown', $sz);
 echo $query;
 $res = pg_query($link, $query) or die(pg_last_error());
 
