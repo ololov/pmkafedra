@@ -20,7 +20,7 @@ EOF;
 function make_lists_href($curr, $all)
 {
 	global $url;
-	$count = (int)$all / capacity + 1;
+	$count = (int)abs($all - 1) / capacity + 1;
 
 	for ($i = 1; $i <= $count; ++$i)
 		if ($i != $curr)
@@ -52,13 +52,9 @@ if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id'])) {
 	$query = get_query_list($from, capacity);
 
 /* */
-$str = "http://".trim($_SERVER['HTTP_HOST'], '/').$_SERVER['REQUEST_URI'];
+$str = "http://".trim($_SERVER['HTTP_HOST'], '/').$_SERVER['SCRIPT_NAME'];
 
-$pos = mb_strpos($str, '?');
-if ($pos === FALSE)
-	$pos = mb_strlen($str, 'utf8') - 1;
-
-$url = mb_strcut($str, 0, $pos) . "?page=pmlib&amp;view=list$param2";
+$url = "$str?page=pmlib&amp;view=list$param2";
 
 /*
  * Узнаем сколько всего книг
