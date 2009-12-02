@@ -111,7 +111,10 @@ else
 $sz = $_FILES['book_file']['size'];
 /* Путь к файлу */
 $pathdir = get_book_path($name);
-$path = $pathdir . strtolower($name) . $ext;
+$lname = strtolower($name);
+$path = "$pathdir$lname$ext";
+for ($i = 1; file_exists($path); ++$i)
+	$path = "$pathdir$lname($i)$ext";
 
 $query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
 		$name, make_array($authors), $volume, $desc, $publish, $year,
