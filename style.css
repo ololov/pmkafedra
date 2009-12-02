@@ -6,10 +6,11 @@ html
 
 body 
 {
-	margin:		0px 70px;
+	margin:		0px 50px;
 	font:		100% palatino, serif;
 	color:		#555753;
 	background:	url("images/patt_03.jpg");
+	min-width:	980px;
 }
 
 body #container
@@ -396,4 +397,153 @@ td a
 {
 	float:		left;
 	margin-right:	10px;
+}
+
+/*---------------------------Новости----------------------------*/
+#add_news
+{
+	height:		300px;
+}
+
+#com_news
+{
+	height:		50%;
+	margin-bottom:	10px;
+	padding: 	10px;
+}
+
+#type_news
+{
+	height:		20%;
+}
+
+#add_news textarea, #add_news select, #add_news .theme
+{
+	float:		right;
+	width:		80%;
+}
+
+
+/*-----------------------------Расписание----------------------------------*/
+/*------------Ссылки на группы------------*/
+#group ul
+{
+	list-style:	none;
+	margin:		0px;
+	padding:	0px;
+}
+
+#group ul li
+{
+	float:		left;
+	border-right:	1px solid #ccc;
+	margin:		0px;
+}
+
+#group ul li a
+{
+	margin-right:	 20px;
+	display:	 block;
+	text-decoration: none;
+	font-size:	 82%;
+	font-weight:	 bold;
+	color:		 #025391;
+	width:		 100%;
+	padding:	 5px 0px 5px 5px;
+
+}
+#group ul li a:hover, #group ul li a:active
+{
+	background: 	#cfe8fd;
+	padding:	5px 0px 5px 0px;
+	border:		1px solid #ccc;
+}
+
+#group
+{
+	border:		1px solid #ccc;
+	height:		25px;
+}
+/*-----------Таблица для расписания---------*/
+#sch
+{
+	border:		1px solid #ccc;
+	margin:		0px;
+}
+
+#schedule
+{
+	width:		100%;
+	border:		1px solid #ccc;
+	background:	#ccc;
+}
+
+/*----------Заголовок таблицы------*/
+/*--День и число--*/
+#sch_day, #sch_num
+{
+	background:	#f9f8d8;
+	color:		#555753;
+	height:		60px;
+	text-align:	center;
+}
+
+/*-------------Текст---------------*/
+#schedule p
+{
+	font:		100% palatino, serif;
+	color:		#025391;
+	padding:	0px 0px;
+	margin:		1px 0px;
+}
+
+#schedule .pred
+{
+	text-align:	right;
+	font:		bold 110% palatino, serif;
+}
+
+#schedule .prep
+{
+	text-align:	left;
+	font-style:	italic;
+	color:		#555753;
+}
+
+/*-------------Ячейки--------------*/
+#schedule td
+{
+	padding:	0px 20px;
+	text-align:	center;
+	width:		5px;
+}
+
+/*--Номер пары--*/
+#schedule #sch_para
+{
+	color:		#025391;
+	font-weight:	bold;
+	width:		2%;
+	background:	#f2f9f6;
+}
+
+/*--Тип пары--*/
+#schedule #sch_type
+{
+	background:	#f2f9fd;
+	width:		2%;
+}
+
+/*--Аудитория--*/
+#schedule #sch_audt
+{
+	width:		2%;
+}
+
+#menulink {
+/*	display:	none;*/
+}
+
+#menulink li {
+	padding-left:	30px;
 }
