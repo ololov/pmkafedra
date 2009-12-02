@@ -24,6 +24,8 @@
 		<input type="text" name="book_year" />
 		<p>ISBN<br>
 		<input type="text" name="book_isbn" />
+		<p>Раздел<br>
+		<input type="text" name="book_dep" />
 	</fieldset>
 	</div>
 	<p><input type="submit" name="Загрузить" value="Загрузить" class="buttonSubmit" /></p>

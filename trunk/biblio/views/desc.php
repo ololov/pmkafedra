@@ -48,23 +48,25 @@ function make_book_pyi($book)
 	$out = "";
 
 	if (isset($book[book_volume]))
-		$out = make_row("Том: ", $book[book_volume]);
+		$out = make_row("Том ", $book[book_volume]);
 	if (isset($book[book_pub]))
-		$out .= make_row("Издательство:", $book[book_pub]);
+		$out .= make_row("Издательство", $book[book_pub]);
 	if (isset($book[book_year]))
-		$out .= make_row("Год выпуска: ", (string)$book[book_year]);
+		$out .= make_row("Год выпуска ", (string)$book[book_year]);
 	if (isset($book[book_isbn]))
-		$out .= make_row("ISBN: ", $book[book_isbn]);
+		$out .= make_row("ISBN ", $book[book_isbn]);
+	if (isset($book[book_dep]))
+		$out .= make_row("Раздел", $book[book_dep]);
 
 
 	/* не могут быть нулевыми */
-	$out .= make_row("Выложено: ", convert_dateformat($book[book_posted]));
-	$out .= make_row("Кем выложено: ", $book[book_who]);
+	$out .= make_row("Выложено ", convert_dateformat($book[book_posted]));
+	$out .= make_row("Кем выложено ", $book[book_who]);
 
 	if (isset($book[book_sz]))
-		$out .= make_row("Размер: ", book_size($book));
+		$out .= make_row("Размер ", book_size($book));
 	if (isset($book[book_pages]))
-		$out .= make_row("Страниц: ", $book[book_pages]);
+		$out .= make_row("Страниц ", $book[book_pages]);
 
 	return $out;
 }
