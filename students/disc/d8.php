@@ -1,4 +1,3 @@
-<?php include_once("students/s_sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit">Программные системы машинной графики</p>
 	<ol>

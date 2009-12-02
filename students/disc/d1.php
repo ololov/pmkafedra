@@ -1,4 +1,3 @@
-<?php include_once("students/s_sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit">Алгебра и аналитическая геометрия</p>
 	<ol>

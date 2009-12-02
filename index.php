@@ -46,16 +46,13 @@
 	 * 		А именно то что передается из $_GET['page'] явл-ся ключом, а значение это имя файла(скрипта).
 	 */
 	$scripts = array('pmlib' => 'biblio/pmlib.php', 
-					 'info' => 'info/info.php', 
-					 'staff' => 'info/staff.php', 
-					 'contact' => 'info/contact.php', 
-					 'list' => 'biblio/list.php', 
-					 'upload' => 'biblio/upload_form.php',
-					 'login' => 'login.php',
-					 'stud'  => 'students/discipl.php',
-					 'forum' => 'forum/forum.php',
-					 'news'  => 'news/news.php',
-					 'schedule' => 'schedule/schedule.php');
+			 'info' => './info/info.php', 
+			 'staff' => './info/staff.php', 
+			 'contact' => './info/contact.php', 
+			 'login' => './login.php',
+			 'stud'  => 'students/stud.php',
+			 'forum' => 'forum/forum.php',
+			 'news'  => 'news/news.php');
 	$page = $_GET['page'];
 
 	if (isset($page) && array_key_exists($page, $scripts))
