@@ -116,7 +116,7 @@ $path = $pathdir . strtolower($name) . $ext;
 $query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
 		$name, make_array($authors), $volume, $desc, $publish, $year,
 		$isbn, 'admin', $path, 'unknown', $sz);
-echo $query;
+/* Заносим данные в БД */
 $res = pg_query($link, $query) or die(pg_last_error());
 
 /* Создаем директорию если ее нету */
@@ -126,4 +126,3 @@ move_uploaded_file($_FILES['book_file']['tmp_name'], $path);
 
 pg_close($link);
 ?>
-<p><b>Книга успешно добавлена</b></p>
