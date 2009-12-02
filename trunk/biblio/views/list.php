@@ -1,6 +1,6 @@
 <?php
-require_once('biblio/dbconst.php');
-require_once('biblio/libview.php');
+require_once('./biblio/dbconst.php');
+require_once('./biblio/libview.php');
 
 
 /*
