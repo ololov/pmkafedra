@@ -2,6 +2,7 @@
 require_once('biblio/dbconst.php');
 require_once('biblio/libview.php');
 
+
 /*
  * Local functions
  */
@@ -15,14 +16,64 @@ function row_template()
 EOF;
 }
 
+
+function make_lists_href($curr, $all)
+{
+	global $url;
+	$count = (int)$all / capacity + 1;
+
+	for ($i = 1; $i <= $count; ++$i)
+		if ($i != $curr)
+			$ret .= "<a href=\"$url&amp;lists=$i\">$i</a> ";
+		else
+			$ret .= "$i ";
+
+	return $ret;
+}
+
+/* Кол-во книг выводимых на одной странице */
+define('capacity', '10');
+
 $link = db_connect() or die(pg_last_error());
 
-if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id']))
-	$query = get_query_list_by_author(0, 'ALL', $aid);
-else
-	$query = get_query_list(0, 'ALL');
+$from = 0;
+$pages = 1;
 
+if (isset($_GET['lists']) && is_numeric($pages = $_GET['lists'])) {
+	if ($pages < 1)
+		$pages = 1;
+	$from = ((int)$pages - 1) * capacity;
+}
+
+if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id'])) {
+	$query = get_query_list_by_author($from, capacity, $aid);
+	$param2 = "&amp;a_id=$aid";
+} else
+	$query = get_query_list($from, capacity);
+
+/* */
+$str = "http://".trim($_SERVER['HTTP_HOST'], '/').$_SERVER['REQUEST_URI'];
+
+$pos = mb_strpos($str, '?');
+if ($pos === FALSE)
+	$pos = mb_strlen($str, 'utf8') - 1;
+
+$url = mb_strcut($str, 0, $pos) . "?page=pmlib&amp;view=list$param2";
+
+/*
+ * Узнаем сколько всего книг
+ */
+$res = pg_query($link, "SELECT COUNT(*) FROM books_tb;") or die(pg_last_error());
+$tmp = pg_fetch_array($res);
+$rows = $tmp[0];
+
+/*
+ * Посылка основного запроса
+ */
 $res = pg_query($link, $query) or die(pg_last_error());
+
+if (pg_num_rows($res) == 0)
+	die("Нет таких книг");
 ?>
 
 <p class="tit">Все книги</p>
@@ -43,3 +94,10 @@ while ($row = pg_fetch_assoc($res)) {
 }
 ?>
 </table>
+<div>
+<p align=center>
+<?php
+echo make_lists_href($pages, $rows);
+?>
+</p>
+</div>
