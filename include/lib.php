@@ -12,7 +12,6 @@ function db_connect()
 	if ($link)
 		return $link;
 
-	pg_close($link);
 	return false;
 }
 

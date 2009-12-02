@@ -1,7 +1,7 @@
 <?php
 
-require_once('include/logins.php');
-require_once('include/lib.php');
+require_once('./include/logins.php');
+require_once('./include/lib.php');
 
 /*
  * Database defenitions and
