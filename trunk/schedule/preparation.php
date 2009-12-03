@@ -9,6 +9,8 @@
 	* =))
 	* 
 	*/
+	require_once('style_id.php');
+
 	define("XML_FILE",'1234.xml');
 	define("TXT_FILE",'para_plus_predmet.txt');
 
@@ -22,8 +24,11 @@
 	* Формирование двух запросов, первый ищет сторки с ФИО преподавателя,
 	* второй ищет пары + название предмета
 	*/
-	$query = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce12']/m:Data";
-	$query2 = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce2']/m:Data | /m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce10']/m:Data";
+	$query = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='".prepod."']/m:Data";
+	$query2 = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='".para."']/m:Data | /m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='".predmet."']/m:Data";
+
+//	$query = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce12']/m:Data";
+//	$query2 = "/m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce2']/m:Data | /m:Workbook/m:Worksheet/m:Table/m:Row/m:Cell[@m:StyleID='ce10']/m:Data";
     
     	$str_parse = "только";
     	$datas = $domxpath->query($query);
@@ -37,7 +42,7 @@
     		if(stripos($data->nodeValue,$str_parse)){
 			list($str1, $str2) = explode($str_parse,$data->nodeValue);
 			$str1[strlen($str1)-2] = "";
-			$str2 = $str_parse.$str2;
+			$str2 = str_replace(",",";",$str_parse.$str2);
 				
 			$parent = $data->parentNode->parentNode;
 						
