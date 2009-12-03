@@ -12,9 +12,10 @@ if (isset($_GET['uploadfile']) && $_GET['uploadfile'] == 1) {
 	include("upload.php");
 }
 
-$scripts = array("list" => "biblio/views/list.php",
-		 "desc" => "biblio/views/desc.php",
-		 "add"  => "biblio/views/add.php");
+$scripts = array("list"   => "biblio/views/list.php",
+		 "desc"   => "biblio/views/desc.php",
+		 "add"    => "biblio/views/add.php",
+	 	 "search" => "biblio/views/search_form.php");
 
 if (isset($_GET['view']) && array_key_exists(($view = $_GET['view']), $scripts))
 	include_once($scripts[$view]);

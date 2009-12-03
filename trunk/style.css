@@ -257,6 +257,21 @@ input, textarea
 {
 	background:	#cfe8fd;
 }
+
+/*-Форма поиска книги-*/
+#form_search .input_text
+{
+	margin-bottom:	10px;
+	width:		95%;
+}
+#form_search
+{
+	height:		30%;
+}
+#form_search fieldset
+{
+	height:		75%;
+}
 /*---------------Информация о кафедре---------------*/
 /*---Расположение фотографий---*/
 .leftimg
@@ -467,6 +482,45 @@ td a
 	font-size:		120%;
 	border-top:		1px dotted #ccc;	
 }
+
+/*-Кнопки для форума-*/
+#forum_main .forum_button
+{
+	display:	block;
+	font:		bold 120% palatino, serif;
+	color:		#025391;
+	background:	#b9defd;
+	opacity:	.9;
+	text-decoration:none;
+	margin-bottom:	5px;
+	width:		20%;
+	text-align:	center;
+	padding-bottom:	3px;
+	border:		1px solid #ccc;
+}
+#forum_main .forum_button:hover
+{
+	background:	#cfe8fd;
+}
+
+/*-Формы для форума-*/
+#form_forum_mes
+{
+	height:		60%;
+	font-size:	110%;		
+}
+
+#form_forum_mes fieldset
+{
+	height:		70%;
+	margin-bottom:	10px;
+	padding:	10px;
+}
+
+#forum_main .tit
+{
+	font-size:	130%;
+}
 /*---------------------------Новости----------------------------*/
 #add_news
 {
@@ -485,7 +539,7 @@ td a
 	height:		20%;
 }
 
-#add_news textarea, #add_news select, #add_news .theme
+#add_news textarea, #add_news select, #add_news .theme, #form_forum_mes textarea, #form_forum_mes .text_mes
 {
 	float:		right;
 	width:		80%;

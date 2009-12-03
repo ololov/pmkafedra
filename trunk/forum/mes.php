@@ -1,4 +1,5 @@
 <div id = "forum_main">
+	<a href = "?page=forum&amp;add=1" class = "forum_button">Новое сообщение</a>
 	<table id = "forum_mes">
 		<tr>
 			<td rowspan = 2 id = "forum_auth">
