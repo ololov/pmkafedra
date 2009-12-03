@@ -32,7 +32,7 @@ function make_lists_href($curr, $all)
 }
 
 /* Кол-во книг выводимых на одной странице */
-define('capacity', '10');
+define('capacity', '25');
 
 $link = db_connect() or die(pg_last_error());
 

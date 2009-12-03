@@ -1,4 +1,6 @@
 
+SET check_function_bodies=true;
+SET client_encoding='UTF8';
 --
 --
 -- * * * * * * * * * T A B L E S * * * * * * * * * * *
@@ -93,8 +95,8 @@ DROP FUNCTION IF EXISTS CHECKNAME(IN authors.full_name%TYPE);
 CREATE FUNCTION CHECKNAME(IN authors.full_name%TYPE)
 RETURNS void AS $$
 BEGIN
-	IF $1 !~* '^[[:alpha:]]{2,16}( [[:<:]][[:alpha:]]{1,16}[.]{0,1}){2}' THEN
-		RAISE EXCEPTION 'Неправильное имя автора: %', $1;
+	IF $1 !~* '^[a-zА-Яа-я]{2,16}( ([А-Яа-яa-z][.]|[a-zА-Яа-я]{2,16})){2}' THEN
+		RAISE EXCEPTION 'Неправильное имя автора: (%)', $1;
 	END IF;
 END;
 $$ LANGUAGE plPGSQL;
@@ -214,30 +216,52 @@ $$ LANGUAGE plPGSQL;
 --
 --
 
-INSERT INTO books (name, description, publish, year,
-		    posted, bookpath, imgpath, sz, pages, who)
-	VALUES ('Book1', 'Самая лучшая книга в мире',
-		'Kims incorp.', 2009, NOW(), 'somewhere/in/galaxy/book1.pdf',
-		'somewhere/in/galary/book1.png', 100000, 1024, 'admin'),
 
-		('Book3', 'Самая лучшая книга в мире',
-		'Kims incorp.', 2009, NOW(), 'somewhere/in/galaxy/book3.pdf',
-		'somewhere/in/galary/book3.png', 200000, 2048, 'admin'),
+--      ADDBOOK(IN books.name%TYPE,
+--		IN VARCHAR[],
+--		IN books.volume%TYPE,
+--		IN books.description%TYPE,
+--		IN books.publish%TYPE,
+--		IN books.year%TYPE,
+--		IN books.isbn%TYPE,
+--		IN books.who%TYPE,
+--		IN books.bookpath%TYPE,
+--		IN books.department%TYPE,
+--		IN books.sz%TYPE);
 
-	       ('Book2', 'Самая худшая книга в мире',
-		'Trash incorp.', 2009, NOW(), 'somewhere/in/trash/book2.pdf',
-		'somewhere/in/galary/trash/book2.png', 1000, 102, 'admin'),
+SELECT  ADDBOOK(VARCHAR 'Book1',
+		ARRAY['Kim M. V.'],
+		1,
+		CAST('Самая лучшая книга в мире' AS TEXT),
+		CAST('Kims incorp.' AS VARCHAR),
+	       	2009,
+	       	CAST('isbn-123-213123-231-3123' AS VARCHAR),
+		CAST('admin' AS VARCHAR),
+		CAST('somewhere/in/galaxy/book1.pdf' AS VARCHAR),
+		CAST('Наука' AS VARCHAR),
+		100000);
 
-	       ('Book4',
+SELECT  ADDBOOK('Book3',
+		ARRAY['Somebody Someone Something', 'Anyone anybody Anything'],
+		2,
+       		'Книга так себе',
+		'Trash incorp.',
+	       	2009,
+		'isbn-123-213-123-1-23',
+		'somebody',
+		'somewhere/in/galaxy/book3.pdf',
+		'}{aker',
+		200000);
+
+SELECT  ADDBOOK('Book3',
+		ARRAY['Bad Worse Worst', 'Ugly Ugly Ugly'],
+		2,
 	        'Вы читаете самое длинное описание книги, когда либо было написано человеком. Оно настолько длинное, что у Вас не должно хватить времени его прочесть! Оно занимает кучу места на жестком диске и займет кучу времени если Вы не закончите читать прямо сейчас. Зачем кто-то написал такое длинное описание никто не знает, в том числе и сам автор. Хотя нет, знает! Если серьезно оно нужно, чтобы проверить корректную работу функции выводящее описании книги. При очень длинном описании она должна обрезать описании и в конце последнее слова ставить ..., хотя бы ... для начала.Вы читаете самое длинное описание книги, когда либо было написано человеком. Оно настолько длинное, что у Вас не должно хватить времени его прочесть! Оно занимает кучу места на жестком диске и займет кучу времени если Вы не закончите читать прямо сейчас. Зачем кто-то написал такое длинное описание никто не знает, в том числе и сам автор. Хотя нет, знает! Если серьезно оно нужно, чтобы проверить корректную работу функции выводящее описании книги. При очень длинном описании она должна обрезать описании и в конце последнее слова ставить ..., хотя бы ... для начала.',
-		'Best Trash incorp.', 2003, NOW(),
-		'somewhere/in/trash/book4.pdf',
-		'somewhere/in/galary/trash/book4.png',
-		1000000, 10200, 'admin');
+		'O God! incorp.',
+	       	2009,
+		'isbn-123-213-123-1-23',
+		'somebody',
+		'somewhere/in/galaxy/book3.pdf',
+		'Пустозвонство',
+		200000);
 
-INSERT INTO authors(full_name) VALUES
-				('Maxim Vladimirovi4 Kim'),
-				('M. V. Kim'),
-				('Maxim V. Kim');
-
-INSERT INTO ab_relation VALUES (1, 1), (3, 3), (2, 1), (2, 2);
