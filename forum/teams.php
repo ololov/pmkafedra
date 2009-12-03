@@ -1,5 +1,6 @@
 
 <div id = forum_main>
+	<a href = "?page=forum&amp;add=2" class = "forum_button">Новая тема</a>
 	<table id = "forum">
 		<tr class = "head_forum">
 			<td class = "first">Тема</td>

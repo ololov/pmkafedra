@@ -7,6 +7,14 @@
 		include_once('mes.php');
 		exit;
 	}
+	if ($_GET['add'] == 1)	{
+		include_once('new_mes.php');
+		exit;
+	}
+	if ($_GET['add'] == 2) {
+		include_once('new_theam.php');
+		exit;
+	}
 ?>
 <div id = forum_main>
 	<table id = "forum">
