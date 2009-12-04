@@ -24,10 +24,12 @@ read pass;
 echo
 
 
-for sqlfile in `find -name '*.sql' -perm -04 | sort`; do
-	echo -n Runinig file $sqlfile ... 
-	cat $sqlfile |psql -U "$USER" $DBNAME
-done;
+#for sqlfile in `find -name '*.sql' -perm -04 | sort`; do
+#	echo -n Runinig file $sqlfile ... 
+#	cat $sqlfile |psql -U "$USER" $DBNAME
+#done;
+(echo "CREATE LANGUAGE plPGSQL;"; cat `find -name '*.sql' -perm -04`) |
+psql -U "$USER" "$DBNAME"
 
 #
 # Common login file
@@ -40,4 +42,9 @@ echo Generate logins.php file ...
 #echo "\", true); define('dbname',\"$DB_NAME\", true); ?>" >> $loginfile
 #
 echo -n "<?php define('dbparam', 'user=$USER password=$pass dbname=$DBNAME'); ?>" > $loginfile
+
+#
+# Генерирование файла .htaccess
+#
+echo "php_value include_path \"$PWD:.\"" > .htaccess
 
