@@ -16,7 +16,7 @@
 -- Структура таблицы prepod
 -- 
 
-DROP TABLE IF EXISTS prepod;
+DROP TABLE IF EXISTS prepod CASCADE;
 
 CREATE TABLE prepod (
   id SERIAL PRIMARY KEY,
