@@ -48,9 +48,11 @@ if (isset($_GET['lists']) && is_numeric($pages = $_GET['lists'])) {
 if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id'])) {
 	$query = get_query_list_by_author($from, capacity, $aid);
 	$param2 = "&amp;a_id=$aid";
-} else
+	$count_query = "SELECT COUNT(book_id) FROM ab_tb WHERE author_id = $aid;";
+} else {
 	$query = get_query_list($from, capacity);
-
+	$count_query = "SELECT COUNT(book_id) FROM books_tb;";
+}
 /* */
 $str = "http://".trim($_SERVER['HTTP_HOST'], '/').$_SERVER['SCRIPT_NAME'];
 
@@ -59,7 +61,7 @@ $url = "$str?page=pmlib&amp;view=list$param2";
 /*
  * Узнаем сколько всего книг
  */
-$res = pg_query($link, "SELECT COUNT(*) FROM books_tb;") or die(pg_last_error());
+$res = pg_query($link, $count_query) or die(pg_last_error());
 $tmp = pg_fetch_array($res);
 $rows = $tmp[0];
 
