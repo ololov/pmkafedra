@@ -2,6 +2,10 @@
 	$db = pg_pconnect("dbname=clericsu_pm host=localhost user=postgres") or die(pg_last_error());
 
 	date_default_timezone_set('Europe/Moscow');
+	/*
+	* Эта функция разбивает строки типа "только 11.09;12.10" или "с 03.09 по 02.10"
+	* на массив дат
+	*/
 	function parser_date($str){
 		$year = date('Y',time());
 
@@ -48,6 +52,48 @@
 
 		return $array;
 	}
+	/*
+	* Чтобы не перепписывать полностью парсер пришлось ввести эту функцию
+	* ее смысл заключается в отыскании верхней и нижний недель.
+	*/
+	function del_inter($data){
+		for($i = 0; $i < count($data); $i++){
+			for($j = $i+1; $j < count($data); $j++){
+				$tmp = array_uintersect($data[$i][5], $data[$j][5], "strcasecmp");
+				if($data[$i][0] == $data[$j][0]){
+					if(count($data[$i][5]) == count($data[$j][5])){
+						$k = 0;
+						foreach($tmp as $dt){
+							if($k % 2 === 0){
+								$key = array_search($dt, $data[$i][5],true);
+								unset($data[$i][5][$key]);
+								$k++;
+							}else{
+								$key = array_search($dt, $data[$j][5],true);
+								unset($data[$j][5][$key]);
+								$k++;
+							}
+						}
+					
+					}elseif(count($data[$i][5]) >= count($data[$j][5])){
+						foreach($tmp as $dt){
+							$key = array_search($dt, $data[$i][5],true);
+							unset($data[$i][5][$key]);
+						}
+					}else{
+						foreach($tmp as $dt){
+							$key = array_search($dt, $data[$j][5],true);
+							unset($data[$j][5][$key]);
+						}
+
+					}
+				}
+
+			}
+		}
+
+		return $data;
+	}
 
 	function myexplode($str){
 		$str_array = explode(":",$str);
@@ -55,6 +101,10 @@
 		return $str_array;
 	}
 
+	/*
+	* Небольшая функция реализующая парсер файлов хранящихся в
+	* schedule/parser_txt
+	*/
 	function parser_txtfiles($files = "*.txt"){
 		if(is_string($files)){
 			$file_list = glob($files);
@@ -66,22 +116,12 @@
 		}
 	}
 
-	function data($data, $num){
-		$data_array = array();
-		if(is_array($data) && is_numeric($num)){
-			foreach($data as $file){
-				foreach($file as $schedule){
-					$data_array[] = $schedule[$num];
-				}
-			}	
-			$data_array = array_unique($data_array);
-			sort($data_array);
-			return $data_array;
-		}
-	}
-
+	/*
+	* Занесение все данных в БД
+	*/
 	function add_data_to_db($data,$db){
 		foreach($data as $key=>$dt){
+			$dt = del_inter($dt);
 			foreach($dt as $val){
 				$fio_prepod = explode(" ",substr_replace($val[3],"",stripos($val[3],","),strlen($val[3])));
 				if($fio_prepod[0] === "") {
