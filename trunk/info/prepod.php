@@ -10,12 +10,16 @@
 	{
 		$id_prep = $_GET['id_pr'];
 		$resource = pg_query('SELECT * FROM prepod WHERE id='.$id_prep);
+		$predmet = pg_query('SELECT predmet_name FROM predmet_info WHERE prepod='.$id_prep);
 		if (!$resource) {
 			echo "<p><b> Извините, ошибка на стороне сервера. Зайдите позже.</b><p>";
 			echo "</div>";
 			exit;
 		} else {
 			$prep = pg_fetch_assoc($resource);
+			while($data = pg_fetch_row($predmet)){
+				$pred[] = $data[0];
+			}
 			if ($prep['id'] != $_GET['id_pr']) {
 				echo "<p><b> Такого преподавателя не существует.</b></p>";
 				echo "</div>";
@@ -28,9 +32,9 @@
 
 	<?php $photo = "info/photo/".$prep['id'].".jpg"; ?>
 	<img  src="<?php echo $photo; ?>" class = "prep_photo">
-	<p><span class="name"><?php echo $prep['name']?> </span></p>
+	<p><span class="name"><?php echo $prep['lname']." ".$prep['fname']." ".$prep['sname']?> </span></p>
 	<span class="subtit"> Ученая степень и должность: </span> <?php echo $prep['post']?><br>
-	<span class="subtit"> Дисциплины:</span> <?php echo $prep['predmet']?><br>
-	<span class="subtit"> Область научных интересов:</span> <?php echo $prep['inter']?><br>
+	<span class="subtit"> Дисциплины:</span> <?php echo implode(",",$pred)?><br>
+	<span class="subtit"> Область научных интересов:</span> <?php echo $prep['scentific_int']?><br>
 	<span class="subtit"> Контакты:</span> <?php echo $prep['contact']?><br>
 </div>	
