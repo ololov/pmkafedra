@@ -86,7 +86,7 @@ DECLARE
 BEGIN
 	SELECT INTO t_id_prepod id FROM prepod WHERE (substr(fname,1,1) = t_fname AND lname = t_lname AND substr(sname,1,1) = t_sname);
 	IF NOT FOUND THEN
-		RAISE EXCEPTION 'ERROR! IN TABLE prepod NOT FOUND ZAPPISES';-- || t_lname || " " || t_fname || " " || t_sname;
+		RAISE EXCEPTION 'ERROR! IN TABLE prepod NOT FOUND ZAPPISES';
 		RETURN -1;
 	END IF;
 
