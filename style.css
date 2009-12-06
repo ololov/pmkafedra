@@ -244,7 +244,7 @@ input, textarea
 	width:		90%;
 }
 
-.buttonSubmit
+.buttonSubmit, #next, #last
 {
 	font:		bold 100% palatino, serif;
 	color:		#025391;
@@ -253,7 +253,7 @@ input, textarea
 	padding:	4px;
 	opacity:	.9;
 }
-.buttonSubmit:hover
+.buttonSubmit:hover, #next:hover, #last:hover
 {
 	background:	#cfe8fd;
 }
@@ -668,4 +668,21 @@ td a
 
 #menulink li {
 	padding-left:	30px;
+}
+
+/*--Недели--*/
+#sch_form
+{
+	height:		30px;
+	margin-bottom:  0px;
+}
+#last
+{
+	width:		10%;
+	float:		left;
+}
+#next
+{
+	float:		right;
+	width:		10%;
 }

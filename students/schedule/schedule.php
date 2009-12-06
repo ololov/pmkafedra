@@ -96,10 +96,10 @@
 
 <div id = "main">
 	<p class = "tit"> Расписание занятий </p>
-	<form name="myform" method="POST">
+	<form name="myform" method="POST" id = "sch_form">
 		<input type="hidden" name="week" value="">
-		<input type="button" style="position:absolute; top:21%; left:30%; height: 20px; width: 100px" value="last week" onClick = "Last()">
-		<input type="button" style="position:absolute; top:21%; right:10%; height: 20px; width: 100px" value="next week" onClick = "Next()">
+		<input type="button" onClick = "Last()" value = "<< назад"  id = "last">
+		<input type="button" onClick = "Next()" value = "вперед >>" id = "next">
 	</form>
 
 
