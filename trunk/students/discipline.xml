@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE discipline>
+<discipline>
+
+  <discpl id="1">
+  	<title>Алгебра и аналитическая геометрия</title> 
+  	<kurs>1,2</kurs> 
+  	<term>3</term>
+  	<prepod>Аль-Натор Мухаммед С.</prepod>
+  	<control>экзамен</control>
+  	<lec>64</lec>
+  	<lab>нет</lab>
+  	<pract>35</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="2">
+  	<title>Математический анализ</title> 
+  	<kurs>1,2</kurs> 
+  	<term>4</term>
+  	<prepod>Лоссиевская Т.В.</prepod>
+  	<control>экзамен</control>
+  	<lec>88</lec>
+  	<lab>нет</lab>
+  	<pract>64</pract>
+  	<kursovik>"Поверхности"</kursovik>
+  </discpl>
+  
+  <discpl id="3">
+  <title>Программные и аппаратные средства информатики</title> 
+  	<kurs>1</kurs> 
+  	<term>1</term>
+  	<prepod>Филонов П.В.</prepod>
+  	<control>экзамен</control>
+  	<lec>10</lec>
+  	<lab>6</lab>
+  	<pract>3</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="4">
+  	<title>Физика</title> 
+  	<kurs>1,2</kurs> 
+  	<term>3</term>
+  	<prepod>Камзолов С.К.</prepod>
+  	<control>экзамен</control>
+  	<lec>54</lec>
+  	<lab>12</lab>
+  	<pract>34</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="5">
+  	<title>Дискретная математика</title> 
+  	<kurs>1</kurs> 
+  	<term>2</term>
+  	<prepod>Аль-Натор С.В.</prepod>
+  	<control>экзамен</control>
+  	<lec>33</lec>
+  	<lab>нет</lab>
+  	<pract>16</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="6">
+  	<title>Алгоритмические языки и программирование</title> 
+  	<kurs>1,2</kurs> 
+  	<term>3</term>
+  	<prepod>Егорова А.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>22</lec>
+  	<lab>15</lab>
+  	<pract>15</pract>
+  	<kursovik>"Разработка интерактивной системы обработки базы данных"</kursovik>
+  </discpl>
+  
+  <discpl id="7">
+  	<title>Теория вероятностей и математическая статистика</title> 
+  	<kurs>2</kurs> 
+  	<term>2</term>
+  	<prepod>Кокотушкин В.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>28</lec>
+  	<lab>нет</lab>
+  	<pract>21</pract>
+  	<kursovik>"Статистическая обработка информации, статистическое оценивание параметров распеределения"</kursovik>
+  </discpl>
+  
+  <discpl id="8">
+  	<title>Архитектура ЭВМ, системное программное обеспечение</title> 
+  	<kurs>2,3</kurs> 
+  	<term>3</term>
+  	<prepod>Столяров А.В.</prepod>
+  	<control>экзамен</control>
+  	<lec>29</lec>
+  	<lab>19</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="9">
+  	<title>Дифференциальные уравнения</title> 
+  	<kurs>2</kurs> 
+  	<term>1</term>
+  	<prepod>Ерзакова Н.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>21</lec>
+  	<lab>нет</lab>
+  	<pract>13</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="10">
+  	<title>Теория функций комплексного переменного</title> 
+  	<kurs>2</kurs> 
+  	<term>1</term>
+  	<prepod>Ерзакова Н.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>20</lec>
+  	<lab>нет</lab>
+  	<pract>10</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+    
+  <discpl id="11">
+  <title>Функциональный анализ</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Фонарев А.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>21</lec>
+  	<lab>нет</lab>
+  	<pract>13</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="12">
+  <title>Теория случайных процессов</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Кузнецов В.Л.</prepod>
+  	<control>экзамен</control>
+  	<lec>17</lec>
+  	<lab>нет</lab>
+  	<pract>8</pract>
+  	<kursovik>"Самостоятельное изучение некоторых разделов курса"</kursovik>
+  </discpl>
+  
+  <discpl id="13">
+  	<title>Уравнения в частных производных</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Ерзакова Н.А.</prepod>
+  	<control>экзамен</control>
+ 	<lec>22</lec>
+  	<lab>нет</lab>
+  	<pract>12</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="14">
+  	<title>Вариационное исчисление</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Ерзакова Н.А.</prepod>
+  	<control>зачет</control>
+  	<lec>14</lec>
+  	<lab>нет</lab>
+  	<pract>6</pract>
+  	<kursovik>"Вариационные методы в решении краевых задач"</kursovik>
+  </discpl>
+  
+  <discpl id="15">
+  	<title>Компьютерная графика</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Егорова А.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>18</lec>
+  	<lab>6</lab>
+  	<pract>3</pract>
+  	<kursovik>"Освоение различных алгоритмов компьтерной графики"</kursovik>
+  </discpl>
+  
+  <discpl id="16">
+  	<title>Математические модели сигналов</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Котиков В.И.</prepod>
+  	<control>зачет</control>
+  	<lec>13</lec>
+  	<lab>6</lab>
+  	<pract>5</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="17">
+  	<title>Математическое моделирование</title> 
+  	<kurs>3,4</kurs> 
+  	<term>2</term>
+  	<prepod>Кузнецов В.Л.</prepod>
+  	<control>экзамен</control>
+  	<lec>34</lec>
+  	<lab>нет</lab>
+  	<pract>16</pract>
+  	<kursovik>"Построение математическое модели по теме диплома"</kursovik>
+  </discpl>
+  
+  <discpl id="18">
+  	<title>Методы оптимизации</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Ивенин И.Б.</prepod>
+  	<control>Дзачет</control>
+  	<lec>15</lec>
+  	<lab>нет</lab>
+  	<pract>8</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="19">
+  	<title>Численные методы</title> 
+  	<kurs>3</kurs> 
+  	<term>1</term>
+ 	 <prepod>Ивенина Е.М.</prepod>
+  	<control>экзамен</control>
+  	<lec>10</lec>
+  	<lab>3</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="20">
+  	<title>Теория информации и кодирования</title> 
+ 	<kurs>3</kurs> 
+  	<term>1</term>
+  	<prepod>Аль-Натор Мухаммед С.</prepod>
+  	<control>экзамен</control>
+  	<lec>15</lec>
+  	<lab>нет</lab>
+  	<pract>5</pract>
+ 	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="21">
+  	<title>Методы и средства визуального проектирования</title> 
+  	<kurs>3</kurs> 
+ 	<term>1</term>
+  	<prepod>Столяров А.В.</prepod>
+  	<control>зачет</control>
+  	<lec>10</lec>
+  	<lab>4</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+   <discpl id="22">
+  	<title>Основы теории систем</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Аль-Натор Мухаммед С.</prepod>
+  	<control>экзамен</control>
+  	<lec>20</lec>
+  	<lab>8</lab>
+  	<pract>9</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="23">
+  	<title>Прикладное программное обеспечение</title> 
+  	<kurs>4</kurs> 
+  	<term>2</term>
+  	<prepod>Коновалов В.М.</prepod>
+  	<control>экзамен</control>
+  	<lec>16</lec>
+  	<lab>5</lab>
+  	<pract>4</pract>
+  	<kursovik>"Разработка собственного прикладного программного обеспечения"</kursovik>
+  </discpl>
+  
+  <discpl id="24">
+  	<title>Теория игр и исследование операций</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Ивенин И.Б.</prepod>
+  	<control>экзамен</control>
+  	<lec>14</lec>
+  	<lab>нет</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="25">
+  	<title>Программные системы машинной графики</title> 
+ 	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Егорова А.А.</prepod>
+  	<control>зачет</control>
+  	<lec>16</lec>
+  	<lab>6</lab>
+  	<pract>нет</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="26">
+  	<title>Математическое обеспечение систем обмена данными</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Котиков В.И.</prepod>
+  	<control>экзамен</control>
+  	<lec>13</lec>
+  	<lab>6</lab>
+  	<pract>5</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="27">
+  	<title>Структуры данных и методы обработки информации</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Егорова А.А.</prepod>
+  	<control>зачет</control>
+  	<lec>12</lec>
+  	<lab>10</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="28">
+  	<title>Алгоритмика</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Аль-Натор Мухаммед С.</prepod>
+  	<control>зачет</control>
+  	<lec>13</lec>
+  	<lab>4</lab>
+  	<pract>6</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="29">
+  <title>Программное обеспечение систем обмена данными</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Филонов П.В.</prepod>
+  	<control>экзамен</control>
+  	<lec>19</lec>
+  	<lab>6</lab>
+  	<pract>нет</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="30">
+  	<title>Математические модели и алгоритмы управления информ.системами</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod>Коновалов В.М.</prepod>
+  	<control>зачет</control>
+  	<lec>15</lec>
+  	<lab>4</lab>
+  	<pract>4</pract>
+  	<kursovik>"Моделирование системы управления потоками данных в распределенной информационно-вычислительной сети с оптимизацией пропускных способностей линий связи коммуникационной подсистемы"</kursovik>
+  </discpl>
+  
+  <discpl id="31">
+  	<title>Теория автоматов и алгоритмов</title> 
+  	<kurs>4</kurs> 
+  	<term>1</term>
+  	<prepod></prepod>
+  	<control>экзамен</control>
+  	<lec>36</lec>
+  	<lab>6</lab>
+  	<pract>5</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="32">
+  	<title>Теория надежности</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Кузнецов А.А.</prepod>
+  	<control>зачет</control>
+  	<lec>14</lec>
+  	<lab>нет</lab>
+  	<pract>8</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="33">
+  	<title>Основы теории информационных сетей</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Филонов П.В.</prepod>
+  	<control>зачет</control>
+  	<lec>16</lec>
+  	<lab>3</lab>
+  	<pract>8</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="34">
+  	<title>Теория массового обслуживания</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Ивенин И.Б.</prepod>
+  	<control>зачет</control>
+  	<lec>11</lec>
+  	<lab>нет</lab>
+  	<pract>4</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="35">
+  	<title>Теория управления</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Ивенин И.Б.</prepod>
+  	<control>экзамен</control>
+  	<lec>15</lec>
+  	<lab>3</lab>
+  	<pract>8</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+  
+  <discpl id="36">
+  	<title>Базы данных</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Егорова А.А.</prepod>
+  	<control>экзамен</control>
+  	<lec>14</lec>
+  	<lab>5</lab>
+  	<pract>нет</pract>
+  	<kursovik>"Разработка базы данных"</kursovik>
+  </discpl>
+  
+  <discpl id="37">
+  	<title>Интеллектуальные системы</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Беликова Т.П.</prepod>
+  	<control>экзамен</control>
+  	<lec>14</lec>
+  	<lab>3</lab>
+  	<pract>4</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+   
+  <discpl id="38">
+  	<title>Компьютерная алгебра и криптография</title> 
+  	<kurs>5</kurs> 
+  	<term>1</term>
+  	<prepod>Аль-Натор Мухаммед С.</prepod>
+  	<control>зачет</control>
+  	<lec>22</lec>
+  	<lab>нет</lab>
+  	<pract>9</pract>
+  	<kursovik>нет</kursovik>
+  </discpl>
+ 
+</discipline>
