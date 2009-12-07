@@ -5,17 +5,20 @@
         
         abstract protected function checkCredintals($login, $pwd);
         
-        protected function saveSession($role)
+        protected function saveSession($role, $login)
         {
-            session_start();
+			$id = session_id();
+			if (empty($id))
+				session_start();
             $_SESSION["user_id"] = $role;
+			$_SESSION["name"] = $login;
         }  
         
         public function login($login, $password)
         {
             if ($this->checkCredintals($login,$password))
             {
-                $this->saveSession("User");
+                $this->saveSession("User", $login);
             }
         }    
                
@@ -35,10 +38,20 @@
     
     class Validator
     {
+		
+		static function getName()
+		{
+			$id = session_id();
+			if (empty($id))
+				session_start();
+			return $_SESSION["name"];
+		}
 
         static function checkSession()
         {
-			session_start();
+			$id = session_id();
+			if (empty($id))
+				session_start();
 			if (isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"]))
                 return true;
             return false;
