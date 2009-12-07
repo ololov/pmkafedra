@@ -1,13 +1,13 @@
 <?php
-/*
+
 	include_once("auth/authlib.php");
 	
-	$no_login_needed = array('/pmkafedra/?page=login');
-	if (!in_array($_SERVER['REQUEST_URI'], $no_login_needed))
+	$no_login_needed = array('login');
+	$page = $_GET['page'];
+	if (!in_array($page, $no_login_needed))
 	{
 		Validator::redirect();
-	}
- */	
+	}	
 ?>
 
 <!DOCTYPE html>
