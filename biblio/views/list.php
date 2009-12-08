@@ -16,6 +16,118 @@ function row_template()
 EOF;
 }
 
+function getq_from_search($from, $limit)
+{
+	$fmt = <<<EOF
+SELECT
+	book_id, book_name,
+	array_agg(author_id) AS author_ids,
+	array_agg(author_name) AS author_names,
+	(SELECT book_path FROM books_tb WHERE books_tb.book_id = ab_tb.book_id) AS book_path
+FROM
+	ab_tb
+WHERE
+	%s %s %s %s %s
+GROUP BY
+	book_id, book_name
+ORDER BY
+	book_name
+LIMIT %d OFFSET %d;
+EOF;
+	if ($_REQUEST['search_name'] != '')
+		$book_name = sprintf("book_name LIKE '%%%s%%'", $_REQUEST['search_name']);
+	if ($_REQUEST['search_author'] != '')
+		$author_name = sprintf("author_name LIKE '%%%s%%'", $_REQUEST['search_author']);
+	if ($_REQUEST['search_dep'] != '')
+		$dep = sprintf("book_dep LIKE '%%%s%%'", $_REQUEST['search_dep']);
+
+	if ($book_name != '')
+		$op1 = 'OR';
+	if ($dep != '')
+		$op2 = 'OR';
+
+	return sprintf($fmt, $book_name, $op1,
+		$author_name, $op2, $dep,
+		$limit, $from);
+
+}
+
+function getq_count_from_search()
+{
+	$fmt = <<<EOF
+SELECT
+	COUNT(book_id)
+FROM
+	ab_tb
+WHERE
+	%s %s %s %s %s;
+EOF;
+	if ($_REQUEST['search_name'] != '')
+		$book_name = sprintf("book_name LIKE '%%%s%%'", $_REQUEST['search_name']);
+	if ($_REQUEST['search_author'] != '')
+		$author_name = sprintf("author_name LIKE '%%%s%%'", $_REQUEST['search_author']);
+	if ($_REQUEST['search_dep'] != '')
+		$dep = sprintf("book_dep LIKE '%%%s%%'", $_REQUEST['search_dep']);
+
+	if ($book_name != '')
+		$op1 = 'OR';
+	if ($dep != '')
+		$op2 = 'OR';
+
+	return sprintf($fmt, $book_name, $op1, $author_name, $op2, $dep);
+}
+
+function getq_list($from, $count)
+{
+	$query = <<<EOF
+SELECT
+	book_id,
+	book_name,
+	array_agg(author_id) AS author_ids,
+	array_agg(author_name) AS author_names,
+	(SELECT book_path FROM books_tb WHERE books_tb.book_id = ab_tb.book_id) AS book_path
+FROM
+	ab_tb
+GROUP BY
+	book_id, book_name
+ORDER BY
+	book_name
+EOF;
+	return "$query LIMIT $count OFFSET $from;";
+}
+
+function getq_count()
+{
+	return "SELECT COUNT(book_id) FROM books_tb;";
+}
+
+function getq_list_by_author($from, $count, $aid)
+{
+	$query = <<<EOF
+SELECT
+	book_id,
+	book_name,
+	array_agg(author_id) AS author_ids,
+	array_agg(author_name) AS author_names,
+	(SELECT book_path FROM books_tb WHERE books_tb.book_id = ab_tb.book_id) AS book_path
+FROM
+	ab_tb
+GROUP BY
+	book_id, book_name
+HAVING
+	%d = ANY(array_agg(author_id))
+ORDER BY
+	book_name
+LIMIT %s OFFSET %d;
+EOF;
+	return sprintf($query, $aid, $count, $from);
+}
+
+function getq_count_by_author($aid)
+{
+	return sprintf("SELECT COUNT(book_id) FROM ab_tb WHERE author_id = %d;",
+			$aid);
+}
 
 function make_lists_href($curr, $all)
 {
@@ -45,18 +157,27 @@ if (isset($_GET['lists']) && is_numeric($pages = $_GET['lists'])) {
 	$from = ((int)$pages - 1) * capacity;
 }
 
-if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id'])) {
-	$query = get_query_list_by_author($from, capacity, $aid);
-	$param2 = "&amp;a_id=$aid";
-	$count_query = "SELECT COUNT(book_id) FROM ab_tb WHERE author_id = $aid;";
+if (isset($_REQUEST['search_name']) && ($_REQUEST['search_name'] != '') ||
+    isset($_REQUEST['search_author']) && ($_REQUEST['search_author'] != '') ||
+    isset($_REQUEST['search_dep']) && ($_REQUEST['search_dep'] != '')) {
+	$query = getq_from_search($from, capacity);
+	$count_query = getq_count_from_search();
+	$param2=sprintf("&search_name=%s&search_author=%s&search_dep=%s",
+			$_REQUEST['search_name'],
+			$_REQUEST['search_author'],
+			$_REQUEST['search_dep']);
+} else if (isset($_GET['a_id']) && is_numeric($aid = $_GET['a_id'])) {
+	$query = getq_list_by_author($from, capacity, $aid);
+	$param2 = "&a_id=$aid";
+	$count_query = getq_count_by_author($aid);
 } else {
-	$query = get_query_list($from, capacity);
-	$count_query = "SELECT COUNT(book_id) FROM books_tb;";
+	$query = getq_list($from, capacity);
+	$count_query = getq_count();
 }
 /* */
 $str = "http://".trim($_SERVER['HTTP_HOST'], '/').$_SERVER['SCRIPT_NAME'];
 
-$url = "$str?page=pmlib&amp;view=list$param2";
+$url = htmlspecialchars("$str?page=pmlib&view=list$param2");
 
 /*
  * Узнаем сколько всего книг

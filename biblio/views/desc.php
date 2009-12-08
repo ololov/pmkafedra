@@ -8,6 +8,21 @@ require_once('./biblio/libview.php');
 define("noface", "smile.jpg", true);
 define("max_desc_len", 1000, true); /* Максимальная длина описания */
 
+function get_book_info($book_id)
+{
+	$fmt = <<<EOF
+SELECT
+	*,
+	ARRAY(SELECT author_id FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_ids,
+	ARRAY(SELECT author_name FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_names
+FROM
+	books_tb
+WHERE
+	book_id = %d;
+EOF;
+	return sprintf($fmt, $book_id);
+}
+
 
 
 /*
