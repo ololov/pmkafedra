@@ -1,4 +1,3 @@
-<?php include_once("news/sidebar.php"); ?>
 <div id = "main">
 	<p class = "tit">Добавление новости</p>
 	<?php include_once("add_new.php"); ?>

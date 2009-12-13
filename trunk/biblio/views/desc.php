@@ -40,7 +40,7 @@ EOF;
 function make_bookinfo($book)
 {
 	$template =
-		"<div class=\"%s\"><table>%s%s%s</table></div>";
+		"<div id=\"%s\"><table>%s%s%s</table></div>";
 	$alist = explode(',', clean_string($book['author_names']));
 	$ilist = explode(',', clean_string($book['author_ids']));
 
@@ -103,7 +103,7 @@ function make_bookdesc($book, $maxlen)
 		}
 	}
 
-	return sprintf("<div class=\"%s\"><b>Описание:</b><p>%s</div>",
+	return sprintf("<div id=\"%s\"><b>Описание:</b><p>%s</div>",
 			'bookdesc', $desc);
 }
 
@@ -148,12 +148,12 @@ function make_bookimg($book)
 {
 	$alt = "";
 	$src = $book[book_face];
-
 	if (isset($src) && file_exists($src)) {
 		$alt = "Обложка";
 	} else {
 		$alt = "Нет обложки";
-		$src = noface;
+		//$src = noface;
+		$src = 'images/Books.png';
 	}
 
 	return sprintf("<img class=\"%s\" alt=\"%s\" src=\"%s\">",
@@ -171,7 +171,7 @@ function make_bookimg($book)
  */
 function make_bookdiv($book)
 {
-	return sprintf("<div class=\"%s\">%s%s%s</div>",
+	return sprintf("<div id=\"%s\">%s%s%s</div>",
 			'book',
 			make_bookimg($book),
 			make_bookinfo($book),

@@ -24,4 +24,16 @@
 								
 		return $data;
 	}
+
+	function get_data($query) {
+		$r = pg_query($query) or die (pg_last_error());
+		for ($data = array(); $row = pg_fetch_assoc($r); $data[] = $row);
+		return $data;
+	}
+	
+	function get_str($n) {
+		if ($n == 0) $str = "SELECT * FROM news";
+		else	     $str = "SELECT * FROM news WHERE type_id = ".$n;
+		return $str;
+	}
 ?>

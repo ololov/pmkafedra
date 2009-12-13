@@ -8,6 +8,7 @@
 	{
 		Validator::redirect();
 	}	
+
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +31,7 @@
 						<li><a href = "?page=info">Информация о кафедре</a></li>
 						<li><a href = "?page=stud">Студенту</a></li>
 						<li><a href = "?page=science">Научная работа</a></li>
-						<li><a href = "?page=news">Новости и события</a></li>
+						<li><a href = "?page=news&amp;n=0">Новости и события</a></li>
 						<li><a href = "?page=pmlib">Библиотека</a></li> 
 						<li><a href = "?page=forum">Форум</a></li>
 						<li><a href = "?page=gallery">Галерея</a></li>
@@ -45,20 +46,21 @@
 	 * $scripts - Хранит имена файлов соответствующие запрощенной страницы.
 	 * 		А именно то что передается из $_GET['page'] явл-ся ключом, а значение это имя файла(скрипта).
 	 */
-	$scripts = array('pmlib' => 'biblio/pmlib.php', 
-			 'info' => './info/info.php', 
-			 'staff' => './info/staff.php', 
+	$scripts = array('pmlib'   => './biblio/pmlib.php', 
+			 'info'    => './info/info.php', 
+			 'staff'   => './info/staff.php', 
 			 'contact' => './info/contact.php', 
-			 'login' => './login.php',
-			 'stud'  => 'students/stud.php',
-			 'forum' => 'forum/forum.php',
-			 'news'  => 'news/news.php');
+			 'login'   => './login.php',
+			 'stud'    => './students/stud.php',
+			 'forum'   => './forum/forum.php',
+			 'news'    => './news/view_news.php',
+			 'gallery' => './gallery/gallery.php');
 	$page = $_GET['page'];
 
 	if (isset($page) && array_key_exists($page, $scripts))
 		include_once($scripts[$page]);
 	else
-		include_once("main.php");
+		include_once('main.php');
 
 ?>
 	
