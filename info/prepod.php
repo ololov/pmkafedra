@@ -37,4 +37,5 @@
 	<span class="subtit"> Дисциплины:</span> <?php echo implode(",",$pred)?><br>
 	<span class="subtit"> Область научных интересов:</span> <?php echo $prep['scentific_int']?><br>
 	<span class="subtit"> Контакты:</span> <?php echo $prep['contact']?><br>
+	<span class="subtit"> Информация:</span><br><span class='info_about'><?php echo $prep['about'] ?></span>
 </div>	

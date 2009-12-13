@@ -171,34 +171,38 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 	font-weight:	bolder;
 }
 /*---------------Библиотека----------------------*/
-.book {
-	font:		80% palatino, serif;	
-	margin:		5px 5px 5px 5px;
-	padding:	5px 5px 5px 5px;
-	border:		1px solid gray;
+#book {
+	margin:		5px;
+	padding:	5px;
 }
 
 .bookface {
-	margin-top:	10px;
-	margin-left:	10px;
 	float:		left;
-	height:		140px;
-	border:		1px solid gray;
-	max-width:	90px;
+	border:		1px solid #ccc;
+	margin:		10px;
 }
 
-.bookdesc {	
+#bookdesc {	
 	margin-left:	5px;
-	height:		200px;
 	clear:		both;
-}
-
-.bookinfo {	
-	float:		left;
-}
-
-.bookinfo table {
 	font:		100% palatino, serif;
+}
+
+#bookinfo {	
+	border:		1px solid #ccc;
+}
+
+#bookinfo table {
+	font:		120% palatino, serif;
+	width:		85%;
+	margin:		10px;
+}
+
+#bookinfo tr {
+	background:	white;
+}
+#bookinfo tr td {
+	border-bottom:	1px dotted #ccc;
 }
 /*---Оформление формы---*/
 form 
@@ -685,4 +689,40 @@ td a
 {
 	float:		right;
 	width:		10%;
+}
+
+#news_table
+{
+	width:		100%;
+}
+
+#news_table .news_head
+{
+	font:		bold 120% palatino, serif;
+	border-bottom:	1px solid #ccc;
+	width:		80%;
+}
+
+#news_table .new_day
+{
+	border-bottom:	1px solid #ccc;
+}
+
+#news_table .news_desc
+{
+	font:		110% palatino, serif;
+}
+
+#news_table .desc
+{
+	background:	white;
+}
+
+#news_table
+{
+	border:		1px solid #ccc;
+}
+
+.info_about {
+	font:		110% palatino, serif
 }

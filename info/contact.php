@@ -1,5 +1,6 @@
 <?php include_once("info/sidebar.php");?>
 <div id = "main">
+	<img class = "rightimg" src = 'info/photo/shema1.jpg'>
 	<p class = "tit">Контакты</p>
 	<p class = "subtit">Адрес:</p> 
 	Московский Государственный Технический Университет Гражданской Авиации<br>
