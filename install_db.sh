@@ -48,3 +48,8 @@ echo -n "<?php define('dbparam', 'user=$USER password=$pass dbname=$DBNAME'); ?>
 #
 echo "php_value include_path \"$PWD:.\"" > .htaccess
 
+cd ~/pmkafedra/forum
+ln -s ~/pmkafedra/include include
+cd ~/pmkafedra/schedule/parser_pm
+ln -s ~/pmkafedra/include include
+cd

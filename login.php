@@ -1,7 +1,8 @@
-
+<script type="text/javascript" src = "jquery.min.js"></script>
+<script type="text/javascript" src = "login.js"></script>
 
 <div id = "vmenu"> 
-	<form method="POST" action = "auth/auth.php" id="enter">
+	<form method="POST" id="enter">
 		Логин:<br>
 		<input type="text" name="login" />
 		Пароль:<br>

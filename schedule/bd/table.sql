@@ -16,8 +16,6 @@ CREATE TYPE type_val AS ENUM ('Лекция','Пр.Зан.','Семинар');
 --****************** TABLES ****************************
 --
 DROP TABLE IF EXISTS prepod CASCADE;
-DROP SEQUENCE IF EXISTS prepod_seq;
-CREATE SEQUENCE prepod_seq;
 CREATE TABLE prepod(
 	id SERIAL PRIMARY KEY,
 	fname varchar(30) NOT NULL,
@@ -30,8 +28,6 @@ CREATE TABLE prepod(
 );
 
 DROP TABLE IF EXISTS predmet_info CASCADE;
-DROP SEQUENCE IF EXISTS predmet_info_seq;
-CREATE SEQUENCE predmet_info_seq;
 CREATE TABLE predmet_info(
 	id SERIAL PRIMARY KEY,
 	predmet_name varchar(160) NOT NULL,
@@ -41,8 +37,6 @@ CREATE TABLE predmet_info(
 );
 
 DROP TABLE IF EXISTS schedule CASCADE;
-DROP SEQUENCE IF EXISTS schedule_seq;
-CREATE SEQUENCE schedule_seq;
 CREATE TABLE schedule(
 	id SERIAL PRIMARY KEY,
 	predmet integer REFERENCES predmet_info (id),

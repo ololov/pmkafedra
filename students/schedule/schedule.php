@@ -1,5 +1,7 @@
 <?php 
 	include_once("./students/s_sidebar.php"); 
+	require_once('./include/logins.php');
+	require_once('./include/lib.php');
 
 	/*
 	* Получение номера курса и группы
@@ -16,11 +18,19 @@
 	}else{
 		$group = 1;
 	}
+	if(isset($_COOKIE['week'])){
+		$week = $_COOKIE['week'];
+	}else{
+		@setcookie('week', 0);
+	}
+
 	/*
 	* 
 	*/
-	$db = pg_pconnect("dbname=clericsu_pm host=localhost user=postgres") or die(pg_last_error());
+//	$db = pg_pconnect("dbname=clericsu_pm host=localhost user=postgres") or die(pg_last_error());
+	$db = db_connect() or die(pg_last_error());
 	date_default_timezone_set('Europe/Moscow');
+
 
 	/*
 	* Получение даты начала недели и конца недели по номеру недели в году
@@ -43,6 +53,7 @@
 	}
 
 	$group = $course."-".$group;
+	$data = get_data($db,$week,$group);
 ?>
 <script language = "javascript">
 	/*
@@ -82,14 +93,20 @@
 	*/
 	function Next(){
 		var week = getCookie('week');
-		week++;
-		setCookie('week',week);
-		document.myform.submit();
+		var ddate = getCookie('ddate');
+		if(ddate == 'Yes'){
+			week++;
+			setCookie('week',week);
+			document.myform.submit();
+		}else{
+			document.getElementById('next').disabled = true;
+		}
 	}
 	function Last(){
 		var week = getCookie('week');
 		week--;
 		setCookie('week',week);
+		document.getElementById('next').disabled = false
 		document.myform.submit();
 	}
 </script>
@@ -97,10 +114,16 @@
 <div id = "main">
 	<p class = "tit"> Расписание занятий </p>
 	<form name="myform" method="POST" id = "sch_form">
-		<input type="hidden" name="week" value="">
 		<input type="button" onClick = "Last()" value = "<< назад"  id = "last">
 		<input type="button" onClick = "Next()" value = "вперед >>" id = "next">
 	</form>
+	<?php
+		if(empty($data)){
+			@setcookie('ddate','No');
+		}else{
+			@setcookie('ddate','Yes');
+		}
+	?>
 
 
 	<div id = "group">
@@ -114,12 +137,7 @@
 		<table id = "schedule">
 		<?php
 			$DaysOfWeek = array("Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота");
-			if(isset($_COOKIE['week'])){
-				$week = $_COOKIE['week'];
-			}else{
-				setcookie('week', 0);
-			}
-			$data = get_data($db,$week,$group);
+
 			/*
 			* Извлечение из полученных данных уникальных дат
 			*/
@@ -128,22 +146,25 @@
 				if(in_array($dt['ddate'],$date)) continue;
 				else $date[] = $dt['ddate'];
 			}
-
-			for ($j = 0; $j < count($date); $j++) {
-				$num_day = strftime("%w",strtotime($date[$j]));
-				echo "<td id = sch_day colspan = 2> $DaysOfWeek[$num_day] </td>";
-				echo "<td id = sch_num colspan = 2> $date[$j] </td> <tr>";
-				foreach($data as $dt){
-					if($date[$j] === $dt['ddate']){
-						echo "<tr id = sch_main>";
-						echo 		"<td id = sch_para>".$dt['para']."</td>";
-						echo		"<td id = sch_cont><p class = pred>".$dt['predmet']."</p>";
-						echo		"<p class = prep>".$dt['lname']." ".$dt['fname']." ".$dt['sname']."</p></td>";
-						echo 		"<td id = sch_type>".$dt['ttype']."</td>";
-						echo 		"<td id = sch_audt>".$dt['auditoriya']."</td>";
-						echo "</tr>";
+			if(!empty($data)){
+				for ($j = 0; $j < count($date); $j++) {
+					$num_day = strftime("%w",strtotime($date[$j]));
+					echo "<td id = sch_day colspan = 2> $DaysOfWeek[$num_day] </td>";
+					echo "<td id = sch_num colspan = 2> $date[$j] </td> <tr>";
+					foreach($data as $dt){
+						if($date[$j] === $dt['ddate']){
+							echo "<tr id = sch_main>";
+							echo 		"<td id = sch_para>".$dt['para']."</td>";
+							echo		"<td id = sch_cont><p class = pred>".$dt['predmet']."</p>";
+							echo		"<p class = prep>".$dt['lname']." ".$dt['fname']." ".$dt['sname']."</p></td>";
+							echo 		"<td id = sch_type>".$dt['ttype']."</td>";
+							echo 		"<td id = sch_audt>".$dt['auditoriya']."</td>";
+							echo "</tr>";
+						}
 					}
 				}
+			}else{
+				echo "<td><h1>Сессия</h1></td>";
 			}
 			pg_close($db);
 		?>

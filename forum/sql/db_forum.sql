@@ -1,8 +1,15 @@
-﻿CREATE TABLE fr_idrismoder (
+﻿SET check_function_bodies=true;
+SET client_encoding='UTF8';
+--
+--* * * * * T A B L E S * * * * * *
+--
+DROP TABLE IF EXISTS fr_idrismoder CASCADE;
+CREATE TABLE fr_idrismoder (
     id_user integer NOT NULL,
     id_theme integer NOT NULL
 );
 
+DROP SEQUENCE IF EXISTS id_message CASCADE;
 CREATE SEQUENCE id_message
     START WITH 1
     INCREMENT BY 1
@@ -12,6 +19,7 @@ CREATE SEQUENCE id_message
 
 SELECT pg_catalog.setval('id_message', 10, true);
 
+DROP TABLE IF EXISTS fr_message CASCADE;
 CREATE TABLE fr_message (
     id integer DEFAULT nextval('id_message'::regclass) NOT NULL,
     txt text,
@@ -21,6 +29,7 @@ CREATE TABLE fr_message (
     idrauthor integer NOT NULL
 );
 
+DROP SEQUENCE IF EXISTS id_role CASCADE;
 CREATE SEQUENCE id_role
     START WITH 1
     INCREMENT BY 1
@@ -30,12 +39,13 @@ CREATE SEQUENCE id_role
 
 SELECT pg_catalog.setval('id_role', 1, false);
 
+DROP TABLE IF EXISTS fr_role CASCADE;
 CREATE TABLE fr_role (
     id integer DEFAULT nextval('id_role'::regclass) NOT NULL,
     name character varying(45) DEFAULT NULL::character varying
 );
 
-
+DROP SEQUENCE IF EXISTS id_theme CASCADE;
 CREATE SEQUENCE id_theme
     START WITH 1
     INCREMENT BY 1
@@ -46,13 +56,14 @@ CREATE SEQUENCE id_theme
 
 SELECT pg_catalog.setval('id_theme', 1, false);
 
-
+DROP TABLE IF EXISTS fr_theme CASCADE;
 CREATE TABLE fr_theme (
     id integer DEFAULT nextval('id_theme'::regclass) NOT NULL,
     name character varying(45) NOT NULL,
     comment character varying(45) DEFAULT NULL::character varying
 );
 
+DROP SEQUENCE IF EXISTS id_thread CASCADE;
 CREATE SEQUENCE id_thread
     START WITH 1
     INCREMENT BY 1
@@ -63,6 +74,7 @@ CREATE SEQUENCE id_thread
 
 SELECT pg_catalog.setval('id_thread', 16, true);
 
+DROP TABLE IF EXISTS fr_thread CASCADE;
 CREATE TABLE fr_thread (
     id integer DEFAULT nextval('id_thread'::regclass) NOT NULL,
     name character varying(45) NOT NULL,
@@ -71,6 +83,7 @@ CREATE TABLE fr_thread (
     idrtheme integer NOT NULL
 );
 
+DROP SEQUENCE IF EXISTS id_user CASCADE;
 CREATE SEQUENCE id_user
     START WITH 1
     INCREMENT BY 1
@@ -80,6 +93,7 @@ CREATE SEQUENCE id_user
 
 SELECT pg_catalog.setval('id_user', 27, true);
 
+DROP TABLE IF EXISTS fr_user CASCADE;
 CREATE TABLE fr_user (
     id integer DEFAULT nextval('id_user'::regclass) NOT NULL,
     name character varying(45) NOT NULL,
@@ -88,12 +102,15 @@ CREATE TABLE fr_user (
     idrrole integer NOT NULL
 );
 
+DROP VIEW IF EXISTS main_page;
 CREATE VIEW main_page AS
     SELECT fr_theme.id, fr_theme.name, fr_theme.comment, (SELECT count(*) AS count FROM fr_thread WHERE (fr_thread.idrtheme = fr_theme.id)) AS thread_count, (SELECT count(*) AS count FROM fr_message WHERE (fr_message.idrthread IN (SELECT fr_thread.id FROM fr_thread WHERE (fr_thread.idrtheme = fr_theme.id)))) AS message_count, (SELECT fr_message."time" FROM fr_message WHERE (fr_message."time" = (SELECT max(fr_message."time") AS max FROM fr_message WHERE (fr_message.idrthread IN (SELECT fr_thread.id FROM fr_thread WHERE (fr_thread.idrtheme = fr_theme.id)))))) AS last_msg_time, (SELECT (SELECT fr_user.nickname FROM fr_user WHERE (fr_user.id = fr_message.idrauthor)) FROM fr_message WHERE (fr_message."time" = (SELECT max(fr_message."time") AS max FROM fr_message WHERE (fr_message.idrthread IN (SELECT fr_thread.id FROM fr_thread WHERE (fr_thread.idrtheme = fr_theme.id)))))) AS last_msg_author FROM fr_theme;
 
+DROP VIEW IF EXISTS theme_page;
 CREATE VIEW theme_page AS
     SELECT fr_thread.id, fr_thread.name, fr_thread.comment, (SELECT count(*) AS count FROM fr_message WHERE (fr_message.idrthread = fr_thread.id)) AS message_count, (SELECT fr_user.nickname FROM fr_user WHERE (fr_user.id = fr_thread.idrstarter)) AS topic_starter, fr_thread.idrtheme FROM fr_thread;
 
+DROP VIEW IF EXISTS thread_page;
 CREATE VIEW thread_page AS
     SELECT fr_message.id, fr_message.txt, fr_message.header, (SELECT fr_user.nickname FROM fr_user WHERE (fr_user.id = fr_message.idrauthor)) AS author, (SELECT fr_user.signature FROM fr_user WHERE (fr_user.id = fr_message.idrauthor)) AS sign, fr_message.idrthread, fr_message.idrauthor FROM fr_message;
 

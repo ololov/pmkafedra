@@ -8,7 +8,8 @@
 		$tmp = new AuthTXT();
 		$tmp->login($_POST['login'], $_POST['pwd']);
 	}
-	
-	header("Location: /index.php?page=info");
+	die('{status:1,txt:"index.php?page=info"}');
+
+//	header("Location: /index.php?page=info");
 
 ?>
