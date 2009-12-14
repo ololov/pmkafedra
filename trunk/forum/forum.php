@@ -7,7 +7,7 @@
 		//
 		// *** ÌÅÍßÉÒÅ ÏÎÄ ÑÅÁß! ***
 		//
-		$engine = new ForumEngine('localhost', 'cleric_su', 'postgres', '1');
+		$engine = new ForumEngine('localhost', 'clericsu_pm', 'postgres');//, '1');
 		$page = $engine->processRequest();	
 		print $page->printPage();
 	?>

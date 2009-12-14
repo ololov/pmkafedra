@@ -10,7 +10,8 @@
 			$id = session_id();
 			if (empty($id))
 				session_start();
-            $_SESSION["user_id"] = $role;
+
+ 		        $_SESSION["user_id"] = $role;
 			$_SESSION["name"] = $login;
         }  
         
@@ -61,7 +62,7 @@
 		{
 			if (!Validator::checkSession())
 			{
-				header("Location: /index.php?page=login");
+				header("Location: index.php?page=login");
 				die();
 			}
 		} 
