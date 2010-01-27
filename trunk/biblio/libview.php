@@ -13,8 +13,6 @@ define("books_table", 'tit', true);
 /*
  * URLs
  */
-define('desc_path', '?page=pmlib&amp;view=desc&amp;book_id=', true);
-define('list_path', '?page=pmlib&amp;view=list&amp;a_id=', true);
 /*
  * Tags functions
  */
@@ -64,6 +62,18 @@ function make_href($ref_prefix, $name_list, $param_val_list)
 function clean_string($str)
 {
 	return str_replace(array('"', '{', '}'), '', $str);
+}
+
+function print_table_row($class, $fields)
+{
+	if ($class != "")
+		$class = "class=\"$class\"";
+
+	$row = '';
+	for ($i = 0; $i < count($fields); ++$i)
+		$row .= "<td>" . $fields[$i] . "</td>";
+
+	print("<tr $class>$row</tr>");
 }
 
 ?>

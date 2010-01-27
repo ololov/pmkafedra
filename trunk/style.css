@@ -204,6 +204,14 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 #bookinfo tr td {
 	border-bottom:	1px dotted #ccc;
 }
+
+#pagelist {
+	text-align:	center;
+	margin-left:	5px;
+	margin-right:	5px;
+	margin-top:	10px;
+	margin-bottom:	10px;
+}
 /*---Оформление формы---*/
 form 
 {
@@ -725,4 +733,15 @@ td a
 
 .info_about {
 	font:		110% palatino, serif
+}
+
+/* ------------ Пользовательские сообщения ------------------*/
+#umsg {
+	/* Ну Юля подкорректируй меня!!! */
+	font:		130% palatino, serif;
+	background-color: #f38d5b;
+	border-style:	solid;
+	border-color:	black;
+	border-width:	1px;
+	text-align:	center;
 }

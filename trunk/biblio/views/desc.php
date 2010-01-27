@@ -8,23 +8,6 @@ require_once('./biblio/libview.php');
 define("noface", "smile.jpg", true);
 define("max_desc_len", 1000, true); /* Максимальная длина описания */
 
-function get_book_info($book_id)
-{
-	$fmt = <<<EOF
-SELECT
-	*,
-	ARRAY(SELECT author_id FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_ids,
-	ARRAY(SELECT author_name FROM ab_tb WHERE ab_tb.book_id = books_tb.book_id ORDER BY author_id) AS author_names
-FROM
-	books_tb
-WHERE
-	book_id = %d;
-EOF;
-	return sprintf($fmt, $book_id);
-}
-
-
-
 /*
  * Local functions
  */
@@ -39,6 +22,9 @@ EOF;
  */
 function make_bookinfo($book)
 {
+	global $biblio_url;
+
+	$list_path = $biblio_url . htmlspecialchars("&view=list&author_id=");
 	$template =
 		"<div id=\"%s\"><table>%s%s%s</table></div>";
 	$alist = explode(',', clean_string($book['author_names']));
@@ -46,7 +32,7 @@ function make_bookinfo($book)
 
 	return sprintf($template, 'bookinfo',
 			make_book_title($book),
-			make_row("Автор(ы)", make_href(list_path, $alist, $ilist)),
+			make_row("Автор(ы)", make_href($list_path, $alist, $ilist)),
 			make_book_pyi($book));
 }
 
@@ -182,27 +168,34 @@ function make_bookdiv($book)
 <?php
 
 /*
- * Не стоит это конечно показывать пользователю, но
- * пока об этом думать рано, не так ли?
+ * Connection to database. Throw exception if fail.
  */
-$link = db_connect() or die(pg_last_error());
+$link = db_connect_ex();
 
 if (!(isset($_GET['book_id']) && is_numeric($book_id = $_GET['book_id'])))
 	$book_id = -1;
 
-$query = get_book_info($book_id);
-$resource = pg_query($link, $query);
+$id_agg = "array_agg(author_id)";
+$author_agg = "array_agg(author_name)";
 
-if (!$resource || pg_num_rows($resource) == 0) {
-	/*
-	echo "<p><b>Извините, ошибка на стороне сервера.</b></p>";
-	exit;
-	 */
-	die('Error : ' . pg_last_error());
+$groups ="tr.book_id, tb.book_name, book_volume, book_publish," .
+	 "book_who, book_desc, book_year, book_desc, book_isbn, book_posted," .
+	 "book_path, book_face, book_size, book_pages";
+$query = "SELECT $groups," .
+	 "array_agg(tr.author_id) AS author_ids, " . 
+	 "array_agg(ta.author_name) AS author_names " .
+	 "FROM ab_tb AS tr INNER JOIN books_tb AS tb ON(tr.book_id = tb.book_id) " .
+	 "INNER JOIN authors_tb AS ta ON(tr.author_id = ta.author_id) " .
+	 "WHERE tr.book_id = $book_id GROUP BY $groups;";
+
+$resource = db_query_ex($link, $query);
+
+if (pg_num_rows($resource) == 0) {
+	write_user_message("Нет такой книги");
+} else {
+	$row = pg_fetch_assoc($resource);
+	echo make_bookdiv($row);
 }
-
-$row = pg_fetch_assoc($resource);
-echo make_bookdiv($row);
 
 /*echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";*/
 

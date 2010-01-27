@@ -74,7 +74,7 @@ function make_array($str)
 	$res = '';
 
 	for ($i = 0; $i < count($list); ++$i)
-		$res .= sprintf("'%s',", trim($list[$i]));
+		$res .= sprintf("'%s',", trim($list[$i], ' "'));
 	$res = trim($res, ',');
 	return "ARRAY[$res]";
 }
@@ -90,41 +90,56 @@ for ($i = 0; $i < count($params); ++$i)
 	if (!isset($_POST[$params[$i]]))
 		die("No parameters");
 
-$link = db_connect() or die(pg_last_error());
+$link = db_connect_ex();
 
 $val = array();
 for ($i = 0; $i < count($params); ++$i)
 	$val[] = trim(pg_escape_string($link, $_POST[$params[$i]]));
 
-$name = $val[0];
-/*
- * Пробуем вытащить расширение файлов
- */
-$or_name = basename(pg_escape_string($link, $_FILES['book_file']['name']));
-$pos = mb_strrpos($or_name, '.', -1, 'utf8');
-if ($pos === FALSE || mb_strlen($pos, 'utf8') > 4)
-	$ext = '';
-else
-	$ext = mb_substr($or_name, $pos);
-/* Размер загруженного файла */
-$sz = $_FILES['book_file']['size'];
-/* Путь к файлу */
-$pathdir = get_book_path($name);
-$lname = strtolower($name);
-$path = "$pathdir$lname$ext";
-for ($i = 1; file_exists($path); ++$i)
-	$path = "$pathdir$lname($i)$ext";
-
-$query = sprintf("SELECT ADDBOOK('%s', %s, %d, '%s', '%s', %d, '%s', '%s', '%s', '%s', %d);",
-		$name, make_array($val[1]), $val[3], $val[2], $val[4], $val[5],
-		$val[6], 'admin', $path, $val[7], $sz);
-/* Заносим данные в БД */
-$res = pg_query($link, $query) or die(pg_last_error());
-
-/* Создаем директорию если ее нету */
-mkdir($pathdir, 0777, true);
-/* Переносим загруженный файл в библиотеку */
-move_uploaded_file($_FILES['book_file']['tmp_name'], $path);
-
-pg_close($link);
+if (is_uploaded_file($_FILES['book_file']['tmp_name'])) {
+	$name = $val[0];
+	/*
+	 * Пробуем вытащить расширение файлов
+	 */
+	$or_name = basename(pg_escape_string($link, $_FILES['book_file']['name']));
+	$pos = mb_strrpos($or_name, '.', -1, 'utf8');
+	if ($pos === FALSE || mb_strlen($pos, 'utf8') > 4)
+		$ext = '';
+	else
+		$ext = mb_substr($or_name, $pos);
+	/* Размер загруженного файла */
+	$sz = $_FILES['book_file']['size'];
+	/* Путь к файлу */
+	$pathdir = get_book_path($name);
+	$lname = strtolower($name);
+	$path = "$pathdir$lname$ext";
+	for ($i = 1; file_exists($path); ++$i)
+		$path = "$pathdir$lname($i)$ext";
+	
+	$authors = make_array($val[1]);
+	$desc = ($val[2] == '') ? ('NULL') : ("'$val[2]'");
+	$volume = ((int)$val[3] == 0) ? ('NULL') : ($val[3]);
+	$publish = ($val[4] == '') ? ('NULL') : ($val[4]);
+	$year = ($val[5] == '') ? ('NULL') : ($val[5]);
+	$isbn = ($val[6] == '') ? ('NULL') : ($val[6]);
+	
+	/*
+	 * FIXME:
+	 * 	Нужна реализованная аунтификация
+	 */
+	$user = "'admin'";
+	
+	$query = sprintf("SELECT ADDBOOK('%s', %s, %s, %d, '%s', %s, %s, %s, %s, %s);",
+			$name, $authors, $user, $sz, $path, $volume, $desc,
+			$publish, $year, $isbn);
+	/* Заносим данные в БД */
+	$res = db_query_ex($link, $query);
+	
+	/* Создаем директорию если ее нету */
+	mkdir($pathdir, 0777, true);
+	/* Переносим загруженный файл в библиотеку */
+	move_uploaded_file($_FILES['book_file']['tmp_name'], $path);
+	
+	pg_close($link);
+}
 ?>
