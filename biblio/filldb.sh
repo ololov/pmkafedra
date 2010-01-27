@@ -32,11 +32,11 @@ addauthor() {
 		fi
 		AUTHOR="ARRAY['$2 $3 $4']"
 		DESC="'$5'"
-		PATH="'go/to/space/to/meet/your/face/haha.pdf'"
+		PATH="'go/to/space/to/meet/your/face/$1.pdf'"
 		DEP="'$6'"
 		PUB="'$7'"
 
-		echo "SELECT ADDBOOK($NAME, $AUTHOR, 1, $DESC, $PUB, $YEAR, 'ISBN-32131', 'SCRIPT', $PATH, $DEP, $RANDOM);"
+		echo "SELECT ADDBOOK($NAME, $AUTHOR, 'SCRIPT', $RANDOM, $PATH, 1, $DESC, $PUB, $YEAR, 'ISBN-32131');"
 		if [ 7 -gt $# ]; then
 			shift $#
 		else
