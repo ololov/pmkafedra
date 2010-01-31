@@ -167,3 +167,11 @@ INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Экзерцева', 'Екатерина', 'Вадимовна', 'доцент', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Неизвестен', 'ХЗ', 'ХЗ', 'ХЗ', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Кишенский', 'Сергей','Жанович', 'доцент', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Акылакунова', 'Ассикат','Киекбаевна', 'старший преподаватель', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Шурдукова', 'Т.','И.', 'ассистент', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Колесникова', 'А.','Н.', 'старший преподаватель', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Наумова', 'Татьяна','Владимировна', 'доцент', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Козлов', 'А.','С.', 'профессор', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Соловьева', 'Т.','Л.', 'доцент', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Сокол', 'П.','П.', 'старший преподаватель', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Лашин', 'В.','Ю.', 'старший преподаватель', '', '', NULL);
