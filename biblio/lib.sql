@@ -43,7 +43,7 @@ CREATE TABLE authors (
 	CHECK(full_name != '')
 );
 
-DROP TABLE IF EXISTS ab_relation;
+DROP TABLE IF EXISTS ab_relation CASCADE;
 CREATE TABLE ab_relation (
 	id_book INT NOT NULL REFERENCES books(id),
 	id_author INT NOT NULL REFERENCES authors(id)
@@ -56,7 +56,7 @@ CREATE TABLE departments (
 	CHECK(name != '')
 );
 
-DROP TABLE IF EXISTS db_relation;
+DROP TABLE IF EXISTS db_relation CASCADE;
 CREATE TABLE db_relation (
 	id_book INT NOT NULL REFERENCES books(id),
 	id_dep INT NOT NULL REFERENCES departments(id)
@@ -153,6 +153,22 @@ EXCEPTION
 END;
 $$ LANGUAGE plPGSQL;
 
+DROP FUNCTION IF EXISTS ADDAB_REL(IN INTEGER[], IN INTEGER[]);
+CREATE FUNCTION ADDAB_REL(IN INTEGER[], IN INTEGER[])
+RETURNS VOID AS $$
+BEGIN
+	IF $1 IS NULL OR $2 IS NULL THEN
+		RETURN;
+	END IF;
+	FOR b_id IN array_lower($1, 1) .. array_upper($1, 1) LOOP
+		FOR a_id IN array_lower($2, 1) .. array_upper($2, 1) LOOP
+			INSERT INTO ab_relation(id_book, id_author)
+			VALUES (($1)[b_id], ($2)[a_id]);
+		END LOOP;
+	END LOOP;
+END;
+$$ LANGUAGE plPGSQL; 
+
 DROP FUNCTION IF EXISTS ADDDEPARTMENTS(IN VARCHAR[]);
 CREATE FUNCTION ADDDEPARTMENTS(IN VARCHAR[])
 RETURNS VOID AS $$
@@ -180,6 +196,22 @@ EXCEPTION
 END;
 $$ LANGUAGE plPGSQL;
 
+DROP FUNCTION IF EXISTS ADDDB_REL(IN INTEGER[], IN INTEGER[]);
+CREATE FUNCTION ADDDB_REL(IN INTEGER[], IN INTEGER[])
+RETURNS VOID AS $$
+BEGIN
+	IF $1 IS NULL OR $2 IS NULL THEN
+		RETURN;
+	END IF;
+	FOR bid IN array_lower($1, 1) .. array_upper($1, 1) LOOP
+		FOR did IN array_lower($2, 1) .. array_upper($2, 1) LOOP
+			INSERT INTO db_relation(id_book, id_dep)
+			VALUES(($1)[bid], ($2)[did]);
+		END LOOP;
+	END LOOP;
+END;
+$$ LANGUAGE plPGSQL;
+
 DROP FUNCTION IF EXISTS ADDBOOK(IN books.name%TYPE,
 				IN VARCHAR[],
 				IN books.who%TYPE,
@@ -189,7 +221,8 @@ DROP FUNCTION IF EXISTS ADDBOOK(IN books.name%TYPE,
 				IN books.description%TYPE,
 				IN books.publish%TYPE,
 				IN books.year%TYPE,
-				IN books.isbn%TYPE);
+				IN books.isbn%TYPE,
+				IN VARCHAR[]);
 CREATE FUNCTION ADDBOOK(IN books.name%TYPE,
 			IN VARCHAR[],
 			IN books.who%TYPE,
@@ -199,7 +232,8 @@ CREATE FUNCTION ADDBOOK(IN books.name%TYPE,
 			IN books.description%TYPE,
 			IN books.publish%TYPE,
 			IN books.year%TYPE,
-			IN books.isbn%TYPE)
+			IN books.isbn%TYPE,
+			IN VARCHAR[])
 RETURNS void AS $$
 DECLARE bname   books.name%TYPE;
 	bwho    books.who%TYPE;
@@ -266,10 +300,13 @@ BEGIN
 	RETURNING id INTO bid;
 
 	SELECT ARRAY(SELECT id FROM authors WHERE full_name = ANY($2)) INTO aids;
-	FOR i IN array_lower(aids, 1) .. array_upper(aids, 1) LOOP
-		INSERT INTO ab_relation(id_book, id_author)
-		VALUES (bid, aids[i]);
-	END LOOP;
+	PERFORM ADDAB_REL(ARRAY[bid], aids);
+
+	IF ($11) IS NOT NULL THEN
+		PERFORM ADDDEPARTMENTS($11);
+		SELECT ARRAY(SELECT id FROM departments WHERE name = ANY($11)) INTO aids;
+		PERFORM ADDDB_REL(ARRAY[bid], aids);
+	END IF;
 END;
 $$ LANGUAGE plPGSQL;
 
@@ -278,4 +315,12 @@ $$ LANGUAGE plPGSQL;
 --
 --
 --
+
+DROP FUNCTION IF EXISTS MODIFYBOOK(IN books.id%TYPE, IN books.imgpath%TYPE, IN books.pages%TYPE);
+CREATE FUNCTION MODIFYBOOK(IN books.id%TYPE, IN books.imgpath%TYPE, IN books.pages%TYPE)
+RETURNS VOID AS $$
+BEGIN
+	UPDATE books SET imgpath = $2, pages = $3 WHERE id = $1;
+END;
+$$ LANGUAGE plPGSQL;
 
