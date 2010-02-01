@@ -1,5 +1,5 @@
 <?php
-/*
+
 	include_once("auth/authlib.php");
 	
 	$no_login_needed = array('login');
@@ -8,7 +8,7 @@
 	{
 		Validator::redirect();
 	}	
- */
+ 
 ?>
 
 <!DOCTYPE html>
