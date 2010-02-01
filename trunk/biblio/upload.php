@@ -123,15 +123,20 @@ if (is_uploaded_file($_FILES['book_file']['tmp_name'])) {
 	$year = ($val[5] == '') ? ('NULL') : ($val[5]);
 	$isbn = ($val[6] == '') ? ('NULL') : ($val[6]);
 	
+	$deps = $val[7];
+	if ($deps != '')
+		$deps = make_array($val[7]);
+	else
+		$deps = 'NULL';
 	/*
 	 * FIXME:
 	 * 	Нужна реализованная аунтификация
 	 */
 	$user = "'admin'";
 	
-	$query = sprintf("SELECT ADDBOOK('%s', %s, %s, %d, '%s', %s, %s, %s, %s, %s);",
+	$query = sprintf("SELECT ADDBOOK('%s', %s, %s, %d, '%s', %s, %s, %s, %s, %s, %s);",
 			$name, $authors, $user, $sz, $path, $volume, $desc,
-			$publish, $year, $isbn);
+			$publish, $year, $isbn, $deps);
 	/* Заносим данные в БД */
 	$res = db_query_ex($link, $query);
 	
