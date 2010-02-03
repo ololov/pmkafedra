@@ -36,7 +36,7 @@ addauthor() {
 		DEP="'$6'"
 		PUB="'$7'"
 
-		echo "SELECT ADDBOOK($NAME, $AUTHOR, 'SCRIPT', $RANDOM, $PATH, 1, $DESC, $PUB, $YEAR, 'ISBN-32131');"
+		echo "SELECT ADDBOOK($NAME, $AUTHOR, 'SCRIPT', $RANDOM, $PATH, 1, $DESC, $PUB, $YEAR, 'ISBN-32131', ARRAY['deps']);"
 		if [ 7 -gt $# ]; then
 			shift $#
 		else

@@ -68,7 +68,7 @@ CREATE TABLE db_relation (
 --
 --
 
-DROP VIEW IF EXISTS books_tb;
+DROP VIEW IF EXISTS books_tb CASCADE;
 CREATE VIEW books_tb AS
 SELECT
 	id AS book_id,
@@ -87,7 +87,7 @@ SELECT
 FROM
 	books;
 
-DROP VIEW IF EXISTS authors_tb;
+DROP VIEW IF EXISTS authors_tb CASCADE;
 CREATE VIEW authors_tb AS
 SELECT
 	id AS author_id,
@@ -95,7 +95,7 @@ SELECT
 FROM
 	authors;
 
-DROP VIEW IF EXISTS  ab_tb;
+DROP VIEW IF EXISTS  ab_tb CASCADE;
 CREATE VIEW ab_tb AS
 SELECT
 	id_book AS book_id,
@@ -103,7 +103,7 @@ SELECT
 FROM
 	ab_relation;
 
-DROP VIEW IF EXISTS deps_tb;
+DROP VIEW IF EXISTS deps_tb CASCADE;
 CREATE VIEW deps_tb AS
 SELECT
 	id AS dep_id,
@@ -111,13 +111,36 @@ SELECT
 FROM
 	departments;
 
-DROP VIEW IF EXISTS db_tb;
+DROP VIEW IF EXISTS db_tb CASCADE;
 CREATE VIEW db_tb AS
 SELECT
 	id_book AS book_id,
 	id_dep AS dep_id
 FROM
 	db_relation;
+
+--
+--
+-- To simplify sql requests
+--
+--
+DROP VIEW IF EXISTS abfull_tb CASCADE;
+CREATE VIEW abfull_tb AS
+SELECT
+	tb.*,
+	ta.*
+FROM ab_tb AS ab
+INNER JOIN authors_tb AS ta ON(ta.author_id = ab.author_id)
+INNER JOIN books_tb AS tb ON(tb.book_id = ab.book_id);
+
+DROP VIEW IF EXISTS dbfull_tb CASCADE;
+CREATE VIEW dbfull_tb AS
+SELECT
+	tb.*,
+	td.*
+FROM db_tb AS db
+INNER JOIN books_tb AS tb ON(tb.book_id = db.book_id)
+INNER JOIN deps_tb AS td ON(td.dep_id = db.dep_id);
 
 --
 --
