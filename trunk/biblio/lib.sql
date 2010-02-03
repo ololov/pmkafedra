@@ -46,7 +46,8 @@ CREATE TABLE authors (
 DROP TABLE IF EXISTS ab_relation CASCADE;
 CREATE TABLE ab_relation (
 	id_book INT NOT NULL REFERENCES books(id),
-	id_author INT NOT NULL REFERENCES authors(id)
+	id_author INT NOT NULL REFERENCES authors(id),
+	UNIQUE(id_book, id_author)
 );
 
 DROP TABLE IF EXISTS departments CASCADE;
