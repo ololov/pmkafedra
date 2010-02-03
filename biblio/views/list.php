@@ -121,9 +121,6 @@ $alias_authors = "authors";
 $alias_aids = "authors_ids";
 
 $query_count = "SELECT COUNT(book_id) FROM books_tb $where";
-$query_data = "SELECT book_id, book_name, book_path," .
-	" array_agg(author_name) AS $alias_authors, array_agg(author_id) AS $alias_aids " . 
-	" FROM abfull_tb $where GROUP BY book_id, book_name, book_path ORDER BY book_name;";
 
 /*
  * Get max and current page.
@@ -146,6 +143,10 @@ $offset = ($offset < 0) ? (0) : ($offset);
 
 //echo "$page<br>$maxpages<br>$offset";
 /* Основной запрос */
+$query_data = "SELECT book_id, book_name, book_path," .
+	" array_agg(author_name) AS $alias_authors, array_agg(author_id) AS $alias_aids " . 
+	" FROM abfull_tb $where GROUP BY book_id, book_name, book_path ORDER BY book_name" .
+	" LIMIT $limit OFFSET $offset;";
 
 $res = db_query_ex($link, $query_data);
 
