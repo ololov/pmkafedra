@@ -174,11 +174,10 @@ if (pg_num_rows($res) == 0) {
 	print($pg_list);
 	print("<div><table>");
 	while ($row = pg_fetch_assoc($res)) {
-		$author_list = trim($row[$alias_authors], '{} ');
-		$author_list = str_replace('"', '', $author_list);
+		$author_list = clean_string($row[$alias_authors], '{} ');
 		$author_list = explode(',', $author_list);
 	
-		$author_id_list = trim($row[$alias_aids], '{} ');
+		$author_id_list = clean_string($row[$alias_aids], '{} ');
 		$author_id_list = explode(',', $author_id_list);
 		/*
 		 * Prepare to print
