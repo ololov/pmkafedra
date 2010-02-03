@@ -212,6 +212,11 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 	margin-top:	10px;
 	margin-bottom:	10px;
 }
+
+#pagelist a {
+	text-decoration: none;
+}
+
 /*---Оформление формы---*/
 form 
 {
