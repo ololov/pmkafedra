@@ -66,67 +66,69 @@ function get_page_list($curr, $max)
 }
 
 /*
- * Search parameters
+ * Getting search parameters
  */
-$authors = '';
-$book_name = '';
-$book_dep = '';
+
+function check_parameters($pnames, $container)
+{
+	for ($i = 0; $i < count($pnames); ++$i)
+		if (!isset($container[$pnames[$i]]))
+			return FALSE;
+	return TRUE;
+}
 
 /*
- * SQL parameters;
- */
-$groups = 'tr.book_id, book_name, book_path';
-$id_agg = 'array_agg(tr.author_id)';
-$author_agg = 'array_agg(author_name)';
-$alias_id_agg = 'authors_ids';
-$alias_author_agg = 'authors_names';
-
-/*
- * Connecting to database
+ * Connect to database
  */
 $link = db_connect_ex();
 
 /*
- * First parse search parameters
+ * Check search parameters first!
  */
-if (isset($_REQUEST['s_author'])) {
-	$pauthors = pg_escape_string($link, $_REQUEST['s_author']);
-	$authors = "array_to_string($author_agg, '') LIKE '%$pauthors%'";
-	$c_authors = "ta.author_name LIKE '%$pauthors%'";
-} else if (isset($_REQUEST['author_id']) && is_numeric($_REQUEST['author_id'])) {
-	/* user could click on author name, so we should print all his books */
-	$authors = sprintf("%d = ANY($id_agg)", $_REQUEST['author_id']);
-	$c_authors = sprintf("ta.author_id = %d", $_REQUEST['author_id']);
-}
-
-if (isset($_REQUEST['s_book'])) {
-	$book_name = pg_escape_string($link, $_REQUEST['s_book']);
-	$book_name = "book_name LIKE '%$book_name%'";
+$sql_req = array("s_book" => "SELECT book_id FROM books_tb WHERE book_name ILIKE '%%%s%%'",
+		 "s_author" => "SELECT book_id FROM abfull_tb WHERE author_name ILIKE '%%%s%%'",
+		 "s_dep" => "SELECT book_id FROM dbfull_tb WHERE dep_name ILIKE '%%%s%%'");
+$params = array("s_book", "s_author", "s_dep");
+$sql_fin = array();
+if (check_parameters($params, $_GET)) {
+	for ($i = 0; $i < count($params); ++$i) {
+		$curr = trim($_GET[$params[$i]]);
+		if ($curr != '') {
+			$curr = pg_escape_string($link, $curr);
+			$sql_fin[] = sprintf($sql_req[$params[$i]], $curr);
+		}
+	}
+} else if (isset($_GET['author_id'])) {
+	$val = $_GET['author_id'];
+	if (is_numeric($val) && (int)$val = $val)
+		$sql_fin[] = sprintf("SELECT book_id FROM ab_tb WHERE author_id = %d", $val);
 }
 
 /*
- * FIXME:
- * 	Поиск по разделам пока не реализован
+ * Prepare condition for requests
  */
 
-if ($authors != '') {
-	$authors = " HAVING $authors ";
-	$c_authors = " tb.book_id IN (SELECT tr.book_id FROM ab_tb AS tr " .
-		     "INNER JOIN authors_tb AS ta ON(tr.author_id = ta.author_id) " .
-		     "WHERE tr.book_id = tb.book_id AND $c_authors) ";
-}
-if ($book_name != '') {
-	$book_name = " WHERE $book_name ";
+
+$where = '';
+if (count($sql_fin) > 0) {
+	$where = sprintf(" WHERE book_id IN (%s)", $sql_fin[0]);
+	for ($i = 1; $i < count($sql_fin); ++$i)
+		$where .= sprintf(" AND book_id IN (%s)", $sql_fin[$i]);
 }
 
-$and = (($book_name != '' && $c_authors != '') ? ('AND') : (''));
-$c_where = "$book_name $and $c_authors";
+/* Declare some aliases */
+$alias_authors = "authors";
+$alias_aids = "authors_ids";
 
-$cquery= "SELECT COUNT(*) FROM books_tb AS tb $c_where;";
+$query_count = "SELECT COUNT(book_id) FROM books_tb $where";
+$query_data = "SELECT book_id, book_name, book_path," .
+	" array_agg(author_name) AS $alias_authors, array_agg(author_id) AS $alias_aids " . 
+	" FROM abfull_tb $where GROUP BY book_id, book_name, book_path ORDER BY book_name;";
+
 /*
  * Get max and current page.
  */
-$cres = db_query_ex($link, $cquery);
+$cres = db_query_ex($link, $query_count);
 
 $maxpages = get_maxpage($cres);
 if (isset($_GET['pg']))
@@ -144,13 +146,8 @@ $offset = ($offset < 0) ? (0) : ($offset);
 
 //echo "$page<br>$maxpages<br>$offset";
 /* Основной запрос */
-$query = "SELECT $groups, $id_agg AS $alias_id_agg, $author_agg AS $alias_author_agg " .
-	 "FROM ab_tb AS tr INNER JOIN books_tb AS tb ON(tr.book_id = tb.book_id) " .
-	 "INNER JOIN authors_tb AS ta ON(tr.author_id = ta.author_id) " .
-	 "$book_name GROUP BY $groups $authors LIMIT $limit OFFSET $offset;";
 
-
-$res = db_query_ex($link, $query);
+$res = db_query_ex($link, $query_data);
 
 if (pg_num_rows($res) == 0) {
 	write_user_message("Такой книги нету");
@@ -166,11 +163,11 @@ if (pg_num_rows($res) == 0) {
 	print($pg_list);
 	print("<div><table>");
 	while ($row = pg_fetch_assoc($res)) {
-		$author_list = trim($row[$alias_author_agg], '{} ');
+		$author_list = trim($row[$alias_authors], '{} ');
 		$author_list = str_replace('"', '', $author_list);
 		$author_list = explode(',', $author_list);
 	
-		$author_id_list = trim($row[$alias_id_agg], '{} ');
+		$author_id_list = trim($row[$alias_aids], '{} ');
 		$author_id_list = explode(',', $author_id_list);
 		/*
 		 * Prepare to print
