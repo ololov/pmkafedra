@@ -8,7 +8,7 @@
 	{
 		Validator::redirect();
 	}	
- 
+  
 ?>
 
 <!DOCTYPE html>

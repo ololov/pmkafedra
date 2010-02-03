@@ -87,27 +87,37 @@ $link = db_connect_ex();
  */
 $sql_req = array("s_book" => "SELECT book_id FROM books_tb WHERE book_name ILIKE '%%%s%%'",
 		 "s_author" => "SELECT book_id FROM abfull_tb WHERE author_name ILIKE '%%%s%%'",
-		 "s_dep" => "SELECT book_id FROM dbfull_tb WHERE dep_name ILIKE '%%%s%%'");
-$params = array("s_book", "s_author", "s_dep");
-$sql_fin = array();
-if (check_parameters($params, $_GET)) {
-	for ($i = 0; $i < count($params); ++$i) {
-		$curr = trim($_GET[$params[$i]]);
-		if ($curr != '') {
-			$curr = pg_escape_string($link, $curr);
-			$sql_fin[] = sprintf($sql_req[$params[$i]], $curr);
-		}
-	}
+		 "s_dep" => "SELECT book_id FROM dbfull_tb WHERE dep_name ILIKE '%%%s%%'",
+		 "author_id" => "SELECT book_id FROM ab_tb WHERE author_id = %d",
+	 	 "dep_id" => "SELECT book_id FROM db_tb WHERE dep_id = %d");
+
+$s_params = array("s_book", "s_author", "s_dep");
+
+$params = array();
+$values = array();
+if (check_parameters($s_params, $_REQUEST)) {
+	$params = $s_params;
+	$values = $_REQUEST;
 } else if (isset($_GET['author_id'])) {
-	$val = $_GET['author_id'];
-	if (is_numeric($val) && (int)$val = $val)
-		$sql_fin[] = sprintf("SELECT book_id FROM ab_tb WHERE author_id = %d", $val);
+	$params = array('author_id');
+	$values = array('author_id' => $_GET['author_id']);
+} else if (isset($_GET['dep_id'])) {
+	$params = array('dep_id');
+	$values = array('dep_id' => $_GET['dep_id']);
+}
+
+$sql_fin = array();
+for ($i = 0; $i < count($params); ++$i) {
+	$curr = trim($values[$params[$i]]);
+	if ($curr != '') {
+		$curr = pg_escape_string($link, $curr);
+		$sql_fin[] = sprintf($sql_req[$params[$i]], $curr);
+	}
 }
 
 /*
  * Prepare condition for requests
  */
-
 
 $where = '';
 if (count($sql_fin) > 0) {
