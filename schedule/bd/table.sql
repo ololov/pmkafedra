@@ -119,7 +119,7 @@ BEGIN
 		EXIT WHEN EXTRACT(dow from datum) = 4;
 		datum = datum + '1 day'::interval;
 	END LOOP;
-	ret = to_char(datum + (7*(kw)-3 || 'days')::interval,'yyyy-mm-dd') || '---' || to_char(datum + (3+7*(kw)||'days')::interval,'yyyy-mm-dd');
+	ret = to_char(datum + (7*(kw-1)-3 || 'days')::interval,'yyyy-mm-dd') || '---' || to_char(datum + (3+7*(kw-1)||'days')::interval,'yyyy-mm-dd');
 	RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql';
@@ -169,9 +169,11 @@ INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Кишенский', 'Сергей','Жанович', 'доцент', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Акылакунова', 'Ассикат','Киекбаевна', 'старший преподаватель', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Шурдукова', 'Т.','И.', 'ассистент', '', '', NULL);
-INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Колесникова', 'А.','Н.', 'старший преподаватель', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Колесников', 'А.','Н.', 'старший преподаватель', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Наумова', 'Татьяна','Владимировна', 'доцент', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Козлов', 'А.','С.', 'профессор', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Соловьева', 'Т.','Л.', 'доцент', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Сокол', 'П.','П.', 'старший преподаватель', '', '', NULL);
 INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Лашин', 'В.','Ю.', 'старший преподаватель', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Артеменко', 'Юрий','П.', 'профессор', '', '', NULL);
+INSERT INTO prepod (lname,fname,sname,post,scentific_int,contact,kafedra) VALUES ('Зорина', 'О.','В.', 'старший преподаватель', '', '', NULL);
