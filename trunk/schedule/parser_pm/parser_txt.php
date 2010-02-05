@@ -133,6 +133,7 @@
                                 $inic = explode(".",$fio_prepod[1]);
                                 $query = "'".$val[1]."','".$val[2]."','".$key."','".$fio_prepod[0]."','".$inic[0]."','".$inic[1]."'";
                                 $query = "SELECT add_datas(".$query.")";
+//				echo "$key --- {$val[1]} --- {$fio_prepod[0]} \n";
 
 				$res = pg_query($db,$query) or die(pg_last_error());
                                 $tmp = pg_fetch_row($res);
