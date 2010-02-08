@@ -1,0 +1,752 @@
+html
+{
+	margin:		0px; 
+	padding:	0px;
+}
+
+body 
+{
+	margin:		0px 50px;
+	font:		100% palatino, serif;
+	color:		#555753;
+	background:	url("images/patt_03.jpg");
+	min-width:	980px;
+}
+
+body #container
+{
+	background:	white;
+	padding:	0px 30px;
+	border:		1px solid #adadae;
+	margin-bottom:	10px;
+}
+
+#head
+{
+	background:	white;
+}
+/*------------------Горизонтальное меню-------------------*/
+.gmenu
+{
+	background:	white;
+	text-align:	center;
+	overflow:	hidden;
+	position:	relative;
+}
+
+.gmenucont
+{
+	float: 		left;
+	left:		50%;
+	position:	relative;
+	text-align:	center;
+}
+
+.wrpr
+{
+	position:	relative;
+	left:		-50%;
+	float:		left;
+	list-style:	none;
+	margin:		0px; 
+	padding:	0px;
+}
+
+.gmenu li
+{
+	float:		  left;
+	background:	  black;
+	opacity:	  .5;
+/*	filter:		  alpha(opacity=50);*/
+	margin:		  0px 2px;
+}
+
+.gmenu li a
+{
+	
+	color:		  white;
+	text-decoration:  none;
+	padding:	  0px 10px;
+}
+
+/*--------------------------------------------------------*/
+#separator
+{
+	margin:		0px;
+	padding:	0px;
+	height:		5px;
+	width:		100%;
+	font:		80% palatino, serif;	
+	background:	#adadae;
+	position:	relative;
+}
+/*---------------------------Sidebar----------------------*/
+#vmenu
+{
+	background:	#b9defd;
+	border: 	1px solid #adadae;
+	padding:	0px;
+	opacity:	.7;
+	width:		18%;
+	height:		300px;
+	float:		left;
+}
+
+#vmenu p
+{
+	display:	none;
+}
+
+#vmenu ul
+{
+	list-style:	none;
+	padding:	0px;
+	margin:		0px;
+}
+
+#vmenu ul li
+{
+	border-bottom:	1px dotted #025391;
+	margin:		0px;
+}
+
+#vmenu ul li a
+{
+	display:	 block;
+	text-decoration: none;
+	font-size:	 82%;
+	font-weight:	 bold;
+	color:		 #025391;
+	width:		 100%;
+	padding:	 5px 0px 5px 5px;
+}
+
+#vmenu ul li a:hover
+{
+	background: 	#cfe8fd;
+	padding:	5px 0px 5px 0px;
+}
+/*----------------------------------------------------------*/
+#main
+{
+	min-height:	600px;
+	background:	white;
+	border:		1px solid #adadae;
+	padding:	10px 30px;
+	font:		90% palatino, serif;
+	text-align:	justify;
+	margin-left:	19%;
+}
+
+/*-----------------Параграфы и заголовки------------------*/
+/*Эмблема*/
+#head .logo
+{
+	float:		left;
+	margin:		10px 10px 0px 40px;
+}
+/*---Заголовок сайта---*/
+#head p
+{
+	margin:		0px 0px;
+	padding:	20px 0px;	
+}
+
+span.cfd { font: 120% palatino, serif; }
+span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
+/*------*/
+
+/*Заголовок страницы*/
+.tit
+{
+	color:		#cb8276;
+	text-align:	center;
+	font-size:	120%;
+	font-weight:	bolder;
+}
+/*Подзаголовок*/
+.subtit
+{
+	color:		#025391;
+	font-weight:	bolder;
+}
+/*---------------Библиотека----------------------*/
+#book {
+	margin:		5px;
+	padding:	5px;
+}
+
+.bookface {
+	float:		left;
+	border:		1px solid #ccc;
+	margin:		10px;
+}
+
+#bookdesc {	
+	margin-left:	5px;
+	clear:		both;
+	font:		100% palatino, serif;
+}
+
+#bookinfo {	
+	border:		1px solid #ccc;
+}
+
+#bookinfo table {
+	font:		120% palatino, serif;
+	width:		85%;
+	margin:		10px;
+}
+
+#bookinfo tr {
+	background:	white;
+}
+#bookinfo tr td {
+	border-bottom:	1px dotted #ccc;
+}
+
+#pagelist {
+	text-align:	center;
+	margin-left:	5px;
+	margin-right:	5px;
+	margin-top:	10px;
+	margin-bottom:	10px;
+}
+
+#pagelist a {
+	text-decoration: none;
+}
+
+/*---Оформление формы---*/
+form 
+{
+	padding:	10px;
+	border:		1px solid #ccc;
+	background:	#e4f4fc;
+	text-align:	center;
+}
+
+#book_info_main
+{
+	float:		left;
+	width:		50%;
+}
+
+#book_info_dop
+{
+	margin-left:	51%;
+}
+
+fieldset
+{
+	margin:		5px auto;
+	border:		1px dotted #888;
+	background:	#f5fbff;
+	height:		470px;
+	text-align:	left;
+}
+
+legend
+{
+	font-size:	100%;
+	font-weight:	bold;
+	color:		#025391;
+	background:	#b9defd;
+	padding:	5px;
+	border:		1px solid #888;	
+}
+
+input, textarea
+{
+	width:		90%;
+}
+
+.buttonSubmit, #next, #last
+{
+	font:		bold 100% palatino, serif;
+	color:		#025391;
+	background:	#b9defd;
+	border:		1px solid #025391;
+	padding:	4px;
+	opacity:	.9;
+}
+.buttonSubmit:hover, #next:hover, #last:hover
+{
+	background:	#cfe8fd;
+}
+
+/*-Форма поиска книги-*/
+#form_search .input_text
+{
+	margin-bottom:	10px;
+	width:		95%;
+}
+#form_search
+{
+	height:		30%;
+}
+#form_search fieldset
+{
+	height:		75%;
+}
+/*---------------Информация о кафедре---------------*/
+/*---Расположение фотографий---*/
+.leftimg
+{
+	float:		left;
+	margin:		0px 10px 5px 0px;
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+}
+.rightimg
+{
+	float:		right;
+	margin: 	0px 0px 5px 10px;	
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+
+}
+.prep_photo
+{
+	float:		left;
+	margin:		20px 20px 0px 0px;	
+	padding:	5px;
+	background:	white;
+	border:		1px solid #ccc;
+
+}
+/*------*/
+.stuff
+{
+	font-weight:	bolder;
+	text-align:	center;
+	color:		#0170a3;
+} 
+.name
+{
+	font-weight:	bolder;
+	font-size:	180%;
+	text-align:	center;
+	color:		#cb8276;
+}
+/*---Оформление таблицы---*/
+tr 
+{
+	background-color:	#e4f4fc;
+}
+
+tr.odd 
+{
+	background-color:	#a5d7e3;
+}
+
+td
+{
+	width:			50%;
+}
+
+td a
+{
+	text-decoration:	none;
+	color:			#025391;
+}
+/*------*/
+/*-------------Форма входа-----------------------*/
+#enter
+{
+	height:		80%;
+	border:		1px dotted #adadae;
+	margin:		5px;
+	background:	#e4f4fc;
+	font:		bold 100% palatino, serif;
+}
+
+#enter input
+{
+	font:		80% palatino, serif;
+}
+/*-------------------Форум-----------------------*/
+#forum_main
+{
+	min-height:	600px;
+	background:	white;
+	border:		1px solid #adadae;
+	padding:	10px 30px;
+	font:		80% palatino, serif;
+}
+
+/*--Таблица--*/
+#forum
+{
+	border:		1px solid #ccc;
+}
+
+/*-Заголовок-*/
+#forum .head_forum
+{
+	background:	#c7dade;
+	opacity:	.6;
+}
+
+.head_forum td
+{
+	padding:	0px 20px;
+	text-align:	left;
+	font:		bold 100% palatino, serif;
+}
+
+.head_forum .first
+{
+	width:		90%;
+}
+
+/*-Основные строки-*/
+#forum td
+{
+	padding-left:	20px;
+}
+
+#forum .team
+{
+	font:		bold 130% palatino, serif;
+	color:		#025391;
+}
+
+#forum .team:hover
+{
+	color:		#0582e1;
+}
+
+#forum .note
+{
+	font-style:	italic;
+}
+
+/*-Картинки-*/
+.img_forum
+{
+	float:		left;
+	margin-right:	10px;
+}
+
+/*-Таблица для вывода сообщения-*/
+#forum_mes
+{
+	width:			100%;
+}
+
+#forum_a
+{
+	min-height:		150px;
+	min-width:		150px;
+	border:			1px solid #ccc;
+	margin:			5px;
+	text-align:		center;
+}
+
+/*-Заголовок сообщения-*/
+#forum_time, #forum_numb
+{
+	background:		#c7dade;
+	font-weight:		bold;
+}
+
+#forum_auth
+{
+	width:			10%;
+}
+
+#forum_text
+{
+	width:			80%;
+}
+/*-Содержание сообщения-*/
+#forum_cont
+{
+	margin:			5px;
+	border:			1px solid #ccc;
+	background:		white;
+	padding:		0px 5px;
+	min-height:		140px;
+}
+
+/*-Подпись-*/
+.forum_subm
+{
+	border-top:		4px double #ccc;
+	font-style:		italic;
+	color:			#4791b7;
+	font-weight:		bolder;
+	padding-top:		3px;
+}
+
+/*-Аватар-*/
+.forum_avatar
+{
+	background:		white;
+	padding:		5px;
+	border:			1px solid #ccc;
+	margin:			20px;
+}
+
+/*-Имя автора сообщения-*/
+.forum_name
+{
+	color:			#025391;
+	font-weight:	bold;
+	font-size:		120%;
+	border-top:		1px dotted #ccc;	
+}
+
+/*-Кнопки для форума-*/
+#forum_main .forum_button
+{
+	display:	block;
+	font:		bold 120% palatino, serif;
+	color:		#025391;
+	background:	#b9defd;
+	opacity:	.9;
+	text-decoration:none;
+	margin-bottom:	5px;
+	width:		20%;
+	text-align:	center;
+	padding-bottom:	3px;
+	border:		1px solid #ccc;
+}
+#forum_main .forum_button:hover
+{
+	background:	#cfe8fd;
+}
+
+/*-Формы для форума-*/
+#form_forum_mes
+{
+	height:		60%;
+	font-size:	110%;		
+}
+
+#form_forum_mes fieldset
+{
+	height:		70%;
+	margin-bottom:	10px;
+	padding:	10px;
+}
+
+#forum_main .tit
+{
+	font-size:	130%;
+}
+/*---------------------------Новости----------------------------*/
+#add_news
+{
+	height:		300px;
+}
+
+#com_news
+{
+	height:		50%;
+	margin-bottom:	10px;
+	padding: 	10px;
+}
+
+#type_news
+{
+	height:		20%;
+}
+
+#add_news textarea, #add_news select, #add_news .theme, #form_forum_mes textarea, #form_forum_mes .text_mes
+{
+	float:		right;
+	width:		80%;
+}
+
+
+/*-----------------------------Расписание----------------------------------*/
+/*------------Ссылки на группы------------*/
+#group ul
+{
+	list-style:	none;
+	margin:		0px;
+	padding:	0px;
+}
+
+#group ul li
+{
+	float:		left;
+	border-right:	1px solid #ccc;
+	margin:		0px;
+}
+
+#group ul li a
+{
+	margin-right:	 20px;
+	display:	 block;
+	text-decoration: none;
+	font-size:	 82%;
+	font-weight:	 bold;
+	color:		 #025391;
+	width:		 100%;
+	padding:	 5px 0px 5px 5px;
+
+}
+#group ul li a:hover, #group ul li a:active
+{
+	background: 	#cfe8fd;
+	padding:	5px 0px 5px 0px;
+	border:		1px solid #ccc;
+}
+
+#group
+{
+	border:		1px solid #ccc;
+	height:		25px;
+}
+/*-----------Таблица для расписания---------*/
+#sch
+{
+	border:		1px solid #ccc;
+	margin:		0px;
+}
+
+#schedule
+{
+	width:		100%;
+	border:		1px solid #ccc;
+	background:	#ccc;
+}
+
+/*----------Заголовок таблицы------*/
+/*--День и число--*/
+#sch_day, #sch_num
+{
+	background:	#f9f8d8;
+	color:		#555753;
+	height:		60px;
+	text-align:	center;
+}
+
+/*-------------Текст---------------*/
+#schedule p
+{
+	font:		100% palatino, serif;
+	color:		#025391;
+	padding:	0px 0px;
+	margin:		1px 0px;
+}
+
+#schedule .pred
+{
+	text-align:	right;
+	font:		bold 110% palatino, serif;
+}
+
+#schedule .prep
+{
+	text-align:	right;
+	font-style:	italic;
+	color:		#555753;
+}
+
+/*-------------Ячейки--------------*/
+#schedule td
+{
+	padding:	0px 20px;
+	text-align:	center;
+	width:		5px;
+}
+
+/*--Номер пары--*/
+#schedule #sch_para
+{
+	color:		#025391;
+	font-weight:	bold;
+	width:		2%;
+	background:	#f2f9f6;
+}
+
+/*--Тип пары--*/
+#schedule #sch_type
+{
+	background:	#f2f9fd;
+	width:		2%;
+}
+
+/*--Аудитория--*/
+#schedule #sch_audt
+{
+	width:		2%;
+}
+
+#menulink {
+/*	display:	none;*/
+}
+
+#menulink li {
+	padding-left:	30px;
+}
+
+/*--Недели--*/
+#sch_form
+{
+	height:		30px;
+	margin-bottom:  0px;
+}
+#last
+{
+	width:		10%;
+	float:		left;
+}
+#next
+{
+	float:		right;
+	width:		10%;
+}
+
+#news_table
+{
+	width:		100%;
+}
+
+#news_table .news_head
+{
+	font:		bold 120% palatino, serif;
+	border-bottom:	1px solid #ccc;
+	width:		80%;
+}
+
+#news_table .new_day
+{
+	border-bottom:	1px solid #ccc;
+}
+
+#news_table .news_desc
+{
+	font:		110% palatino, serif;
+}
+
+#news_table .desc
+{
+	background:	white;
+}
+
+#news_table
+{
+	border:		1px solid #ccc;
+}
+
+.info_about {
+	font:		110% palatino, serif
+}
+
+/* ------------ Пользовательские сообщения ------------------*/
+#umsg {
+	/* Ну Юля подкорректируй меня!!! */
+	font:		130% palatino, serif;
+	background-color: #f38d5b;
+	border-style:	solid;
+	border-color:	black;
+	border-width:	1px;
+	text-align:	center;
+}
