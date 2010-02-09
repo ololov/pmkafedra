@@ -140,7 +140,7 @@ if (is_uploaded_file($_FILES['book_file']['tmp_name'])) {
 	$sz = $_FILES['book_file']['size'];
 	/* Путь к файлу */
 	$pathdir = get_book_path($name);
-	$lname = strtolower($name);
+	$lname = low_translit($name);
 	$path = "$pathdir$lname.$ext";
 	for ($i = 1; file_exists($path); ++$i)
 		$path = "$pathdir$lname($i).$ext";
@@ -170,7 +170,8 @@ if (is_uploaded_file($_FILES['book_file']['tmp_name'])) {
 		write_and_die();
 	
 	/* Создаем директорию если ее нету */
-	mkdir($pathdir, 0777, true);
+	if (!file_exists($pathdir))
+		mkdir($pathdir, 0777, true);
 	/* Переносим загруженный файл в библиотеку */
 	move_uploaded_file($_FILES['book_file']['tmp_name'], $path);
 	
