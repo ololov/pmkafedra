@@ -1,1 +1,1 @@
-php_value upload_max_filesize 26214400
+php_value include_path "/home/kim/htdocs/pmkafedra"
