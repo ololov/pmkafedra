@@ -6,7 +6,7 @@ include_once('include/lib.php');
 
 $link = db_connect();
 if (!$link)
-	include_once('include/html_db_errors.php');
+	include_once('include/html_db_error.php');
 
 $group = "disc_id, disc_name, disc_lessons, disc_practices, disc_labs, disc_courseovik";
 /*
@@ -19,13 +19,14 @@ $subquery = "SELECT course_number FROM dk_tb WHERE dk_tb.disc_id = wdfull_tb.dis
 $query = "SELECT $group, $agg_id AS $alias_id, $agg_name AS $alias_name, ARRAY($subquery) " .
        "FROM wdfull_tb GROUP BY $group ORDER BY disc_name;";
  */
+$alias_course = "courses";
 $subquery = "SELECT course_number FROM dk_tb WHERE dk_tb.disc_id = disc_tb.disc_id ORDER BY course_number";
-$query = "SELECT $group, ARRAY($subquery) " .
+$query = "SELECT $group, ARRAY($subquery) AS $alias_course " .
        "FROM disc_tb ORDER BY disc_name;";
 
 $res = pg_query($link, $query);
 if (!$res)
-	include_once('include/html_db_erros.php');
+	include_once('include/html_db_error.php');
 
 ?>
 <!DOCTYPE html>
@@ -46,7 +47,8 @@ print_sidebar();
 <table>
 <p class = "tit">Дисциплины</p>
 <tr class = "odd" align = "center">
-<td>Название</td><td>лекций</td><td>практическиe занятия</td>
+<td>Название</td><td>Курсы</td>
+<td>лекций</td><td>практическиe занятия</td>
 <td>лабораторные занятия</td><td>Курсовая работа</td>
 </tr>
 <?php
@@ -54,9 +56,10 @@ print_sidebar();
 $i = 0;
 $classes = array("", "class = \"odd\"");
 while ($row = pg_fetch_assoc($res)) {
-	printf("<tr %s align = \"center\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-		$classes[$i % 2], $row['disc_name'], $row['disc_lessons'],
-		$row['disc_practices'], $row['disc_labs'], $row['disc_courseovik']);
+	printf("<tr %s align = \"center\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+		$classes[$i % 2], $row['disc_name'], clean_string($row[$alias_course]),
+		$row['disc_lessons'], $row['disc_practices'],
+		$row['disc_labs'], $row['disc_courseovik']);
 	++$i;
 }
 ?>
