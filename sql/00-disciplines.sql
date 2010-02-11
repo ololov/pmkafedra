@@ -5,8 +5,7 @@
 
 DROP TABLE IF EXISTS disciplines CASCADE;
 CREATE TABLE disciplines (
-	id SERIAL PRIMARY KEY,
-	name VARCHAR NOT NULL,
+	name VARCHAR PRIMARY KEY,
 	lessons INTEGER NOT NULL,
 	practices INTEGER NOT NULL,
 	labs INTEGER NOT NULL,
@@ -22,7 +21,6 @@ CREATE TABLE disciplines (
 DROP VIEW IF EXISTS disc_tb CASCADE;
 CREATE VIEW disc_tb AS
 SELECT
-	id AS disc_id,
 	name AS disc_name,
 	lessons AS disc_lessons,
 	practices AS disc_practices,
@@ -33,16 +31,16 @@ FROM
 
 DROP TABLE IF EXISTS dk_relation CASCADE;
 CREATE TABLE dk_relation (
-	id_disc INTEGER NOT NULL REFERENCES disciplines(id),
+	dname VARCHAR NOT NULL REFERENCES disciplines(name),
 	course INTEGER NOT NULL,
-	UNIQUE(id_disc, course),
+	UNIQUE(dname, course),
 	CHECK(course > 0 AND course < 6)
 );
 
 DROP VIEW IF EXISTS dk_tb CASCADE;
 CREATE VIEW dk_tb AS
 SELECT
-	id_disc AS disc_id,
+	dname AS disc_name,
 	course AS course_number
 FROM
 	dk_relation;
@@ -65,19 +63,17 @@ CREATE FUNCTION ADDDISC(IN disciplines.name%TYPE,
 			IN disciplines.labs%TYPE,
 			IN disciplines.courseovik%TYPE,
 			IN disciplines.control%TYPE)
-RETURNS INTEGER AS $$
-DECLARE did INTEGER;
+RETURNS VOID AS $$
 BEGIN
 	INSERT INTO disciplines(name, lessons, practices, labs, courseovik, control)
-	VALUES($1, $3, $4, $5, $6, $7) RETURNING id INTO did;
+	VALUES($1, $3, $4, $5, $6, $7);
 
 	IF $2 IS NOT NULL THEN
 		FOR i IN array_lower($2, 1) .. array_upper($2, 1) LOOP
-			INSERT INTO dk_relation(id_disc, course)
-			VALUES(did, $2[i]);
+			INSERT INTO dk_relation(dname, course)
+			VALUES($1, $2[i]);
 		END LOOP;
 	END IF;
-	RETURN did;
 EXCEPTION
 	WHEN check_violation THEN
 		RAISE EXCEPTION 'Ошибка: Некорректные данные';

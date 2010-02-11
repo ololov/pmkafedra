@@ -8,7 +8,7 @@ $link = db_connect();
 if (!$link)
 	include_once('include/html_db_error.php');
 
-$group = "disc_id, disc_name, disc_lessons, disc_practices, disc_labs, disc_courseovik";
+$group = "disc_name, disc_lessons, disc_practices, disc_labs, disc_courseovik";
 /*
 $alias_id = "wids";
 $agg_id = "array_agg(worker_id)";
@@ -20,7 +20,7 @@ $query = "SELECT $group, $agg_id AS $alias_id, $agg_name AS $alias_name, ARRAY($
        "FROM wdfull_tb GROUP BY $group ORDER BY disc_name;";
  */
 $alias_course = "courses";
-$subquery = "SELECT course_number FROM dk_tb WHERE dk_tb.disc_id = disc_tb.disc_id ORDER BY course_number";
+$subquery = "SELECT course_number FROM dk_tb WHERE dk_tb.disc_name = disc_tb.disc_name ORDER BY course_number";
 $query = "SELECT $group, ARRAY($subquery) AS $alias_course " .
        "FROM disc_tb ORDER BY disc_name;";
 
