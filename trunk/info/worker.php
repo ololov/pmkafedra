@@ -4,7 +4,7 @@ include_once('include/lib.php');
 include_once('./lib/site.php');
 
 if (!isset($_GET['wid']))
-	$wid = -1;
+	$wid = '';
 else
 	$wid = $_GET['wid'];
 
@@ -14,7 +14,7 @@ if (!$link)
 
 $wid = pg_escape_string($wid);
 
-$sql = "SELECT * FROM workers_tb WHERE worker_id = $wid;";
+$sql = "SELECT * FROM workers_tb WHERE worker_login = '$wid';";
 $res = pg_query($link, $sql);
 
 ?>

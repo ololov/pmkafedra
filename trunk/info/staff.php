@@ -5,7 +5,7 @@ $link = db_connect();
 if (!$link)
 	include_once('include/html_db_error.php');
 
-$sql = "SELECT worker_id, worker_name, worker_seat, worker_contact FROM workers_tb ORDER BY worker_name;";
+$sql = "SELECT worker_login, worker_name, worker_seat, worker_contact FROM workers_tb ORDER BY worker_name;";
 $res = pg_query($link, $sql);
 if (!$res)
 	include_once('include/html_db_error.php');
@@ -36,7 +36,7 @@ if (pg_num_rows($res) == 0) {
 	$fmt = "<tr %s><td><a href = \"%s\">%s</a></td><td>%s</td><td>%s</td></tr>";
 	while ($row = pg_fetch_assoc($res)) {
 		printf($fmt, $classes[$i % 2],
-			info_url . htmlspecialchars("/worker.php?wid=") . $row['worker_id'],
+			info_url . htmlspecialchars("/worker.php?wid=") . $row['worker_login'],
 			$row['worker_name'], $row['worker_seat'], $row['worker_contact']);
 		$i++;
 	}
