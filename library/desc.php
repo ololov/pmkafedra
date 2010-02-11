@@ -94,7 +94,7 @@ function make_book_pyi($book)
  */
 function make_bookdesc($book, $maxlen)
 {
-	if (!isset($book[book_desc])) {
+	if (empty($book[book_desc])) {
 		$desc = "Нет описания.";
 	} else {
 		$desc = $book[book_desc];
