@@ -32,7 +32,7 @@ function make_bookinfo($book)
 	$list_path = sprintf("$biblio_url/list.php%s",
 			htmlspecialchars("?author_id="));
 	$template =
-		"<div id=\"%s\"><table>%s%s%s%s%s</table><p align = \"center\">%s</div>";
+		"<div id=\"%s\"><table>%s%s%s%s</table><p align = \"center\">%s</div>";
 	$alist = explode(',', clean_string($book['author_names']));
 	$ilist = explode(',', clean_string($book['author_ids']));
 
@@ -47,17 +47,10 @@ function make_bookinfo($book)
 		$dlist = make_row("Раздел(ы)", $dlist);
 	}
 
-	$bid = $book['book_id'];
-	$recs = '';
-	if ($book['rec_count'] > 0) {
-		$rechref = tag_href(lib_url . htmlspecialchars("/recs.php?bid=$bid"), $book['rec_count']);
-		$recs = make_row("Рекомендации:", $rechref);
-	}
-	
 	return sprintf($template, 'bookinfo',
 			make_book_title($book),
 			make_row("Автор(ы)", make_href($list_path, $alist, $ilist)),
-			make_book_pyi($book), $dlist, $recs,
+			make_book_pyi($book), $dlist,
 			tag_href($book['book_path'], "Скачать"));
 }
 
@@ -261,13 +254,12 @@ $resource = pg_query($link, $query);
 if (!$resource)
 	include_once('include/html_db_error.php');
 
-$query = "SELECT COUNT(*) FROM recs_tb WHERE book_id = $book_id";
+$query = sprintf("SELECT tr.*, worker_name, worker_photo FROM recs_tb AS tr " .
+	"INNER JOIN workers_tb AS tw ON(tr.worker_login = tw.worker_login)".
+	" WHERE tr.book_id = %d", $book_id);
 $recs = pg_query($link, $query);
 if (!$recs)
 	include_once('include/html_db_error.php');
-
-$row = pg_fetch_array($recs);
-$rcount = $row[0];
 
 $query = "SELECT disc_name FROM disc_tb";
 $dres = pg_query($link, $query);
@@ -289,12 +281,22 @@ print_sidebar();
 <div id = "<?php echo css_content_div; ?>">
 <?php
 
+function print_rec($row)
+{
+	printf("<div><table><tr align = \"center\"><td>%s</td><td>%s</td></tr></table></div>",
+		sprintf("<img src = \"%s\" alt = \"%s\"><p>%s",
+			path_worker_photo($row['worker_photo']), $row['worker_login'], $row['worker_name']),
+		$row['rec_text']);
+}
+
 if (pg_num_rows($resource) == 0) {
 	write_user_message("Нет такой книги");
 } else {
 	$row = pg_fetch_assoc($resource);
 	$row["rec_count"] = $rcount;
 	echo make_bookdiv($row);
+	while ($row = pg_fetch_assoc($recs))
+		print_rec($row);
 	make_bookrec($row, $dres);
 }
 
