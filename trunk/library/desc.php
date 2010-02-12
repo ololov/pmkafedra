@@ -32,7 +32,7 @@ function make_bookinfo($book)
 	$list_path = sprintf("$biblio_url/list.php%s",
 			htmlspecialchars("?author_id="));
 	$template =
-		"<div id=\"%s\"><table>%s%s%s%s</table><p align=center>%s</div>";
+		"<div id=\"%s\"><table>%s%s%s%s%s</table><p align = \"center\">%s</div>";
 	$alist = explode(',', clean_string($book['author_names']));
 	$ilist = explode(',', clean_string($book['author_ids']));
 
@@ -47,10 +47,18 @@ function make_bookinfo($book)
 		$dlist = make_row("Раздел(ы)", $dlist);
 	}
 
+	$bid = $book['book_id'];
+	$recs = '';
+	if ($book['rec_count'] > 0) {
+		$rechref = tag_href(lib_url . htmlspecialchars("/recs.php?bid=$bid"), $book['rec_count']);
+		$recs = make_row("Рекомендации:", $rechref);
+	}
+	
 	return sprintf($template, 'bookinfo',
 			make_book_title($book),
 			make_row("Автор(ы)", make_href($list_path, $alist, $ilist)),
-			make_book_pyi($book), $dlist, tag_href($book['book_path'], "Скачать"));
+			make_book_pyi($book), $dlist, $recs,
+			tag_href($book['book_path'], "Скачать"));
 }
 
 function make_row($name, $value)
@@ -162,6 +170,47 @@ function make_bookimg($book)
 	return sprintf("<img class=\"%s\" alt=\"%s\" src=\"%s\">",
 	       		'bookface', $alt, $src);	
 }
+
+function make_bookrec($book, $disc)
+{
+	if (user_priv() & A_ADD_BOOK) {
+		$bid = $book['book_id'];
+?>
+<div>
+	<form id = "bookrec" method = "POST" action = "<?php printf("%s/commit_rec.php", lib_url);?>" enctype = "multipart/form-data">
+	<fieldset>
+	<legend>Написать коментарий</legend>
+	<input type = "hidden" name = "bid" value = "<?php echo $bid; ?>" />
+	<textarea name = "rec_text" rows = 10 cols = 5></textarea>
+	</fieldset>
+	<fieldset>
+	<legend>Дисциплины</legend>
+	<table>
+<?php
+		$i = 0;
+		while ($row = pg_fetch_assoc($disc)) {
+			$dname = $row['disc_name'];
+			if ($i % 2 == 0) {
+				$trb = '<tr>';
+				$tre = '';
+			} else {
+				$trb = '';
+				$tre = '</tr>';
+			}
+			printf("%s<td><input type = \"checkbox\" name = \"disc%d\" value = \"%s\" />%s</td>%s",
+				$trb, $i, $dname, $dname, $tre);
+			++$i;
+		}
+?>
+	</table>
+	</fieldset>
+	<input type = "submit" name = "button" value = "Принять" class = "buttonSubmit" />
+	</form>
+</div>
+<?php
+	}
+}
+
 /*
  * make_bookdiv - generate book block in <div> tag.
  *
@@ -174,7 +223,7 @@ function make_bookimg($book)
  */
 function make_bookdiv($book)
 {
-	return sprintf("<div id=\"%s\">%s%s%s</div>",
+	return sprintf("<div id=\"%s\"><div>%s%s%s</div></div>",
 			'book',
 			make_bookimg($book),
 			make_bookinfo($book),
@@ -212,6 +261,19 @@ $resource = pg_query($link, $query);
 if (!$resource)
 	include_once('include/html_db_error.php');
 
+$query = "SELECT COUNT(*) FROM recs_tb WHERE book_id = $book_id";
+$recs = pg_query($link, $query);
+if (!$recs)
+	include_once('include/html_db_error.php');
+
+$row = pg_fetch_array($recs);
+$rcount = $row[0];
+
+$query = "SELECT disc_name FROM disc_tb";
+$dres = pg_query($link, $query);
+if (!$dres)
+	include_once('include/html_db_error.php');
+
 ?>
 <?php include_once('include/site.php'); ?>
 <!DOCTYPE html>
@@ -231,7 +293,9 @@ if (pg_num_rows($resource) == 0) {
 	write_user_message("Нет такой книги");
 } else {
 	$row = pg_fetch_assoc($resource);
+	$row["rec_count"] = $rcount;
 	echo make_bookdiv($row);
+	make_bookrec($row, $dres);
 }
 
 /*echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";*/
