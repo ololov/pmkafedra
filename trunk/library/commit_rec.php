@@ -25,6 +25,11 @@ if (count($dset))
 else
 	$sqlp = 'NULL';
 
+$query = sprintf("SELECT ADDREC(%d, '%s', '%s', %s);", $bid, user_login(), $rectext, $sqlp);
+$res = pg_query($link, $query);
+if ($res)
+	redirect_user(0, lib_url . htmlspecialchars("/desc.php?book_id=$bid"));
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,22 +46,7 @@ print_sidebar();
 ?>
 <div id = "<?php echo css_content_div; ?>">
 <?php
-$query = sprintf("SELECT ADDREC(%d, '%s', '%s', %s);", $bid, user_login(), $rectext, $sqlp);
-print($query);
-$res = pg_query($link, $query);
-if (!$res)
 	write_user_message(pg_last_error());
-else {
-	/*
-	$ret = pg_fetch_array($res);
-	$ret = $ret[0];
-	*/
-	$href = sprintf("<a href = \"%s\">%s</a>",
-		lib_url . htmlspecialchars("/recs.php?bid=$bid"),
-		"Перейти на страницу с рекомендациями"
-	);
-	write_user_message("Комментарий добавлен<p>$href");
-}
 ?>
 </div>
 </body>
