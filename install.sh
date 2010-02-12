@@ -21,6 +21,9 @@ else
 	cd $BASE
 fi
 
+PARSER=$BASE/programs/schedule/parser_pm
+sed -i "2a define\(\'template\',\"$PARSER\/*.txt\",true\)\;\n" $PARSER/parser_txt.php
+
 echo "php_value include_path \"$BASE\"" > $HTACCESS
 
 #
@@ -103,4 +106,4 @@ FILES=`find ./sql -type f -name \*.sql | sort`
 
 echo 'DROP LANGUAGE IF EXISTS plPGSQL CASCADE; CREATE LANGUAGE plPGSQL;' |
 cat - $FILES | psql -U $USER $DBNAME
-
+php $PARSER/parser_txt.php
