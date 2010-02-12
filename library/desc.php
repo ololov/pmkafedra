@@ -295,8 +295,8 @@ if (pg_num_rows($resource) == 0) {
 	$row = pg_fetch_assoc($resource);
 	$row["rec_count"] = $rcount;
 	echo make_bookdiv($row);
-	while ($row = pg_fetch_assoc($recs))
-		print_rec($row);
+	while ($rec = pg_fetch_assoc($recs))
+		print_rec($rec);
 	make_bookrec($row, $dres);
 }
 
