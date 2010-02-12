@@ -32,7 +32,7 @@ function make_bookinfo($book)
 	$list_path = sprintf("$biblio_url/list.php%s",
 			htmlspecialchars("?author_id="));
 	$template =
-		"<div id=\"%s\"><table>%s%s%s%s</table><p align = \"center\">%s</div>";
+		"<div id=\"%s\"><table>%s%s%s%s%s</table><p align = \"center\">%s</div>";
 	$alist = explode(',', clean_string($book['author_names']));
 	$ilist = explode(',', clean_string($book['author_ids']));
 
@@ -46,11 +46,17 @@ function make_bookinfo($book)
 		$dlist = make_href($dep_path, $dlist, $dilist);
 		$dlist = make_row("Раздел(ы)", $dlist);
 	}
+	$discs = clean_string($book['disc_names']);
+	if ($discs != '') {
+		$list = explode(',', $discs);
+		$discs = implode('</div><div>', $list);
+		$discs = make_row("Рекомендовано по:", "<div>$discs</div>");
+	}
 
 	return sprintf($template, 'bookinfo',
 			make_book_title($book),
 			make_row("Автор(ы)", make_href($list_path, $alist, $ilist)),
-			make_book_pyi($book), $dlist,
+			make_book_pyi($book), $dlist, $discs,
 			tag_href($book['book_path'], "Скачать"));
 }
 
@@ -172,7 +178,7 @@ function make_bookrec($book, $disc)
 <div>
 	<form id = "bookrec" method = "POST" action = "<?php printf("%s/commit_rec.php", lib_url);?>" enctype = "multipart/form-data">
 	<fieldset>
-	<legend>Написать коментарий</legend>
+	<legend>Написать рекомендацию</legend>
 	<input type = "hidden" name = "bid" value = "<?php echo $bid; ?>" />
 	<textarea name = "rec_text" rows = 10 cols = 5></textarea>
 	</fieldset>
@@ -245,7 +251,8 @@ $query = "SELECT $groups," .
 	 "array_agg(tr.author_id) AS author_ids, " . 
 	 "array_agg(ta.author_name) AS author_names, " .
 	 "ARRAY(SELECT dep_id FROM db_tb WHERE book_id = $book_id) AS dep_ids, " .
-	 "ARRAY(SELECT dep_name FROM dbfull_tb WHERE book_id = $book_id) AS dep_names " .
+	 "ARRAY(SELECT dep_name FROM dbfull_tb WHERE book_id = $book_id) AS dep_names, " .
+	 "ARRAY(SELECT disc_name FROM bd_tb WHERE book_id = $book_id) AS disc_names " .
 	 "FROM ab_tb AS tr INNER JOIN books_tb AS tb ON(tr.book_id = tb.book_id) " .
 	 "INNER JOIN authors_tb AS ta ON(tr.author_id = ta.author_id) " .
 	 "WHERE tr.book_id = $book_id GROUP BY $groups;";
