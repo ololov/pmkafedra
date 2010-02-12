@@ -256,7 +256,7 @@ if (!$resource)
 
 $query = sprintf("SELECT tr.*, worker_name, worker_photo FROM recs_tb AS tr " .
 	"INNER JOIN workers_tb AS tw ON(tr.worker_login = tw.worker_login)".
-	" WHERE tr.book_id = %d", $book_id);
+	" WHERE tr.book_id = %d AND (rec_text IS NOT NULL) AND (rec_text <> '')", $book_id);
 $recs = pg_query($link, $query);
 if (!$recs)
 	include_once('include/html_db_error.php');

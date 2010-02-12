@@ -7,8 +7,7 @@ CREATE TABLE recs (
 	id SERIAL PRIMARY KEY,
 	id_book INTEGER NOT NULL REFERENCES books(id),
 	ulogin VARCHAR NOT NULL REFERENCES workers(ulogin),
-	record_text TEXT,
-	CHECK(record_text != '')
+	record_text TEXT
 );
 
 --
