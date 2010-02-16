@@ -33,17 +33,18 @@
 
 		$DaysOfWeek = array("Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота");
 
-		/*
-		* Извлечение из полученных данных уникальных дат
-		*/
 		$date = array();
-		foreach($data as $dt){
-			if(in_array($dt['ddate'],$date)) continue;
-			else $date[] = $dt['ddate'];
-		}
-
 		echo "<table id=\"schedule\"";
 		if(!empty($data)){
+			/*
+			* Извлечение из полученных данных уникальных дат
+			*/
+
+			foreach($data as $dt){
+				if(in_array($dt['ddate'],$date)) continue;
+				else $date[] = $dt['ddate'];
+			}
+
 			for ($j = 0; $j < count($date); $j++) {
 				$num_day = strftime("%w",strtotime($date[$j]));
 				echo "<td id = sch_day colspan = 2> $DaysOfWeek[$num_day] </td>";
