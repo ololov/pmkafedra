@@ -22,7 +22,8 @@ else
 fi
 
 PARSER=$BASE/programs/schedule/parser_pm
-sed -i "2a define\(\'template\',\"$PARSER\/*.txt\",true\)\;\n" $PARSER/parser_txt.php
+sed "2a define\(\'template\',\"$PARSER\/*.txt\",true\)\;\n" $PARSER/parser_txt.template > \
+$PARSER/parser_txt.php && chmod +x $PARSER/parser_txt.php
 
 echo "php_value include_path \"$BASE\"" > $HTACCESS
 
