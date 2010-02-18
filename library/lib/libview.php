@@ -49,7 +49,7 @@ function make_href($ref_prefix, $name_list, $param_val_list)
 {
 	$str = "";
 	for ($i = 0; $i < count($name_list); ++$i)
-		$str .= tag_href($ref_prefix . $param_val_list[$i],
+		$str .= tag_href($ref_prefix . urlencode($param_val_list[$i]),
 				$name_list[$i]) . ", ";
 	$str = trim($str);
 	$str = trim($str, ',');
