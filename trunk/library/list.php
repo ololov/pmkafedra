@@ -97,8 +97,8 @@ if (!$link)
 $sql_req = array("s_book" => "SELECT book_id FROM books_tb WHERE book_name ILIKE '%%%s%%'",
 		 "s_author" => "SELECT book_id FROM abfull_tb WHERE author_name ILIKE '%%%s%%'",
 		 "s_dep" => "SELECT book_id FROM dbfull_tb WHERE dep_name ILIKE '%%%s%%'",
-		 "author_id" => "SELECT book_id FROM ab_tb WHERE author_id = %d",
-	 	 "dep_id" => "SELECT book_id FROM db_tb WHERE dep_id = %d");
+		 "author_id" => "SELECT book_id FROM ab_tb WHERE author_name = '%s'",
+	 	 "dep_id" => "SELECT book_id FROM db_tb WHERE dep_name = '%s'");
 
 $s_params = array("s_book", "s_author", "s_dep");
 
@@ -137,7 +137,6 @@ if (count($sql_fin) > 0) {
 
 /* Declare some aliases */
 $alias_authors = "authors";
-$alias_aids = "authors_ids";
 
 $query_count = "SELECT COUNT(book_id) FROM books_tb $where";
 
@@ -165,7 +164,7 @@ $offset = ($offset < 0) ? (0) : ($offset);
 //echo "$page<br>$maxpages<br>$offset";
 /* Основной запрос */
 $query_data = "SELECT book_id, book_name, book_path," .
-	" array_agg(author_name) AS $alias_authors, array_agg(author_id) AS $alias_aids " . 
+	" array_agg(author_name) AS $alias_authors " . 
 	" FROM abfull_tb $where GROUP BY book_id, book_name, book_path ORDER BY book_name" .
 	" LIMIT $limit OFFSET $offset;";
 
@@ -201,9 +200,9 @@ if (pg_num_rows($res) == 0) {
 	print("<div><table>");
 	while ($row = pg_fetch_assoc($res)) {
 		$author_list = clean_string($row[$alias_authors], '{} ');
+		$author_id_list = $author_list;
+
 		$author_list = explode(',', $author_list);
-	
-		$author_id_list = clean_string($row[$alias_aids], '{} ');
 		$author_id_list = explode(',', $author_id_list);
 		/*
 		 * Prepare to print

@@ -34,12 +34,12 @@ function make_bookinfo($book)
 	$template =
 		"<div id=\"%s\"><table>%s%s%s%s%s</table><p align = \"center\">%s</div>";
 	$alist = explode(',', clean_string($book['author_names']));
-	$ilist = explode(',', clean_string($book['author_ids']));
+	$ilist = $alist; //explode(',', clean_string($book['author_ids']));
 
 	$dlist = clean_string($book['dep_names']);
 	if ($dlist != '') {
 		$dlist = explode(',', $dlist);
-		$dilist = explode(',', clean_string($book['dep_ids']));
+		$dilist = $dlist; //explode(',', clean_string($book['dep_ids']));
 
 		$dep_path = sprintf("$biblio_url/list.php%s",
 			htmlspecialchars("?dep_id="));
@@ -244,18 +244,15 @@ if (!(isset($_GET['book_id']) && is_numeric($book_id = $_GET['book_id']) &&
 $id_agg = "array_agg(author_id)";
 $author_agg = "array_agg(author_name)";
 
-$groups ="tr.book_id, tb.book_name, book_volume, book_publish," .
+$groups ="book_id, book_name, book_volume, book_publish," .
 	 "book_who, book_desc, book_year, book_desc, book_isbn, book_posted," .
 	 "book_path, book_face, book_size, book_pages";
 $query = "SELECT $groups," .
-	 "array_agg(tr.author_id) AS author_ids, " . 
-	 "array_agg(ta.author_name) AS author_names, " .
-	 "ARRAY(SELECT dep_id FROM db_tb WHERE book_id = $book_id) AS dep_ids, " .
+	 "array_agg(author_name) AS author_names, " .
 	 "ARRAY(SELECT dep_name FROM dbfull_tb WHERE book_id = $book_id) AS dep_names, " .
 	 "ARRAY(SELECT disc_name FROM bd_tb WHERE book_id = $book_id) AS disc_names " .
-	 "FROM ab_tb AS tr INNER JOIN books_tb AS tb ON(tr.book_id = tb.book_id) " .
-	 "INNER JOIN authors_tb AS ta ON(tr.author_id = ta.author_id) " .
-	 "WHERE tr.book_id = $book_id GROUP BY $groups;";
+	 "FROM abfull_tb " .
+	 "WHERE book_id = $book_id GROUP BY $groups;";
 
 $resource = pg_query($link, $query);
 if (!$resource)

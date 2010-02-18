@@ -14,7 +14,7 @@ CREATE TABLE books (
 	name VARCHAR(255) NOT NULL,
 	posted TIMESTAMP NOT NULL,
 	who VARCHAR(255) NOT NULL,
-	bookpath VARCHAR(255) NOT NULL,
+	bookpath VARCHAR(255) NOT NULL UNIQUE,
 	sz INT NOT NULL,
 	volume INT,
 	description TEXT,
@@ -37,30 +37,22 @@ CREATE TABLE books (
 );
 
 DROP TABLE IF EXISTS authors CASCADE;
-CREATE TABLE authors (
-	id SERIAL NOT NULL PRIMARY KEY,
-	full_name VARCHAR(255) NOT NULL,
-	CHECK(full_name != '')
-);
-
 DROP TABLE IF EXISTS ab_relation CASCADE;
-CREATE TABLE ab_relation (
-	id_book INT NOT NULL REFERENCES books(id),
-	id_author INT NOT NULL REFERENCES authors(id),
-	UNIQUE(id_book, id_author)
-);
-
 DROP TABLE IF EXISTS departments CASCADE;
-CREATE TABLE departments (
-	id SERIAL NOT NULL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL,
-	CHECK(name != '')
+DROP TABLE IF EXISTS db_relation CASCADE;
+
+DROP TABLE IF EXISTS book_authors CASCADE;
+CREATE TABLE book_authors (
+	id_book INTEGER NOT NULL REFERENCES books(id),
+	author_name VARCHAR NOT NULL,
+	UNIQUE(id_book, author_name)
 );
 
-DROP TABLE IF EXISTS db_relation CASCADE;
-CREATE TABLE db_relation (
-	id_book INT NOT NULL REFERENCES books(id),
-	id_dep INT NOT NULL REFERENCES departments(id)
+DROP TABLE IF EXISTS book_deps CASCADE;
+CREATE TABLE book_deps (
+	id_book INTEGER NOT NULL REFERENCES books(id),
+	dep_name VARCHAR NOT NULL,
+	UNIQUE(id_book, dep_name)
 );
 
 --
@@ -88,37 +80,27 @@ SELECT
 FROM
 	books;
 
+--
+-- Removing old tables
+--
 DROP VIEW IF EXISTS authors_tb CASCADE;
-CREATE VIEW authors_tb AS
-SELECT
-	id AS author_id,
-	full_name AS author_name
-FROM
-	authors;
+DROP VIEW IF EXISTS deps_tb CASCADE;
 
 DROP VIEW IF EXISTS  ab_tb CASCADE;
 CREATE VIEW ab_tb AS
 SELECT
 	id_book AS book_id,
-	id_author AS author_id
+	author_name AS author_name
 FROM
-	ab_relation;
-
-DROP VIEW IF EXISTS deps_tb CASCADE;
-CREATE VIEW deps_tb AS
-SELECT
-	id AS dep_id,
-	name AS dep_name
-FROM
-	departments;
+	book_authors;
 
 DROP VIEW IF EXISTS db_tb CASCADE;
 CREATE VIEW db_tb AS
 SELECT
 	id_book AS book_id,
-	id_dep AS dep_id
+	dep_name AS dep_name
 FROM
-	db_relation;
+	book_deps;
 
 --
 --
@@ -129,110 +111,75 @@ DROP VIEW IF EXISTS abfull_tb CASCADE;
 CREATE VIEW abfull_tb AS
 SELECT
 	tb.*,
-	ta.*
+	author_name
 FROM ab_tb AS ab
-INNER JOIN authors_tb AS ta ON(ta.author_id = ab.author_id)
 INNER JOIN books_tb AS tb ON(tb.book_id = ab.book_id);
 
 DROP VIEW IF EXISTS dbfull_tb CASCADE;
 CREATE VIEW dbfull_tb AS
 SELECT
 	tb.*,
-	td.*
+	dep_name
 FROM db_tb AS db
-INNER JOIN books_tb AS tb ON(tb.book_id = db.book_id)
-INNER JOIN deps_tb AS td ON(td.dep_id = db.dep_id);
+INNER JOIN books_tb AS tb ON(tb.book_id = db.book_id);
 
 --
 --
 -- * * * * * * * * * * F U N C T I O N S * * * * * * * * * * * *
 --
 --
-DROP FUNCTION IF EXISTS ADDAUTHORS(IN VARCHAR[]);
-CREATE FUNCTION ADDAUTHORS(IN VARCHAR[])
-RETURNS void AS $$
-DECLARE tmp VARCHAR;
-	name VARCHAR;
-BEGIN
-	-- Если массив не имеет элементов
-	IF array_lower($1, 1) IS NULL THEN
-		RETURN;
-	END IF;
-	FOR i IN array_lower($1, 1) .. array_upper($1, 1) LOOP
 
-		IF ($1)[i] IS NOT NULL THEN
-		       	name := TRIM(BOTH ' ' FROM ($1)[i]);
-		ELSE
-			RAISE EXCEPTION 'В поле "автор" есть нулевое значение';
-		END IF;
-
-		SELECT full_name INTO tmp FROM authors WHERE full_name = name;
-		IF tmp IS NULL THEN
-			INSERT INTO authors(full_name) VALUES(name);
-		END IF;
-	END LOOP;
-EXCEPTION
-	WHEN check_violation THEN
-		RAISE EXCEPTION 'Ошибка: Имя автора не может быть пустым';
-END;
-$$ LANGUAGE plPGSQL;
-
-DROP FUNCTION IF EXISTS ADDAB_REL(IN INTEGER[], IN INTEGER[]);
-CREATE FUNCTION ADDAB_REL(IN INTEGER[], IN INTEGER[])
-RETURNS VOID AS $$
-BEGIN
-	IF $1 IS NULL OR $2 IS NULL THEN
-		RETURN;
-	END IF;
-	FOR b_id IN array_lower($1, 1) .. array_upper($1, 1) LOOP
-		FOR a_id IN array_lower($2, 1) .. array_upper($2, 1) LOOP
-			INSERT INTO ab_relation(id_book, id_author)
-			VALUES (($1)[b_id], ($2)[a_id]);
-		END LOOP;
-	END LOOP;
-END;
-$$ LANGUAGE plPGSQL; 
-
+--
+-- Removing old functions
+--
 DROP FUNCTION IF EXISTS ADDDEPARTMENTS(IN VARCHAR[]);
-CREATE FUNCTION ADDDEPARTMENTS(IN VARCHAR[])
-RETURNS VOID AS $$
-DECLARE dname VARCHAR;
-	tmp  VARCHAR;
-BEGIN
-	IF array_lower($1, 1) IS NULL THEN
-		RETURN;
-	END IF;
-	FOR i IN array_lower($1, 1) .. array_upper($1, 1) LOOP
-		if ($1)[i] IS NOT NULL THEN
-			dname := TRIM(BOTH ' ' FROM ($1)[i]);
-		ELSE
-			RAISE EXCEPTION 'Попытка добавить нулевое значение';
-		END IF;
+DROP FUNCTION IF EXISTS ADDAUTHORS(IN VARCHAR[]);
+DROP FUNCTION IF EXISTS ADDAB_REL(IN INTEGER[], IN INTEGER[]);
 
-		SELECT tb.name INTO tmp FROM departments AS tb WHERE tb.name = dname;
-		IF tmp IS NULL THEN
-			INSERT INTO departments(name) VALUES(dname);
-		END IF;
-	END LOOP;
+DROP FUNCTION IF EXISTS ADDAUTHORS(IN books.id%TYPE, IN VARCHAR[]);
+CREATE FUNCTION ADDAUTHORS(IN books.id%TYPE, IN VARCHAR[])
+RETURNS VOID AS $$
+BEGIN
+	IF $2 IS NULL THEN
+		RETURN;
+	END IF; 
+	IF NOT (ARRAY_LENGTH($2, 1) = 0) THEN
+		FOR i IN array_lower($2, 1) .. array_upper($2, 1) LOOP
+		BEGIN
+			INSERT INTO book_authors(id_book,author_name)
+			VALUES($1, $2[i]);
+		EXCEPTION
+			WHEN unique_violation THEN
+		END;
+		END LOOP;
+	END IF;
 EXCEPTION
-	WHEN check_violation THEN
-		RAISE EXCEPTION 'Ошибка: Название не может быть нулевым';
+	WHEN foreign_key_violation THEN
+		RAISE EXCEPTION 'Нет такой книги.';
 END;
 $$ LANGUAGE plPGSQL;
 
-DROP FUNCTION IF EXISTS ADDDB_REL(IN INTEGER[], IN INTEGER[]);
-CREATE FUNCTION ADDDB_REL(IN INTEGER[], IN INTEGER[])
+DROP FUNCTION IF EXISTS ADDDEPARTMENTS(IN books.id%TYPE, IN VARCHAR[]);
+CREATE FUNCTION ADDDEPARTMENTS(IN books.id%TYPE, IN VARCHAR[])
 RETURNS VOID AS $$
 BEGIN
-	IF $1 IS NULL OR $2 IS NULL THEN
+	IF $2 IS NULL THEN
 		RETURN;
 	END IF;
-	FOR bid IN array_lower($1, 1) .. array_upper($1, 1) LOOP
-		FOR did IN array_lower($2, 1) .. array_upper($2, 1) LOOP
-			INSERT INTO db_relation(id_book, id_dep)
-			VALUES(($1)[bid], ($2)[did]);
+
+	IF NOT (ARRAY_LENGTH($2, 1) = 0) THEN
+		FOR i IN array_lower($2, 1) .. array_upper($2, 1) LOOP
+		BEGIN
+			INSERT INTO book_deps(id_book,dep_name)
+			VALUES($1, $2[i]);
+		EXCEPTION
+			WHEN unique_violation THEN
+		END;
 		END LOOP;
-	END LOOP;
+	END IF;
+EXCEPTION
+	WHEN foreign_key_violation THEN
+		RAISE EXCEPTION 'Нет такой книги.';
 END;
 $$ LANGUAGE plPGSQL;
 
@@ -272,7 +219,6 @@ DECLARE bname   books.name%TYPE;
 	aids    INTEGER[];
 	bid     books.id%TYPE;
 BEGIN
-	PERFORM ADDAUTHORS($2);
 
 	bname := TRIM(BOTH ' ' FROM $1);
 	IF bname IS NULL OR bname = '' THEN
@@ -323,14 +269,8 @@ BEGIN
 	VALUES		 (bname, bwho, bsz, bpath,    bvol,   bdescr,      bpub,    byear, bisbn, NOW())
 	RETURNING id INTO bid;
 
-	SELECT ARRAY(SELECT id FROM authors WHERE full_name = ANY($2)) INTO aids;
-	PERFORM ADDAB_REL(ARRAY[bid], aids);
-
-	IF ($11) IS NOT NULL THEN
-		PERFORM ADDDEPARTMENTS($11);
-		SELECT ARRAY(SELECT id FROM departments WHERE name = ANY($11)) INTO aids;
-		PERFORM ADDDB_REL(ARRAY[bid], aids);
-	END IF;
+	PERFORM ADDAUTHORS(bid, $2);
+	PERFORM ADDDEPARTMENTS(bid, $11);
 
 	RETURN bid;
 END;
