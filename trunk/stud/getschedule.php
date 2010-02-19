@@ -21,7 +21,7 @@
 	*/
 	function get_data($db, $num_week=0, $group){
 		$interval = get_interval_week($num_week,$db);
-		$query = "SELECT para, predmet, lname, fname, sname, ttype, ddate, auditoriya, ggroup FROM schedule_table WHERE ddate >= '".$interval[0]."' AND ddate <= '".$interval[1]."' AND  ggroup = '".$group."' ORDER BY ddate";
+		$query = "SELECT para, predmet, worker_name, ttype, ddate, auditoriya, ggroup FROM schedule_table WHERE ddate >= '".$interval[0]."' AND ddate <= '".$interval[1]."' AND  ggroup = '".$group."' ORDER BY ddate";
 		$result = pg_query($db,$query) or die(pg_last_error());
 		return  pg_fetch_all($result);
 	}
@@ -54,7 +54,7 @@
 						echo "<tr id = sch_main>";
 						echo 		"<td id = sch_para>".$dt['para']."</td>";
 						echo		"<td id = sch_cont><p class = pred>".$dt['predmet']."</p>";
-						echo		"<p class = prep>".$dt['lname']." ".$dt['fname']." ".$dt['sname']."</p></td>";
+						echo		"<p class = prep>".$dt['worker_name']."</p></td>";
 						echo 		"<td id = sch_type>".$dt['ttype']."</td>";
 						echo 		"<td id = sch_audt>".$dt['auditoriya']."</td>";
 						echo "</tr>";
