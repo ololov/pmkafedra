@@ -100,6 +100,32 @@
                 $str_array[count($str_array)-1] = parser_date(end($str_array));
                 return $str_array;
         }
+	function translit($str)
+	{
+		$trans = array(	'А' => 'a',	'Б' => 'b',	'В' => 'v',
+				'Г' => 'g',	'Д' => 'd',	'Е' => 'e',
+		       		'Ё' => 'yo',	'Ж' => 'zh',	'З' => 'z',
+				'И' => 'i',	'Й' => 'y',	'К' => 'k',
+				'Л' => 'l',	'Н' => 'n',	'О' => 'o',
+				'П' => 'p',	'Р' => 'r',	'С' => 's',
+				'Т' => 't',	'У' => 'u',	'Ф' => 'f',
+				'Х' => 'h',	'Ц' => 'tz',	'Ч' => 'ch',
+				'Ш' => 'sh',	'Щ' => 'sh',	'Ъ' => '',
+				'Ы' => 'i',	'Ь' => '',	'Э' => 'e',
+				'Ю' => 'нг',	'Я' => 'ya',	'а' => 'a',
+				'б' => 'b',	'в' => 'v',	'г' => 'g',
+				'д' => 'd',	'е' => 'e',	'ё' => 'yo',
+				'ж' => 'zh',	'з' => 'z',	'и' => 'i',
+				'й' => 'y',	'к' => 'k',	'л' => 'l',
+				'м' => 'm',	'н' => 'n',	'о' => 'o',
+				'п' => 'p',	'р' => 'r',	'с' => 's',
+				'т' => 't',	'у' => 'u',	'ф' => 'f',
+				'х' => 'h',	'ц' => 'tz',	'ч' => 'ch',
+				'ш' => 'sh',	'щ' => 'sh',	'ъ' => '',
+				'ы' => 'i',	'ь' => '',	'э' => 'e',
+				'ю' => 'yu',	'я' => 'ya',	' ' => '_');
+		return strtr($str, $trans);
+	}
 
         /*
         * Небольшая функция реализующая парсер файлов хранящихся в
@@ -122,18 +148,35 @@
         * Занесение все данных в БД
         */
         function add_data_to_db($data,$db){
+		$seat = array(' доц.'=>'доцент',  ' проф.' => 'профессор',
+		              ' ст.преп.' => 'старший преподаватель',
+			      ' преп.' => 'преподаватель', 
+			      ' ассист.' => 'ассистент',
+			      'none' => 'none');
                 foreach($data as $key=>$dt){
                         $dt = del_inter($dt);
                         foreach($dt as $val){
-                                $fio_prepod = explode(" ",substr_replace($val[3],"",stripos($val[3],","),strlen($val[3])));
+/*                                $fio_prepod = explode(" ",substr_replace($val[3],"",stripos($val[3],","),strlen($val[3])));
                                 if($fio_prepod[0] === "") {
                                         $fio_prepod[0] = "Неизвестен";
                                         $fio_prepod[1] = "Х.Х.";
                                 }
                                 $inic = explode(".",$fio_prepod[1]);
-                                $query = "'".$val[1]."','".$val[2]."','".$key."','".$fio_prepod[0]."','".$inic[0]."','".$inic[1]."'";
+*/
+				$t_sname = explode(" ",substr_replace($val[3],"",stripos($val[3],","),strlen($val[3])));
+				$sname = translit($t_sname[0]);
+				$fio_prepod = explode(",",$val[3]);
+				if($fio_prepod[0] === 'Неизвестен'){
+					$sname="none";
+					$fio_prepod[1]="none";
+				}
+				if($fio_prepod[0] === 'Аль-Натор М.С.'){
+					$sname="al-nator2";
+				}
+
+                                $query = "'".$val[1]."','".$val[2]."','".$key."','".$fio_prepod[0]."','".$sname."','".$seat[$fio_prepod[1]]."'";
                                 $query = "SELECT add_datas(".$query.")";
-//				echo $query."\n";
+				echo $query."\n";
 //				echo "$key --- {$val[1]} --- {$fio_prepod[0]} \n";
 
 				$res = pg_query($db,$query) or die(pg_last_error());
@@ -160,6 +203,5 @@
        add_data_to_db($data,$db);
 
        pg_close($db);
-
 ?>
 
