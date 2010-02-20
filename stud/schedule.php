@@ -1,4 +1,5 @@
-<?php 
+<?php
+	include_once('nonajax.php');
 	/*
 	* Получение номера курса и группы
 	* По умолчанию будет выводиться первый курс и первая группа
@@ -36,10 +37,6 @@ print_sidebar();
 ?>
 <div id = "<?php echo css_content_div; ?>">
 	<p class = "tit"> Расписание занятий </p>
-<!--	<form name="myform" method="POST" id = "sch_form">
-		<input type="button" onClick = "Last()" value = "<< назад"  id = "last">
-		<input type="button" onClick = "Next()" value = "вперед >>" id = "next">
-	</form> -->
 
 	<div id = "group">
 		<ul>
@@ -53,6 +50,22 @@ print_sidebar();
 		</table>
 	</div>
 	<div id = "sch">
+	<?php
+		$maxpages = get_max_page();
+		if (isset($_GET['pg']))
+			$page = (int)$_GET['pg'];
+		else
+			$page = 1;
+
+		if ($page > $maxpages)
+			/* Вместо демонстрации ошибки выведем последнюю страницу */
+			$page = $maxpages;
+
+		$pg_list = get_page_list($page, $maxpages);
+		echo $pg_list;
+		print_schedule();
+		echo $pg_list;
+	?>
 
 	</div>
 
