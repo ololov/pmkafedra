@@ -72,7 +72,7 @@ DECLARE
 		-- Поиск преподавателя, в таблице workers. Если такого нет, то
 		-- добавить его в эту таблицу.
 		--
-		SELECT INTO t_ulogin ulogin FROM workers WHERE (name=t_workers AND ulogin=$5);
+		SELECT INTO t_ulogin ulogin FROM workers WHERE (ulogin=$5);
 		IF NOT FOUND THEN
 			INSERT INTO workers(ulogin,name,seat,photo) VALUES ($5,t_workers,t_seat,'photo/none.jpg') RETURNING ulogin INTO t_ulogin;
 		END IF;
