@@ -27,6 +27,7 @@ include_once('./lib/site.php');
 print_head("Главная страница");
 ?>
 <body>
+
 <script type="text/javascript" src="js/ajax.js"></script>
 <script type="text/javascript" src="js/ajax-dynamic-content.js"></script>
 <script type="text/javascript" src="js/ajax-dynamic-pages.js"></script>
@@ -50,6 +51,7 @@ print_sidebar();
 		</table>
 	</div>
 	<div id = "sch">
+	<noscript>
 	<?php
 		$maxpages = get_max_page();
 		if (isset($_GET['pg']))
@@ -66,7 +68,7 @@ print_sidebar();
 		print_schedule();
 		echo $pg_list;
 	?>
-
+	</noscript>
 	</div>
 
 </div>

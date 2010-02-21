@@ -49,7 +49,6 @@ function sack(file) {
 		if (! this.xmlhttp) {
 			if (typeof XMLHttpRequest != "undefined") {
 				this.xmlhttp = new XMLHttpRequest();
-				this.getElementById('nojs').value="Hello";
 			} else {
 				this.failed = true;
 			}
