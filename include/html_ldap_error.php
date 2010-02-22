@@ -19,6 +19,10 @@ print_login_form();
 ?>
 </div>
 <div id = "<?php echo css_content_div; ?>">
+<div id = "umsg">
+Ошибка при подсоединении к LDAP-серверу. Попробуйте позже
+</div>
 </div>
 </body>
 </html>
+<?php exit; ?>
