@@ -196,7 +196,7 @@ function make_bookrec($book, $disc)
 				$trb = '';
 				$tre = '</tr>';
 			}
-			printf("%s<td><input type = \"checkbox\" name = \"disc%d\" value = \"%s\" />%s</td>%s",
+			printf("%s<td><input type=\"checkbox\" name=\"disc%d\" value=\"%s\" />%s</td>%s",
 				$trb, $i, $dname, $dname, $tre);
 			++$i;
 		}

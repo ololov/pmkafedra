@@ -108,4 +108,8 @@ FILES=`find ./sql -type f -name \*.sql | sort`
 echo 'DROP LANGUAGE IF EXISTS plPGSQL CASCADE; CREATE LANGUAGE plPGSQL;' |
 cat - $FILES | psql -U $USER $DBNAME
 php $PARSER/parser_txt.php
+
+#
+# Просто для массовости :)
+#
 cp $BASE/info/photo/*.jpg $BASE/gallary/gallery/
