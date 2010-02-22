@@ -5,7 +5,7 @@ $link = db_connect();
 if (!$link)
 	include_once('include/html_db_error.php');
 
-$sql = "SELECT worker_login, worker_name, worker_seat, worker_contact FROM workers_tb ORDER BY worker_name;";
+$sql = "SELECT worker_login, worker_name, worker_seat, worker_contact FROM workers_tb WHERE worker_kafedra='Кафедра ПМ' ORDER BY worker_name;";
 $res = pg_query($link, $sql);
 if (!$res)
 	include_once('include/html_db_error.php');
