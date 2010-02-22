@@ -5,21 +5,67 @@ require_once('include/defs.php');
 /*
  *
  */
+
+function get_gecos($link, $login)
+{
+	/*
+	$sr = ldap_read($link, $logindn, $logindn, array("gecos"));
+	if ($sr == false)
+		return false;
+
+	$entry = ldap_get_entries($link, $sr);
+
+	return $entry[0]['gecos'];
+	 */
+	$sr = ldap_search($link, "dc=pm,dc=intranet", "(uid=$login)");
+	if ($sr == false)
+		return false;
+
+	$entry = ldap_get_entries($link, $sr);
+	return $entry[0]['gecos'][0];
+}
+
 function get_login($login, $pass)
 {
+	define('LDAP_SERVER', '172.21.44.128', true);
 	/*
 	 * Здесь должна быть реализована
 	 * авторизация по LDAP
 	 */
-	if ($login == 'prepod' && $pass == 'prepod') {
-		$_SESSION['user'] = 'prepod';
-		$_SESSION['priv'] = A_PREPOD;
-		$_SESSION['full_name'] = 'Васюткин Василий Васильевич';
+	$link = ldap_connect(LDAP_SERVER);
+	if (!$link)
+		include_once('include/html_ldap_error.php');
+
+	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, 3);
+
+	$logindn = "uid=$login,ou=users,dc=pm,dc=intranet";
+	$pmworkersdn = "cn=pmworkers,ou=groups,dc=pm,dc=intranet";
+
+	if (ldap_bind($link, $logindn, $pass)) {
+		if (ldap_compare($link, $pmworkersdn, "memberUid", $login) === true)
+			$priv = A_PREPOD;
+		else
+			$priv = A_ANON;
+		if ($gecos = get_gecos($link, $login)) {
+			$_SESSION['user'] = $login;
+			$_SESSION['priv'] = $priv;
+			$_SESSION['full_name'] = $gecos;
+		}
+	} else {
+		include_once('include/html_auth_error.php');
 	}
+/*
+*/
 }
 
 function try_to_login()
 {
+	if (isset($_POST['login']) && $_POST['login'] == 'prepod') {
+		$_SESSION['user'] = 'prepod';
+		$_SESSION['priv'] = A_PREPOD;
+		$_SESSION['full_name'] = 'Васюткин Василий Васильевич';
+		return;
+	}
 	if (isset($_POST['login']) && isset($_POST['pass']))
 		get_login($_POST['login'], $_POST['pass']);
 	if (!isset($_SESSION['user'])) {
