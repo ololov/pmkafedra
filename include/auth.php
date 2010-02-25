@@ -45,7 +45,7 @@ function get_login($login, $pass)
 		if (ldap_compare($link, $pmworkersdn, "memberUid", $login) === true)
 			$priv = A_PREPOD;
 		else
-			$priv = A_ANON;
+			$priv = A_STUD;
 		if ($gecos = get_gecos($link, $login)) {
 			$_SESSION['user'] = $login;
 			$_SESSION['priv'] = $priv;

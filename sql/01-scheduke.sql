@@ -11,17 +11,10 @@ CREATE TYPE type_val AS ENUM ('Лекция','Пр.Зан.','Семинар');
 --****************** TABLES ****************************
 --
 
-DROP TABLE IF EXISTS predmet_info CASCADE;
-CREATE TABLE predmet_info(
-	id SERIAL PRIMARY KEY,
-	predmet_name VARCHAR REFERENCES disciplines(name),
-	prepod VARCHAR REFERENCES workers(ulogin)
-);
-
 DROP TABLE IF EXISTS schedule CASCADE;
 CREATE TABLE schedule(
 	id SERIAL PRIMARY KEY,
-	predmet INTEGER REFERENCES predmet_info (id),
+	predmet VARCHAR REFERENCES disciplines(name),
 	prepod VARCHAR  REFERENCES workers(ulogin),
 	ggroup VARCHAR(5) NOT NULL,
 	ttype type_val NOT NULL
@@ -64,7 +57,6 @@ DECLARE
 
 	t_discipline disciplines.name%TYPE;
 	t_ulogin workers.ulogin%TYPE;
-	t_id_predmet INTEGER;
 	t_id_schedule INTEGER;
 		
 	BEGIN
@@ -74,7 +66,8 @@ DECLARE
 		--
 		SELECT INTO t_ulogin ulogin FROM workers WHERE (ulogin=$5);
 		IF NOT FOUND THEN
-			INSERT INTO workers(ulogin,name,seat,photo) VALUES ($5,t_workers,t_seat,'photo/none.jpg') RETURNING ulogin INTO t_ulogin;
+			INSERT INTO workers(ulogin,name,seat,photo)
+			VALUES ($5,t_workers,t_seat,'photo/none.jpg') RETURNING ulogin INTO t_ulogin;
 		END IF;
 		--
 		-- Поиск дисциплины в таблице disciplines. Если ее нет, то
@@ -83,15 +76,14 @@ DECLARE
 		SELECT INTO t_discipline name FROM disciplines WHERE name=$1;
 		IF NOT FOUND THEN
 			INSERT INTO disciplines(name,lessons,practices,labs,courseovik) 
-					VALUES ($1, 0, 0, 0, NULL) RETURNING name INTO t_discipline;
-			INSERT INTO predmet_info(predmet_name,prepod) 
-			 		VALUES  (t_discipline , t_ulogin) RETURNING id INTO t_id_predmet;
-		ELSE 
-			SELECT INTO t_id_predmet id FROM predmet_info WHERE predmet_name=t_discipline;
+			VALUES ($1, 0, 0, 0, NULL);
+
+			INSERT INTO wd_relation(dname, ulogin) 
+			VALUES  ($1, t_ulogin);
 		END IF;
 
 		INSERT INTO schedule (predmet, prepod, ggroup, ttype) 
-	                       VALUES(t_id_predmet,t_ulogin,t_ggroup,t_ttype) RETURNING id INTO t_id_schedule;
+	        VALUES($1,t_ulogin,t_ggroup,t_ttype) RETURNING id INTO t_id_schedule;
 
 
 		RETURN t_id_schedule;
@@ -123,11 +115,11 @@ $$ LANGUAGE 'plpgsql';
 --
 DROP VIEW IF EXISTS schedule_table;
 CREATE VIEW schedule_table AS 
-SELECT ot.para para, p.predmet_name predmet, w.name worker_name, sch.ttype ttype, 
+SELECT ot.para para, sch.predmet, w.name worker_name, sch.ttype ttype, 
        ot.ddate  ddate, ot.auditoriya  auditoriya, sch.ggroup ggroup
-FROM workers w LEFT JOIN predmet_info p ON w.ulogin = p.prepod
-               INNER JOIN schedule sch ON sch.predmet = p.id
-	       INNER JOIN other ot ON ot.predmet = sch.id ORDER BY ot.ddate;
+FROM schedule sch
+INNER JOIN workers w ON sch.prepod = w.ulogin
+INNER JOIN other ot ON ot.predmet = sch.id ORDER BY ot.ddate;
 
 --
 --* * * * * * * I N S E R T * * * * * * * * 

@@ -69,14 +69,16 @@ cat << eND >> $ACCESSES
 eND
 define_const	"'A_FULL'" "0xFFFFFFFF" \
 		"'A_ANON_READ'" "0x1" \
-		"'A_ADD_BOOK'" "0x2"  >> $ACCESSES
+		"'A_ADD_BOOK'" "0x2" \
+	        "'A_FORUM_WRITE'" "0x4"	>> $ACCESSES
 #
 cat << eND >> $ACCESSES
 #
 # ACCESS MODES [users]
 #
 eND
-define_const	"'A_PREPOD'" "A_ANON_READ | A_ADD_BOOK" >> $ACCESSES
+define_const	"'A_PREPOD'" "A_ANON_READ | A_ADD_BOOK" \
+		"'A_STUD'" "A_ANON_READ | A_FORUM_WRITE" >> $ACCESSES
 #
 
 #PHP=$HOME/local/php5/bin/php
