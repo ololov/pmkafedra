@@ -67,7 +67,7 @@ DECLARE
 		SELECT INTO t_ulogin ulogin FROM workers WHERE (ulogin=$5);
 		IF NOT FOUND THEN
 			INSERT INTO workers(ulogin,name,seat,photo)
-			VALUES ($5,t_workers,t_seat,'photo/none.jpg') RETURNING ulogin INTO t_ulogin;
+			VALUES ($5,t_workers,t_seat,'photo/none.jpg');
 		END IF;
 		--
 		-- Поиск дисциплины в таблице disciplines. Если ее нет, то
@@ -79,11 +79,11 @@ DECLARE
 			VALUES ($1, 0, 0, 0, NULL);
 
 			INSERT INTO wd_relation(dname, ulogin) 
-			VALUES  ($1, t_ulogin);
+			VALUES  ($1, $5);
 		END IF;
 
 		INSERT INTO schedule (predmet, prepod, ggroup, ttype) 
-	        VALUES($1,t_ulogin,t_ggroup,t_ttype) RETURNING id INTO t_id_schedule;
+	        VALUES($1,$5,t_ggroup,t_ttype) RETURNING id INTO t_id_schedule;
 
 
 		RETURN t_id_schedule;
