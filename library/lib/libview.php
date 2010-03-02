@@ -69,4 +69,17 @@ function print_table_row($class, $fields)
 	print("<tr $class>$row</tr>");
 }
 
+function check_ipaddress($ip_remote)
+{
+	/* stupid but works */
+	if ($ip_remote == "127.0.0.1")
+		return TRUE;
+	$ip_part = explode('.', $ip_remote);
+	if ($ip_part[0] != 172 || $ip_part[1] != 21 ||
+	    $ip_part[2] != 42 || ($ip_part[3] < 65) ||
+	    ($ip_part[3] > 127))
+	    	return FALSE;
+	return TRUE;
+}
+
 ?>
