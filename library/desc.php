@@ -265,7 +265,7 @@ $recs = pg_query($link, $query);
 if (!$recs)
 	include_once('include/html_db_error.php');
 
-$query = "SELECT disc_name FROM disc_tb";
+$query = "SELECT disc_name FROM disc_tb WHERE isprof";
 $dres = pg_query($link, $query);
 if (!$dres)
 	include_once('include/html_db_error.php');
