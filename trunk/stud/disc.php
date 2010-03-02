@@ -22,7 +22,7 @@ $query = "SELECT $group, $agg_id AS $alias_id, $agg_name AS $alias_name, ARRAY($
 $alias_course = "courses";
 $subquery = "SELECT course_number FROM dk_tb WHERE dk_tb.disc_name = disc_tb.disc_name ORDER BY course_number";
 $query = "SELECT $group, ARRAY($subquery) AS $alias_course " .
-       "FROM disc_tb ORDER BY disc_name;";
+       "FROM disc_tb WHERE isprof ORDER BY disc_name;";
 
 $res = pg_query($link, $query);
 if (!$res)

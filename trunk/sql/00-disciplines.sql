@@ -11,6 +11,7 @@ CREATE TABLE disciplines (
 	labs INTEGER NOT NULL,
 	courseovik VARCHAR,
 	control VARCHAR,
+	prof BOOLEAN NOT NULL DEFAULT FALSE,
 	UNIQUE(name),
 	CHECK(lessons > -1),
 	CHECK(practices > -1),
@@ -25,9 +26,14 @@ SELECT
 	lessons AS disc_lessons,
 	practices AS disc_practices,
 	labs AS disc_labs,
-	courseovik AS disc_courseovik
+	courseovik AS disc_courseovik,
+	prof AS isprof
 FROM
 	disciplines;
+--
+DROP VIEW IF EXISTS prof_disc_tb CASCADE;
+CREATE VIEW prof_disc_tb AS
+SELECT * FROM disc_tb WHERE isprof;
 
 DROP TABLE IF EXISTS dk_relation CASCADE;
 CREATE TABLE dk_relation (
@@ -80,7 +86,30 @@ EXCEPTION
 END;
 $$ LANGUAGE plPGSQL;
 
+DROP FUNCTION IF EXISTS ADD_PROFDISC(IN disciplines.name%TYPE,
+				IN INTEGER[],
+				IN disciplines.lessons%TYPE,
+				IN disciplines.practices%TYPE,
+				IN disciplines.labs%TYPE,
+				IN disciplines.courseovik%TYPE,
+				IN disciplines.control%TYPE);
+CREATE FUNCTION ADD_PROFDISC(IN disciplines.name%TYPE,
+			IN INTEGER[],
+			IN disciplines.lessons%TYPE,
+			IN disciplines.practices%TYPE,
+			IN disciplines.labs%TYPE,
+			IN disciplines.courseovik%TYPE,
+			IN disciplines.control%TYPE)
+RETURNS VOID AS $$
+BEGIN
+	PERFORM ADDDISC($1, $2, $3, $4, $5, $6, $7);
+	UPDATE disciplines SET prof = TRUE WHERE name = $1;
+END;
+$$ LANGUAGE plPGSQL;
+
+
 --
 --
 --
 
+SELECT ADD_PROFDISC('Математический анализ', ARRAY[1,2], 0, 0, 0, 'Поверхности', 'Экзамен');
