@@ -229,6 +229,12 @@ function make_bookdiv($book)
 			make_bookdesc($book, NULL));
 }
 
+/*
+ * Getting ip
+ */
+$ip_remote = $_SERVER['REMOTE_ADDR'];
+if (!check_ipaddress($ip_remote))
+	$only_public = ' AND book_ispublic ';
 
 /*
  * Connection to database. Throw exception if fail.
@@ -252,7 +258,7 @@ $query = "SELECT $groups," .
 	 "ARRAY(SELECT dep_name FROM dbfull_tb WHERE book_id = $book_id) AS dep_names, " .
 	 "ARRAY(SELECT disc_name FROM bd_tb WHERE book_id = $book_id) AS disc_names " .
 	 "FROM abfull_tb " .
-	 "WHERE book_id = $book_id GROUP BY $groups;";
+	 "WHERE book_id = $book_id $only_public GROUP BY $groups;";
 
 $resource = pg_query($link, $query);
 if (!$resource)

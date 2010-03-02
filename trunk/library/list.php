@@ -135,6 +135,19 @@ if (count($sql_fin) > 0) {
 		$where .= sprintf(" AND book_id IN (%s)", $sql_fin[$i]);
 }
 
+/*
+ * Getting ip-address of client
+ */
+if ($where == '')
+	$where_fmt = ' WHERE %s ';
+else
+	$where_fmt = ' AND %s ';
+
+$ip_remote = $_SERVER['REMOTE_ADDR'];
+if (!check_ipaddress($ip_remote)) {
+	    $where .= sprintf($where_fmt, 'book_ispublic');
+}
+
 /* Declare some aliases */
 $alias_authors = "authors";
 
@@ -171,7 +184,6 @@ $query_data = "SELECT book_id, book_name, book_path," .
 $res = pg_query($link, $query_data);
 if (!$res)
 	include_once('include/html_db_error.php');
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -186,7 +198,7 @@ print_sidebar();
 <div id = "<?php echo css_content_div; ?>">
 <?php
 if (pg_num_rows($res) == 0) {
-	write_user_message("Такой книги нету");
+	write_user_message("По данному запросу книг нету.");
 } else {
 	/*
 	 * Printing result
