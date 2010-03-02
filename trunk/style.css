@@ -308,7 +308,7 @@ input, textarea
 	border:		1px solid #ccc;
 
 }
-.prep_photo
+.worker_photo
 {
 	float:		left;
 	margin:		20px 20px 0px 0px;	
@@ -351,6 +351,10 @@ td a
 {
 	text-decoration:	none;
 	color:			#025391;
+}
+td a:hover, td a:visited
+{
+	color:			#025390;
 }
 /*------*/
 /*-------------Форма входа-----------------------*/
