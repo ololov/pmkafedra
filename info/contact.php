@@ -13,7 +13,7 @@ print_header();
 print_sidebar();
 ?>
 <div id = "<?php echo css_content_div; ?>">
-<?php /*<img class = "rightimg" src = 'photo/shema1.jpg'> */ ?>
+	<img class = "rightimg" src = 'photo/schema.png'>
 	<p class = "tit">Контакты</p>
 	<p class = "subtit">Адрес:</p> 
 	Московский Государственный Технический Университет Гражданской Авиации<br>
