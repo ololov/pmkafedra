@@ -52,6 +52,7 @@ echo "<?php" > $DEFS
 echo "<?php" > $ACCESSES
 
 define_hrefs	base_url $BASE_URL \
+		about_url $BASE_URL/about \
 		info_url $BASE_URL/info \
 		stud_url $BASE_URL/stud \
 		work_url $BASE_URL/work \
@@ -115,3 +116,10 @@ php $PARSER/parser_txt.php
 # Просто для массовости :)
 #
 cp $BASE/info/photo/*.jpg $BASE/gallary/gallery/
+
+#
+# Файл с отзывами и предложениями
+#
+
+touch $BASE/about/content.txt
+chmod o+w $BASE/about/content.txt

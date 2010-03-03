@@ -25,7 +25,7 @@ CREATE TABLE other(
 	predmet INTEGER REFERENCES schedule(id),
 	ddate DATE NOT NULL,
 	para semestr_val NOT NULL,
-	auditoriya VARCHAR(13)
+	auditoriya VARCHAR
 );
 --
 --***************** END TABLES *****************************
