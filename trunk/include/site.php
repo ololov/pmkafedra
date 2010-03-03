@@ -43,6 +43,7 @@ function print_header()
 			<li><a href = "<?php echo lib_url; ?>">Библиотека</a></li> 
 			<li><a href = "<?php echo forum_url; ?>">Форум</a></li>
 			<li><a href = "<?php echo gallary_url; ?>">Галерея</a></li>
+			<li><a href = "<?php echo about_url; ?>">О сайте</a></li>
 			</ul>
 		</div>
 	</div>
