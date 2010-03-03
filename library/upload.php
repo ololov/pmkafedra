@@ -159,7 +159,7 @@ if (is_uploaded_file($_FILES['book_file']['tmp_name'])) {
 		$deps = 'NULL';
 	/*
 	 */
-	$user = user_name();
+	$user = user_login();
 	
 	$query = sprintf("SELECT ADDBOOK('%s', %s, '%s', %d, '%s', %s, %s, %s, %s, %s, %s);",
 			$name, $authors, $user, $sz, $path, $volume, $desc,

@@ -13,7 +13,7 @@ CREATE TABLE books (
 	id SERIAL NOT NULL PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
 	posted TIMESTAMP NOT NULL,
-	who VARCHAR(255) NOT NULL,
+	who VARCHAR NOT NULL REFERENCES workers(ulogin),
 	bookpath VARCHAR(255) NOT NULL UNIQUE,
 	ispublic BOOLEAN NOT NULL DEFAULT FALSE,
 	sz INT NOT NULL,
@@ -74,7 +74,8 @@ SELECT
 	year AS book_year,
 	isbn AS book_isbn,
 	posted AS book_posted,
-	who AS book_who,
+	who AS worker_login,
+	(SELECT worker_name FROM workers_tb WHERE worker_login = who) AS book_who,
 	bookpath AS book_path,
 	imgpath AS book_face,
 	sz AS book_size,
@@ -227,15 +228,13 @@ BEGIN
 		RAISE EXCEPTION 'Название книги не может быть пустым';
 	END IF;
 
-	bwho := TRIM(BOTH ' ' FROM $3);
-	IF bwho IS NULL OR bwho = '' THEN
-		RAISE EXCEPTION 'Имя пользователя не может быть пустым';
-	END IF;
+	bwho := $3;
 
 	bsz := $4;
 	IF bsz IS NULL OR bsz <= 0 THEN
 		RAISE EXCEPTION 'Размер книги должен быть больше нуля';
 	END IF;
+
 
 	bpath := TRIM(BOTH ' ' FROM $5);
 	IF bpath IS NULL OR bpath = '' THEN
@@ -274,7 +273,17 @@ BEGIN
 	PERFORM ADDAUTHORS(bid, $2);
 	PERFORM ADDDEPARTMENTS(bid, $11);
 
+	IF bdescr IS NULL THEN
+		bdescr := bwho || ' Поленился написать описание книги.';
+	END IF;
+
+	PERFORM ADD_NEWS(bwho, 'Новости библиотеки',
+			'Добавлена новая книга: "' || bname || '"', bdescr);
+
 	RETURN bid;
+EXCEPTION
+	WHEN foreign_key_violation THEN
+		RAISE EXCEPTION 'Неизвестный сотрудник кафедры';
 END;
 $$ LANGUAGE plPGSQL;
 
