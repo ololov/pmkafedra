@@ -35,7 +35,7 @@ function print_header()
 	<div class = "gmenu">
 		<div class = "gmenucont">
 			<ul  class = "wrpr">
-			<li><a href = "<?php echo base_url; ?>">Главная страница</a></li>
+			<li><a href = "<?php echo base_url; ?>">Главная</a></li>
 			<li><a href = "<?php echo info_url; ?>">Информация о кафедре</a></li>
 			<li><a href = "<?php echo stud_url; ?>">Студенту</a></li>
 			<li><a href = "<?php echo work_url; ?>">Научная работа</a></li>

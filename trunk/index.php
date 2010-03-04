@@ -9,7 +9,8 @@
 	if (!$link)
 		include_once('include/html_db_error.php');
 
-	$sql = "SELECT news_text, news_header, news_date FROM news_tb ORDER BY news_date LIMIT 3;";
+	$sql = "SELECT news_text, news_header, CAST(news_date AS DATE) ".
+	       "FROM news_tb ORDER BY news_date LIMIT 3;";
 
 	$res = pg_query($link, $sql);
 	if (!$res)
@@ -41,7 +42,7 @@
 					while ($row = pg_fetch_assoc($res)) {
 						printf ($fmt,
 							$row['news_header'], 
-							date("d.m.Y H:i", $row['news_date']), 
+							$row['news_date'], 
 							$row['news_text']
 							);
 						$i++;
