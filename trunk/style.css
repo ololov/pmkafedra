@@ -138,6 +138,24 @@ body #container
 	margin-left:	19%;
 }
 
+/*------Для главной страницы--------*/
+#main_news
+{
+	width:		100%;
+	border:		1px solid #ccc;
+	margin-bottom:	10px;
+}
+#main_user
+{
+	width:		18%;
+	border:		1px solid #ccc;
+}
+#main_lib
+{
+	margin-left:	19%;
+	border:		1px solid #ccc;
+	padding:	3px 20px;
+}
 /*-----------------Параграфы и заголовки------------------*/
 /*Эмблема*/
 #head .logo
@@ -171,6 +189,16 @@ span.app { font: bold 180% palatino, serif; border-bottom: 3px double #b9defd; }
 	font-weight:	bolder;
 }
 /*---------------Библиотека----------------------*/
+.curr_book {
+	width:		60%;
+	border:		1px solid #ccc;
+}
+
+.curr_book td {
+	padding:	10px;
+	border-bottom:	1px solid #ccc;
+}
+
 #book {
 	margin:		5px;
 	padding:	5px;
@@ -332,6 +360,9 @@ input, textarea
 	color:		#cb8276;
 }
 /*---Оформление таблицы---*/
+table {
+	border:			1px solid #ccc;
+}
 tr 
 {
 	background-color:	#e4f4fc;
@@ -345,6 +376,7 @@ tr.odd
 td
 {
 	width:			50%;
+	padding:		5px;
 }
 
 td a
@@ -355,6 +387,12 @@ td a
 td a:hover, td a:visited
 {
 	color:			#025390;
+}
+
+.head_odd td {
+	background:		#a5d7e3;
+	border-bottom:		1px solid #ccc;
+	font:			bold 100% palatino, serif;
 }
 /*------*/
 /*-------------Форма входа-----------------------*/
