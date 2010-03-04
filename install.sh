@@ -71,14 +71,15 @@ eND
 define_const	"'A_FULL'" "0xFFFFFFFF" \
 		"'A_ANON_READ'" "0x1" \
 		"'A_ADD_BOOK'" "0x2" \
-	        "'A_FORUM_WRITE'" "0x4"	>> $ACCESSES
+	        "'A_FORUM_WRITE'" "0x4" \
+		"'A_ADD_NEWS'" "0x8"	>> $ACCESSES
 #
 cat << eND >> $ACCESSES
 #
 # ACCESS MODES [users]
 #
 eND
-define_const	"'A_PREPOD'" "A_ANON_READ | A_ADD_BOOK" \
+define_const	"'A_PREPOD'" "A_ANON_READ | A_ADD_BOOK | A_ADD_NEWS | A_ADD_FORUM_WRITE" \
 		"'A_STUD'" "A_ANON_READ | A_FORUM_WRITE" >> $ACCESSES
 #
 

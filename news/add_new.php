@@ -1,7 +1,7 @@
 <?php
 	require_once('include/auth.php');
 	init_logins();
-	redirect_user(A_ADD_BOOK, news_url);
+	redirect_user(A_ADD_NEWS, news_url);
 
 	include_once('include/lib.php');
 
