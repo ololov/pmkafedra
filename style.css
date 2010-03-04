@@ -805,11 +805,7 @@ td a:hover, td a:visited
 }
 
 /* ------------ Галерея -----------------*/
-#body{
-	margin-top:20px;
-	color:white;
-	font-size:13px;
-	background-color:#222222;
+#gallery{
 }
 
 .clear {
@@ -853,7 +849,7 @@ div.nomargin{
 	left: 0;
 	z-index: 90;
 	width: 100%;
-	height: 500px;
+	height: 130%;
 }
 #jquery-lightbox {
 	position: absolute;
@@ -935,3 +931,4 @@ div.nomargin{
 	float: right;
 	padding-bottom: 0.7em;	
 }
+

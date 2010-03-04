@@ -1,8 +1,10 @@
 <?php
 include_once('include/site.php');
+include_once('list_dir.php');
 
 function print_sidebar()
 {
+	global $url;
 ?>
 <script type="text/javascript" src="js/folder_tree.js"></script>
 <script type="text/javascript">
@@ -34,34 +36,31 @@ function print_sidebar()
 
 #vmenu2 ul li
 {
-/*	border-bottom:	1px dotted #025391;*/
 	margin:		0px;
 }
 
 #vmenu2 ul li a
 {
-/*	display:	 block;*/
 	text-decoration: none;
 	font-size:	 82%;
 	font-weight:	 bold;
 	color:		 #025391;
 	width:		 100%;
-/*	padding:	 5px 0px 5px 5px;*/
 }
 #tree{
 	margin:0px;
 	padding:0px;
 }
-#tree ul{	/* Sub menu groups */
-	margin-left:20px;	/* Left spacing */
+#tree ul{	
+	margin-left:20px;
 	padding-left:0px;
-	display:none;	/* Initially hide sub nodes */
+	display:none;	
 }
-#tree li{	/* Nodes */
+#tree li{	
 	list-style-type:none;
 	vertical-align:middle;
 }
-#tree li a{	/* Node links */
+#tree li a{	
 	color: #025391;
 	text-decoration:none;
 	font-family:arial;
@@ -77,7 +76,8 @@ function print_sidebar()
 		<li><a href="#">stud</a>
 		  <ul>
 			<?php
-				echo "<li><a href=\"#\">pm05</a>
+				my_print(dir_array("stud"));
+/*				echo "<li><a href=\"#\">pm05</a>
 					  <ul>
 					  	<li><a href=\"#\">pm05bsv</a></li>
 						<li><a href=\"#\">pm05km</a></li>
@@ -88,9 +88,11 @@ function print_sidebar()
 				for($i = 6; $i < 10; $i++){
 					echo "<li><a href=\"#\">pm0$i</a></li>";
 				}
+*/
 			?>
 	         </ul>
 		</li>
+
 	</ul>
 </div>
 <?php
