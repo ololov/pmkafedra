@@ -66,7 +66,7 @@
 		$bid = $row['book_id'];
 		printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
 			$row['book_posted'],
-			sprintf("<a url = \"%s\">%s</a>",
+			sprintf("<a href = \"%s\">%s</a>",
 				lib_url . htmlspecialchars("/desc.php?book_id=$bid"),
 				$row['book_name']),
 			$row['book_who']);
