@@ -45,11 +45,6 @@ print_sidebar();
 			<li><a href = "?course=<?php echo $course ?>&amp;group=2">Группа 2</a></li>
 		<ul>
 	</div>
-	<div>
-		<table>
-		<tr><td></td></tr>
-		</table>
-	</div>
 	<div id = "sch">
 	<noscript>
 	<?php

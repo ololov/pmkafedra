@@ -41,7 +41,7 @@ print_sidebar();
 <div id = "<?php echo css_content_div; ?>">
 <p class = "tit">Библиотека кафедры "Прикладной матемитики"</p>
 <div>
-<table align = "center">
+<table align = "center" class = "curr_book">
 <caption><h3>Добавлено книг</h3></caption>
 <?php
 $strs = array("В этом году:", "В этом месяце:", "На этой недели", "Сегодня");

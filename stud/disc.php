@@ -46,20 +46,19 @@ print_sidebar();
 <div>
 <table>
 <p class = "tit">Дисциплины</p>
-<tr class = "odd" align = "center">
-<td>Название</td><td>Курсы</td>
-<td>лекций</td><td>практическиe занятия</td>
-<td>лабораторные занятия</td><td>Курсовая работа</td>
+<tr class = "head_odd" align = "center">
+	<td>Название</td>
+	<td>Курс</td>
+	<td>Курсовая работа</td>
 </tr>
 <?php
 
 $i = 0;
 $classes = array("", "class = \"odd\"");
 while ($row = pg_fetch_assoc($res)) {
-	printf("<tr %s align = \"center\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+	printf("<tr %s><td>%s</td><td>%s</td><td>%s</td></tr>",
 		$classes[$i % 2], $row['disc_name'], clean_string($row[$alias_course]),
-		$row['disc_lessons'], $row['disc_practices'],
-		$row['disc_labs'], $row['disc_courseovik']);
+		$row['disc_courseovik']);
 	++$i;
 }
 ?>

@@ -47,8 +47,8 @@
 
 			for ($j = 0; $j < count($date); $j++) {
 				$num_day = strftime("%w",strtotime($date[$j]));
-				echo "<td id = sch_day colspan = 2> $DaysOfWeek[$num_day] </td>";
-				echo "<td id = sch_num colspan = 2> $date[$j] </td> <tr>";
+				echo "<tr><td id = sch_day colspan = 2> $DaysOfWeek[$num_day] </td>";
+				echo "<td id = sch_num colspan = 2> $date[$j] </td> </tr>";
 				foreach($data as $dt){
 					if($date[$j] === $dt['ddate']){
 						echo "<tr id = sch_main>";
