@@ -1,6 +1,6 @@
 <?php
 include_once('include/site.php');
-include_once('list_dir.php');
+include_once('./list_dir.php');
 
 function print_sidebar()
 {
