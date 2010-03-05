@@ -803,7 +803,11 @@ td a:hover, td a:visited
 #bookrec fieldset {
 	height: 10%;
 }
-
+/*----------------------------------------*/
+.t_photo
+{
+	padding-left:	80px;
+}
 /* ------------ Галерея -----------------*/
 #gallery{
 }
