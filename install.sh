@@ -30,9 +30,9 @@ echo "php_value include_path \"$BASE\"" > $HTACCESS
 #
 #
 #
-echo -n "Enter base url(without leading http://): " && read URL
+echo -n "Enter base url(example: http://mysite.localhost:8080/ or just / : " && read URL
 
-BASE_URL=http://$URL
+BASE_URL=$URL
 
 function define_const() {
 while [ ! $1 == "" ]; do
