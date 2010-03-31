@@ -5,6 +5,7 @@ init_logins();
 require_once('./lib/dbconst.php');
 require_once('./lib/libview.php');
 require_once('./lib/site.php');
+require_once('include/library.php');
 
 $biblio_url = lib_url;
 /*
@@ -33,9 +34,6 @@ function make_bookinfo($book)
 			htmlspecialchars("?author_id="));
 	$template =
 		"<div id=\"%s\"><table>%s%s%s%s%s</table><p align = \"center\">%s</div>";
-	$alist = explode(',', clean_string($book['author_names']));
-	$ilist = $alist; //explode(',', clean_string($book['author_ids']));
-
 	$dlist = clean_string($book['dep_names']);
 	if ($dlist != '') {
 		$dlist = explode(',', $dlist);
@@ -55,7 +53,7 @@ function make_bookinfo($book)
 
 	return sprintf($template, 'bookinfo',
 			make_book_title($book),
-			make_row("Автор(ы)", make_href($list_path, $alist, $ilist)),
+			make_row("Автор(ы)", get_book_author_list($book)),
 			make_book_pyi($book), $dlist, $discs,
 			tag_href($book['book_path'], "Скачать"));
 }
@@ -254,7 +252,7 @@ $groups ="book_id, book_name, book_volume, book_publish," .
 	 "book_who, book_desc, book_year, book_desc, book_isbn, book_posted," .
 	 "book_path, book_face, book_size, book_pages";
 $query = "SELECT $groups," .
-	 "array_agg(author_name) AS author_names, " .
+	 "array_agg(author_name) AS author_name, " .
 	 "ARRAY(SELECT dep_name FROM dbfull_tb WHERE book_id = $book_id) AS dep_names, " .
 	 "ARRAY(SELECT disc_name FROM bd_tb WHERE book_id = $book_id) AS disc_names " .
 	 "FROM abfull_tb " .

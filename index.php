@@ -4,6 +4,7 @@
 
 	include_once('include/site.php');
 	include_once('include/lib.php');
+	require_once('include/library.php');
 
 	$link = db_connect();
 	if (!$link)
@@ -66,9 +67,7 @@
 		$bid = $row['book_id'];
 		printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
 			$row['book_posted'],
-			sprintf("<a href = \"%s\">%s</a>",
-				lib_url . htmlspecialchars("/desc.php?book_id=$bid"),
-				$row['book_name']),
+			get_book_name($row),
 			$row['book_who']);
 	}
 ?>

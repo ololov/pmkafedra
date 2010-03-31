@@ -3,7 +3,7 @@ require_once('include/auth.php');
 init_logins();
 
 require_once('include/site.php');
-require_once('include/lib.php');
+require_once('include/library.php');
 require_once('./lib/dbconst.php');
 require_once('./lib/libview.php');
 require_once('./lib/site.php');
@@ -149,7 +149,7 @@ if (!check_ipaddress($ip_remote)) {
 }
 
 /* Declare some aliases */
-$alias_authors = "authors";
+$alias_authors = "author_name";
 
 $query_count = "SELECT COUNT(book_id) FROM books_tb $where";
 
@@ -220,11 +220,15 @@ if (pg_num_rows($res) == 0) {
 		 * Prepare to print
 		 */
 		$fields = array();
+		/*
 		$fields[] = make_href($biblio_url . htmlspecialchars("author_id="),
 				      $author_list, $author_id_list);
 		$fields[] = tag_href(sprintf("%s", lib_url . "/" .
 			htmlspecialchars("desc.php?book_id=" . $row['book_id'])),
 		       		      $row['book_name']);
+		 */
+		$fields[] = get_book_author_list($row);
+		$fields[] = get_book_name($row);
 		$fields[] = tag_href($row['book_path'], "Скачать");
 	
 		print_table_row($classes[$i++ % 2], $fields);
