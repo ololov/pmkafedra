@@ -35,4 +35,17 @@ function path_worker_photo($path)
 	return info_url . "/$path";
 }
 
+/*
+ * date format
+ */
+function get_date($timestamps)
+{
+	return strftime("%e.%V.%Y", strtotime($timestamps));
+}
+
+function set_timezone()
+{
+	date_default_timezone_set("Europe/Moscow");
+}
+
 ?>

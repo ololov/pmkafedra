@@ -14,6 +14,7 @@ $biblio_url = lib_url;
 define("noface", "smile.jpg", true);
 define("max_desc_len", 1000, true); /* Максимальная длина описания */
 
+set_timezone();
 /*
  * Local functions
  */
@@ -83,7 +84,7 @@ function make_book_pyi($book)
 
 
 	/* не могут быть нулевыми */
-	$out .= make_row("Выложено ", convert_dateformat($book[book_posted]));
+	$out .= make_row("Выложено ", get_date($book[book_posted]));
 	$out .= make_row("Кем выложено ", $book[book_who]);
 
 	if (isset($book[book_sz]))
