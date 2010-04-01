@@ -25,7 +25,6 @@
 				<option>Изменения в расписании</option>
 				<option>Новости библиотеки</option>
 				<option>Новости деканата</option>
-				<option>Объявление</option>
 				<option>Другое</option>
 			</select> 
 			</p>
