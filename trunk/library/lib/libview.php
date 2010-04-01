@@ -32,16 +32,6 @@ function table_row($row)
 }
 
 /*
- * В местное представление даты и времени.
- * FIXME:
- * 	Пока заглушка
- */
-function convert_dateformat($mysqltime)
-{
-	return $mysqltime;
-}
-
-/*
  * Создает ссылки дла фильтрации
  * по параметру
  */

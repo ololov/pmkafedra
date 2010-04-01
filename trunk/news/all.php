@@ -10,7 +10,7 @@ $link = db_connect();
 if (!$link)
 	include_once('include/html_db_error.php');
 
-$sql = "SELECT news_text, news_header, news_date FROM news_tb ORDER BY news_date;";
+$sql = "SELECT news_text, news_header, news_date FROM news_tb ORDER BY news_date DESC;";
 
 $res = pg_query($link, $sql);
 if (!$res)

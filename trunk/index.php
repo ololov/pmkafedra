@@ -30,6 +30,8 @@
 		"<tr class = 'desc'>".
 		"<td colspan=2 class = 'news_des'>%s</td>".
 		"</tr>";
+
+	set_timezone();
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +68,7 @@
 	while (($row = pg_fetch_assoc($bres))) {
 		$bid = $row['book_id'];
 		printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>",
-			$row['book_posted'],
+			get_date($row['book_posted']),
 			get_book_name($row),
 			$row['book_who']);
 	}
