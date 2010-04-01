@@ -38,4 +38,13 @@ function get_book_author_list($row)
 			lib_url . htmlspecialchars("/list.php?author_id="));
 }
 
+/*
+ */
+function get_book_list_by_disc($name)
+{
+	return sprintf("<a href = \"%s%s\">%s</a>",
+			lib_url . htmlspecialchars("/list.php?disc_id="),
+			urlencode($name), $name);
+}
+
 ?>

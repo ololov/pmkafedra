@@ -98,12 +98,11 @@ $sql_req = array("s_book" => "SELECT book_id FROM books_tb WHERE book_name ILIKE
 		 "s_author" => "SELECT book_id FROM abfull_tb WHERE author_name ILIKE '%%%s%%'",
 		 "s_dep" => "SELECT book_id FROM dbfull_tb WHERE dep_name ILIKE '%%%s%%'",
 		 "author_id" => "SELECT book_id FROM ab_tb WHERE author_name = '%s'",
-	 	 "dep_id" => "SELECT book_id FROM db_tb WHERE dep_name = '%s'");
+		 "dep_id" => "SELECT book_id FROM db_tb WHERE dep_name = '%s'",
+	 	 "disc_id" => "SELECT book_id FROM bd_tb WHERE disc_name = '%s'");
 
 $s_params = array("s_book", "s_author", "s_dep");
 
-$params = array();
-$values = array();
 if (check_parameters($s_params, $_REQUEST)) {
 	$params = $s_params;
 	$values = $_REQUEST;
@@ -113,6 +112,12 @@ if (check_parameters($s_params, $_REQUEST)) {
 } else if (isset($_GET['dep_id'])) {
 	$params = array('dep_id');
 	$values = array('dep_id' => $_GET['dep_id']);
+} else if (isset($_GET['disc_id'])) {
+	$params = array('disc_id');
+	$values = array('disc_id' => $_GET['disc_id']);
+} else {
+	$params = array();
+	$values = array();
 }
 
 $sql_fin = array();
@@ -174,7 +179,6 @@ $offset = ($page - 1) * $limit;
 /* offset может быть < 0 */
 $offset = ($offset < 0) ? (0) : ($offset);
 
-//echo "$page<br>$maxpages<br>$offset";
 /* Основной запрос */
 $query_data = "SELECT book_id, book_name, book_path," .
 	" array_agg(author_name) AS $alias_authors " . 
@@ -220,13 +224,6 @@ if (pg_num_rows($res) == 0) {
 		 * Prepare to print
 		 */
 		$fields = array();
-		/*
-		$fields[] = make_href($biblio_url . htmlspecialchars("author_id="),
-				      $author_list, $author_id_list);
-		$fields[] = tag_href(sprintf("%s", lib_url . "/" .
-			htmlspecialchars("desc.php?book_id=" . $row['book_id'])),
-		       		      $row['book_name']);
-		 */
 		$fields[] = get_book_author_list($row);
 		$fields[] = get_book_name($row);
 		$fields[] = tag_href($row['book_path'], "Скачать");
