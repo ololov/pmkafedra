@@ -32,6 +32,10 @@ echo "php_value include_path \"$BASE\"" > $HTACCESS
 #
 echo -n "Enter base url(example: http://mysite.localhost:8080/ or just / : " && read URL
 
+if ! echo $URL | grep -q /$ ; then
+	URL=$URL/
+fi
+
 BASE_URL=$URL
 
 function define_const() {
@@ -52,16 +56,16 @@ echo "<?php" > $DEFS
 echo "<?php" > $ACCESSES
 
 define_hrefs	base_url $BASE_URL \
-		about_url $BASE_URL/about \
-		info_url $BASE_URL/info \
-		stud_url $BASE_URL/stud \
-		work_url $BASE_URL/work \
-		news_url $BASE_URL/news \
-		lib_url	 $BASE_URL/library \
-		forum_url $BASE_URL/forum \
-		gallary_url $BASE_URL/gallary \
-		images_url $BASE_URL/images \
-	        css_style_url $BASE_URL/style.css >> $DEFS
+		about_url ${BASE_URL}about \
+		info_url ${BASE_URL}info \
+		stud_url ${BASE_URL}stud \
+		work_url ${BASE_URL}work \
+		news_url ${BASE_URL}news \
+		lib_url	 ${BASE_URL}library \
+		forum_url ${BASE_URL}forum \
+		gallary_url ${BASE_URL}gallary \
+		images_url ${BASE_URL}images \
+	        css_style_url ${BASE_URL}style.css >> $DEFS
 
 cat << eND >> $ACCESSES
 #
