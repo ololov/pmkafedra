@@ -293,8 +293,7 @@ print_sidebar();
 function print_rec($row)
 {
 	printf("<div><table><tr align = \"center\"><td>%s</td><td>%s</td></tr></table></div>",
-		sprintf("<img src = \"%s\" alt = \"%s\"><p>%s",
-			path_worker_photo($row['worker_photo']), $row['worker_login'], $row['worker_name']),
+		sprintf("<span>%s</span>", $row['worker_name']),
 		$row['rec_text']);
 }
 
@@ -304,9 +303,12 @@ if (pg_num_rows($resource) == 0) {
 	$row = pg_fetch_assoc($resource);
 	$row["rec_count"] = $rcount;
 	echo make_bookdiv($row);
+	echo "<div>";
 	while ($rec = pg_fetch_assoc($recs))
 		print_rec($rec);
+	echo "</div><div>";
 	make_bookrec($row, $dres);
+	echo "</div>";
 }
 
 /*echo "<p align=center><b>Извините, запрощенной книги нету.</b></p>";*/
