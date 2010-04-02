@@ -52,7 +52,7 @@
 					while ($row = pg_fetch_assoc($res)) {
 						printf ($fmt,
 							$row['news_header'], 
-							$row['news_date'], 
+							get_date($row['news_date']),
 							$row['news_text']
 							);
 					}			
